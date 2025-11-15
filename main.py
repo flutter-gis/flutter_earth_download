@@ -17,11 +17,52 @@ except Exception as e:
     print("Please run: earthengine authenticate", file=sys.stderr)
     sys.exit(1)
 
-# Logging configuration
-# Set to DEBUG to see detailed cloud fraction calculations
-logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s: %(message)s")
-# Uncomment below to enable DEBUG logging for cloud fraction debugging:
-# logging.basicConfig(level=logging.DEBUG, format="%(asctime)s %(levelname)s: %(message)s")
+# Logging configuration - output to both console and file
+import os
+from datetime import datetime
+
+# Create logs directory if it doesn't exist
+log_dir = os.path.join(os.path.dirname(__file__), "logs")
+os.makedirs(log_dir, exist_ok=True)
+
+# Create log file with timestamp
+log_filename = f"gee_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+log_filepath = os.path.join(log_dir, log_filename)
+
+# Set up logging with both console and file handlers
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)  # Set root logger to DEBUG to capture all messages
+
+# Suppress verbose DEBUG messages from third-party libraries
+# These libraries are very chatty at DEBUG level
+logging.getLogger('rasterio').setLevel(logging.WARNING)
+logging.getLogger('rasterio._env').setLevel(logging.WARNING)
+logging.getLogger('urllib3').setLevel(logging.WARNING)
+logging.getLogger('urllib3.connectionpool').setLevel(logging.WARNING)
+logging.getLogger('googleapiclient').setLevel(logging.WARNING)
+logging.getLogger('googleapiclient.discovery').setLevel(logging.WARNING)
+logging.getLogger('google.auth').setLevel(logging.WARNING)
+logging.getLogger('google.auth.transport').setLevel(logging.WARNING)
+
+# Console handler - INFO level for console output
+console_handler = logging.StreamHandler(sys.stdout)
+console_handler.setLevel(logging.INFO)
+console_format = logging.Formatter("%(asctime)s %(levelname)s: %(message)s")
+console_handler.setFormatter(console_format)
+
+# File handler - DEBUG level to capture everything (but third-party libs are suppressed)
+file_handler = logging.FileHandler(log_filepath, encoding='utf-8')
+file_handler.setLevel(logging.DEBUG)
+file_format = logging.Formatter("%(asctime)s [%(levelname)s] [%(filename)s:%(lineno)d] %(message)s")
+file_handler.setFormatter(file_format)
+
+# Add handlers to logger
+logger.addHandler(console_handler)
+logger.addHandler(file_handler)
+
+# Log startup message
+logging.info(f"Logging initialized. Log file: {log_filepath}")
+logging.debug("DEBUG logging enabled - detailed information will be written to log file (third-party library DEBUG messages suppressed)")
 
 from gee.cli_gui import gui_and_run
 
