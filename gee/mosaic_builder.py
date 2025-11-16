@@ -7,7 +7,7 @@ from typing import Tuple, Optional, List
 from collections import Counter
 import ee
 
-from .config import TARGET_RES
+from .config import TARGET_RES, MAX_IMAGES_PER_SATELLITE
 from .utils import lonlat_to_utm_zone, is_satellite_operational
 from .ee_collections import (
     sentinel_collection, sentinel_cloudprob_collection, add_s2_cloudprob,
@@ -256,7 +256,6 @@ def build_best_mosaic_for_tile(tile_bounds: Tuple[float, float, float, float],
                 
                 # OPTIMIZATION #1 & #4: Batch fetch metadata for all images at once
                 # Collect all images first
-                MAX_IMAGES_PER_SATELLITE = 5  # Reduced from 20 - images already sorted by quality
                 images_to_process = []
                 for i in range(min(s2_count, MAX_IMAGES_PER_SATELLITE)):
                     try:
@@ -616,7 +615,7 @@ def build_best_mosaic_for_tile(tile_bounds: Tuple[float, float, float, float],
                     
                     # Debug logging for Landsat cloud fraction
                     if tile_idx is not None:
-                        logging.debug(f"[Tile {tile_idx:04d}] {key} {img_date_str} Test {test_num:02d}: cloud_frac={cf*100:.1f}%, valid_frac={vf*100:.1f}%")
+                        logging.debug(f"[Tile {_fmt_idx(tile_idx)}] {key} {img_date_str} Test {test_num:02d}: cloud_frac={cf*100:.1f}%, valid_frac={vf*100:.1f}%")
                     
                     # OPTIMIZATION: Early exit if too cloudy (before processing)
                     if cf > 0.2:  # Skip if >20% clouds (fair threshold for all satellites)
@@ -702,7 +701,7 @@ def build_best_mosaic_for_tile(tile_bounds: Tuple[float, float, float, float],
                             # Lower threshold if we've tested 3+ images and none passed
                             quality_threshold = 0.7
                             threshold_lowered = True
-                            logging.debug(f"[Tile {tile_idx:04d if tile_idx is not None else '???'}] Lowered quality threshold to 0.7 (no images > 0.9 found)")
+                            logging.debug(f"[Tile {_fmt_idx(tile_idx)}] Lowered quality threshold to 0.7 (no images > 0.9 found)")
                         if quality_score < quality_threshold:
                             continue
                     
@@ -727,7 +726,7 @@ def build_best_mosaic_for_tile(tile_bounds: Tuple[float, float, float, float],
                             bands = img_p.bandNames().getInfo()
                         
                         if tile_idx is not None:
-                            logging.debug(f"[Tile {tile_idx:04d}] {key} {img_date_str} Test {test_num:02d}: Available bands: {bands}")
+                            logging.debug(f"[Tile {_fmt_idx(tile_idx)}] {key} {img_date_str} Test {test_num:02d}: Available bands: {bands}")
                         
                         # Get RGB bands - check both original and renamed bands
                         sel = []
@@ -753,11 +752,11 @@ def build_best_mosaic_for_tile(tile_bounds: Tuple[float, float, float, float],
                         # Allow images with missing bands - they'll be filled from fallback images via qualityMosaic
                         # Just log a warning if RGB bands are incomplete
                         if len(sel) < 3:
-                            logging.debug(f"[Tile {tile_idx:04d if tile_idx is not None else '???'}] {key} {img_date_str} Test {test_num:02d}: Partial RGB bands ({len(sel)}/3). Missing bands will be filled from fallback images. Available bands: {bands}")
+                            logging.debug(f"[Tile {_fmt_idx(tile_idx)}] {key} {img_date_str} Test {test_num:02d}: Partial RGB bands ({len(sel)}/3). Missing bands will be filled from fallback images. Available bands: {bands}")
                         
                         # Require at least one band to be present (can't add image with zero bands)
                         if len(sel) == 0:
-                            logging.warning(f"[Tile {tile_idx:04d if tile_idx is not None else '???'}] {key} {img_date_str} Test {test_num:02d}: No RGB bands found. Available bands: {bands}")
+                            logging.warning(f"[Tile {_fmt_idx(tile_idx)}] {key} {img_date_str} Test {test_num:02d}: No RGB bands found. Available bands: {bands}")
                             if test_callback:
                                 test_callback(tile_idx, test_num, key, img_date_str, None, f"SKIPPED (no RGB bands found)")
                             continue

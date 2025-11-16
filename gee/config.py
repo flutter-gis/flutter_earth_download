@@ -38,6 +38,9 @@ DYNAMIC_WORKER_CHECK_INTERVAL = 10  # Check and adjust workers every N completed
 MIN_WORKERS = 1  # Minimum number of workers
 MAX_WORKERS = 16  # Maximum number of workers (can exceed CPU count for I/O-bound tasks)
 
+# Limit images fetched per satellite after server-side filtering/sorting
+MAX_IMAGES_PER_SATELLITE = 5
+
 # Quality weights for scoring (no sensor bias - purely quality-based)
 # Resolution is prioritized: a 30m image with some clouds is better than a 400m image with no clouds
 QUALITY_WEIGHTS = {
