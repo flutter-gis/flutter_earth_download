@@ -695,15 +695,15 @@ def build_best_mosaic_for_tile(tile_bounds: Tuple[float, float, float, float],
                         test_callback(tile_idx, test_num, key, img_date_str, quality_score, None, detailed_stats)
                     
                     # OPTIMIZATION #8: Progressive quality threshold
-                    # Start with high threshold, lower if no images pass
+                    # Use threshold to adapt search aggressiveness, but do not exclude images solely on this gate.
+                    # We already exclude very low quality images (< 0.3) above.
                     if quality_score < quality_threshold:
                         if not threshold_lowered and test_num >= 3:
-                            # Lower threshold if we've tested 3+ images and none passed
+                            # Lower threshold if we've tested 3+ images and none exceeded the high bar
                             quality_threshold = 0.7
                             threshold_lowered = True
                             logging.debug(f"[Tile {_fmt_idx(tile_idx)}] Lowered quality threshold to 0.7 (no images > 0.9 found)")
-                        if quality_score < quality_threshold:
-                            continue
+                        # Do not 'continue' here; still allow this image into prepared for fallback/mosaic
                     
                     # TWO-PHASE APPROACH: Track excellent images per satellite (up to 3 per satellite)
                     if quality_score >= EXCELLENT_QUALITY_THRESHOLD:
