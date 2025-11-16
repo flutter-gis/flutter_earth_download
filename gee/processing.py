@@ -257,6 +257,8 @@ def _process_tiles_with_dynamic_workers(tiles, month_start, month_end, temp_root
     if not PSUTIL_AVAILABLE:
         logging.warning("psutil not available, falling back to fixed workers. Install with: pip install psutil")
         # Fallback to fixed workers if psutil not available
+        success_count = 0
+        failed_count = 0
         with concurrent.futures.ThreadPoolExecutor(max_workers=initial_workers) as ex:
             futures = {ex.submit(process_tile, idx, tile, month_start, month_end, temp_root,
                                 include_l7, enable_ml, enable_harmonize, include_modis,
@@ -689,6 +691,23 @@ def process_month(bbox: Tuple[float, float, float, float], year: int, month: int
     # Use mutable counters for dynamic workers
     counters = {"success": 0, "failed": 0}
     
+    # OPTIMIZATION #9: Tile priority queue (higher variance first)
+    # Compute a simple variance score per tile and sort descending
+    try:
+        scored_tiles = []
+        for tile in tiles:
+            try:
+                var_score = calculate_tile_variance(tile, month_start, month_end)
+            except Exception:
+                var_score = 0.0
+            scored_tiles.append((var_score, tile))
+        # Sort by variance descending; fall back to original order on ties
+        scored_tiles.sort(key=lambda x: x[0], reverse=True)
+        priority_tiles = [t for _, t in scored_tiles]
+    except Exception:
+        # Fallback to original order if variance calculation fails
+        priority_tiles = tiles
+    
     if ENABLE_DYNAMIC_WORKERS:
         # Use adaptive worker pool with dynamic scaling
         # OPTIMIZATION #9: Use priority-ordered tiles (high-variance first)
@@ -696,7 +715,7 @@ def process_month(bbox: Tuple[float, float, float, float], year: int, month: int
             priority_tiles, month_start, month_end, temp_root, include_l7, enable_ml,
             enable_harmonize, include_modis, include_aster, include_viirs,
             effective_res, effective_workers, progress_callback, histogram,
-            provenance, tile_files, pbar, counters, processed_regions
+            provenance, tile_files, pbar, counters
         )
         success_count = counters["success"]
         failed_count = counters["failed"]
