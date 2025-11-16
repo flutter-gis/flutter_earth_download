@@ -176,14 +176,16 @@ def add_indices_to_unified_mosaic(mosaic):
 
 
 def build_best_mosaic_for_tile(tile_bounds: Tuple[float, float, float, float], 
-                                start: str, end: str, 
-                                include_l7: bool = False, 
-                                enable_harmonize: bool = True,
-                                include_modis: bool = True, 
-                                include_aster: bool = True, 
-                                include_viirs: bool = True,
-                                tile_idx: Optional[int] = None, 
-                                test_callback=None):
+                            start: str, end: str, 
+                            include_l7: bool = False, 
+                            enable_harmonize: bool = True,
+                            include_s2: bool = True,
+                            include_landsat: bool = True,
+                            include_modis: bool = True, 
+                            include_aster: bool = True, 
+                            include_viirs: bool = True,
+                            tile_idx: Optional[int] = None, 
+                            test_callback=None):
     """
     Build best mosaic using two-phase approach:
     1. Find 3 excellent images (quality > 0.85) - stop searching early
@@ -226,8 +228,11 @@ def build_best_mosaic_for_tile(tile_bounds: Tuple[float, float, float, float],
         except Exception:
             return "????"
     
-    # Process Sentinel-2
+    # Process Sentinel-2 (skip entire section if not included for this month)
     try:
+        if not include_s2:
+            logging.debug("Skipping Sentinel-2 entirely for this month (out of operational range)")
+            raise Exception("include_s2_false_skip")
         s2_col = sentinel_collection(start, end)
         if s2_col is None:
             logging.debug("Skipping Sentinel-2: not operational during requested date range")
@@ -506,375 +511,361 @@ def build_best_mosaic_for_tile(tile_bounds: Tuple[float, float, float, float],
                         logging.debug(f"Skipping S2 image {idx}: {e}")
                         continue
     except Exception as e:
-        logging.debug(f"Error processing Sentinel-2: {e}")
+        if str(e) != "include_s2_false_skip":
+            logging.debug(f"Error processing Sentinel-2: {e}")
     
     # Process Landsat - filter by operational date ranges
-    ls_defs = []
-    if is_satellite_operational("LANDSAT_9", start, end):
-        ls_defs.append(("LANDSAT/LC09/C02/T1_L2", "LANDSAT_9"))
-    if is_satellite_operational("LANDSAT_8", start, end):
-        ls_defs.append(("LANDSAT/LC08/C02/T1_L2", "LANDSAT_8"))
-    if is_satellite_operational("LANDSAT_5", start, end):
-        ls_defs.append(("LANDSAT/LT05/C02/T1_L2", "LANDSAT_5"))
-    # Landsat 7: Include but note SLC failure on 2003-05-31 causes data gaps
-    # After SLC failure, Landsat 7 will be heavily penalized in quality scoring (last resort)
-    if include_l7 and is_satellite_operational("LANDSAT_7", start, end):
-        ls_defs.append(("LANDSAT/LE07/C02/T1_L2", "LANDSAT_7"))
-        # Log warning if date range includes post-SLC failure period
-        try:
-            start_date = datetime.fromisoformat(start)
-            slc_failure_date = datetime.fromisoformat("2003-05-31")
-            if start_date < slc_failure_date:
-                end_date = datetime.fromisoformat(end)
-                if end_date >= slc_failure_date:
-                    logging.warning("Date range includes Landsat 7 post-SLC failure period (after 2003-05-31). "
-                                  "Landsat 7 images will be heavily penalized due to data gaps/black stripes.")
-        except Exception:
-            pass
+    ls_defs = [
+        ("LANDSAT/LT05/C02/T1_L2", "LANDSAT_5"),
+        ("LANDSAT/LE07/C02/T1_L2", "LANDSAT_7"),
+        ("LANDSAT/LC08/C02/T1_L2", "LANDSAT_8"),
+        ("LANDSAT/LC09/C02/T1_L2", "LANDSAT_9"),
+    ]
     
-    # Max images per satellite (client-side cap after server-side cloud filtering)
-    MAX_IMAGES_PER_SATELLITE = 5  # Reduced from 20 - collections are already sorted by cloud cover
-    
-    for coll_id, key in ls_defs:
-        try:
-            col = ee.ImageCollection(coll_id).filterBounds(geom).filterDate(start, end)
-            # OPTIMIZATION #2: Pre-filter collection before iteration (server-side filtering)
-            # Filter by cloud cover on server before downloading metadata
-            col = col.filter(ee.Filter.lt("CLOUD_COVER", 20.0))
-            # OPTIMIZATION: Server-side filtering - sort by cloud cover and take best
-            col = col.sort("CLOUD_COVER")
-            cnt = int(col.size().getInfo())
-            if cnt == 0:
-                continue
-            
-            # OPTIMIZATION #8: Progressive quality threshold - start high, lower if needed
-            quality_threshold = 0.9  # Start with high threshold
-            threshold_lowered = False
-            
-            # OPTIMIZATION #1 & #4: Batch fetch metadata for all images at once
-            images_to_process = []
-            for i in range(min(cnt, MAX_IMAGES_PER_SATELLITE)):
-                try:
-                    img = ee.Image(col.toList(cnt).get(i))
-                    images_to_process.append(img)
-                except Exception:
+    if include_landsat:
+        for coll_id, key in ls_defs:
+            if not include_landsat:
+                logging.debug("Skipping Landsat entirely for this month (out of operational range)")
+                break
+            try:
+                col = ee.ImageCollection(coll_id).filterBounds(geom).filterDate(start, end)
+                # OPTIMIZATION #2: Pre-filter collection before iteration (server-side filtering)
+                # Filter by cloud cover on server before downloading metadata
+                col = col.filter(ee.Filter.lt("CLOUD_COVER", 20.0))
+                # OPTIMIZATION: Server-side filtering - sort by cloud cover and take best
+                col = col.sort("CLOUD_COVER")
+                cnt = int(col.size().getInfo())
+                if cnt == 0:
                     continue
-            
-            # Batch fetch metadata in parallel
-            if images_to_process:
-                metadata_list = extract_metadata_parallel(
-                    images_to_process,
-                    ["system:time_start", "CLOUD_COVER", "CLOUD_COVER_LAND", "SUN_ELEVATION"],
-                    max_workers=4
-                )
-            else:
-                metadata_list = []
-            
-            test_num = 0
-            sat_name = key.replace("LANDSAT_", "Landsat-").replace("_", "-")
-            excellent_count_for_sat = 0  # Track excellent images for THIS satellite
-            
-            for idx, img in enumerate(images_to_process):
-                if idx >= len(metadata_list):
-                    break
                 
-                try:
-                    metadata = metadata_list[idx]
-                    test_num += 1
-                    
-                    # Get image date from batched metadata
-                    img_date_str = start  # Default to start date
-                    days_since = None
-                    is_l7_post_slc_failure = False
+                # OPTIMIZATION #8: Progressive quality threshold - start high, lower if needed
+                quality_threshold = 0.9  # Start with high threshold
+                threshold_lowered = False
+                
+                # OPTIMIZATION #1 & #4: Batch fetch metadata for all images at once
+                images_to_process = []
+                for i in range(min(cnt, MAX_IMAGES_PER_SATELLITE)):
                     try:
-                        if metadata.get("system:time_start"):
-                            img_dt = datetime.fromtimestamp(int(metadata["system:time_start"]) / 1000)
-                            img_date_str = img_dt.strftime("%Y-%m-%d")
-                            days_since = (img_dt - start_date).days
-                            
-                            # Check if this is Landsat 7 after SLC failure (2003-05-31)
-                            if key == "LANDSAT_7":
-                                slc_failure_date = datetime.fromisoformat("2003-05-31")
-                                if img_dt >= slc_failure_date:
-                                    is_l7_post_slc_failure = True
-                                    logging.debug(f"Landsat 7 image after SLC failure (2003-05-31): {img_dt.date()}")
+                        img = ee.Image(col.toList(cnt).get(i))
+                        images_to_process.append(img)
                     except Exception:
-                        pass
-                    
-                    # OPTIMIZATION: Quick cloud check from batched metadata
-                    cc_val = metadata.get("CLOUD_COVER") or metadata.get("CLOUD_COVER_LAND")
-                    if cc_val is not None and float(cc_val) > 20.0:
-                        if test_callback:
-                            test_callback(tile_idx, test_num, key, img_date_str, None, "SKIPPED (>20% clouds)")
                         continue
+                
+                # Batch fetch metadata in parallel
+                if images_to_process:
+                    metadata_list = extract_metadata_parallel(
+                        images_to_process,
+                        ["system:time_start", "CLOUD_COVER", "CLOUD_COVER_LAND", "SUN_ELEVATION"],
+                        max_workers=4
+                    )
+                else:
+                    metadata_list = []
+                
+                test_num = 0
+                sat_name = key.replace("LANDSAT_", "Landsat-").replace("_", "-")
+                excellent_count_for_sat = 0  # Track excellent images for THIS satellite
+                
+                for idx, img in enumerate(images_to_process):
+                    if idx >= len(metadata_list):
+                        break
                     
-                    # STEP 1: Collect ALL parameters first (before any calculations)
-                    # CRITICAL: Calculate cloud fraction BEFORE masking (like MODIS)
-                    # Otherwise we're calculating cloud fraction from an already-masked image
-                    cf, vf = estimate_cloud_fraction(img, geom)  # Use original image, not masked
-                    
-                    # Debug logging for Landsat cloud fraction
-                    if tile_idx is not None:
-                        logging.debug(f"[Tile {_fmt_idx(tile_idx)}] {key} {img_date_str} Test {test_num:02d}: cloud_frac={cf*100:.1f}%, valid_frac={vf*100:.1f}%")
-                    
-                    # OPTIMIZATION: Early exit if too cloudy (before processing)
-                    if cf > 0.2:  # Skip if >20% clouds (fair threshold for all satellites)
-                        if test_callback:
-                            test_callback(tile_idx, test_num, key, img_date_str, None, f"SKIPPED ({cf*100:.1f}% clouds)")
-                        continue
-                    
-                    # Now prepare the image (this masks clouds)
-                    img_p = landsat_prepare_image(img)
-                    
-                    if key == "LANDSAT_7":
+                    try:
+                        metadata = metadata_list[idx]
+                        test_num += 1
+                        
+                        # Get image date from batched metadata
+                        img_date_str = start  # Default to start date
+                        days_since = None
+                        is_l7_post_slc_failure = False
                         try:
-                            # Mask out invalid pixels (helps with SLC gaps)
-                            img_p = img_p.updateMask(img_p.reduce(ee.Reducer.allNonZero()))
+                            if metadata.get("system:time_start"):
+                                img_dt = datetime.fromtimestamp(int(metadata["system:time_start"]) / 1000)
+                                img_date_str = img_dt.strftime("%Y-%m-%d")
+                                days_since = (img_dt - start_date).days
+                                
+                                # Check if this is Landsat 7 after SLC failure (2003-05-31)
+                                if key == "LANDSAT_7":
+                                    slc_failure_date = datetime.fromisoformat("2003-05-31")
+                                    if img_dt >= slc_failure_date:
+                                        is_l7_post_slc_failure = True
+                                        logging.debug(f"Landsat 7 image after SLC failure (2003-05-31): {img_dt.date()}")
                         except Exception:
                             pass
-                    
-                    # Get solar zenith from batched metadata (already fetched)
-                    sun_zen_val = None
-                    try:
-                        if metadata.get("SUN_ELEVATION") is not None:
-                            sun_zen_val = 90.0 - float(metadata["SUN_ELEVATION"])
-                    except Exception:
-                        pass
-                    
-                    # Handle negative days (image before start date)
-                    if days_since is not None and days_since < 0:
-                        days_since = 0  # Clamp to 0 for images before start date
-                    
-                    # Harmonize and collect band information
-                    if enable_harmonize:
-                        img_p = harmonize_image(img_p, "LS_to_S2")
-                    
-                    # OPTIMIZATION #3: Cache band name lookups
-                    # Collect band information using cached lookup
-                    try:
-                        bands = get_cached_band_names(img_p, key)
-                        if not bands:  # Cache miss or first time
-                            bands = img_p.bandNames().getInfo()
-                        # Calculate band completeness from collected bands
-                        try:
-                            band_completeness = check_band_completeness(bands)
-                        except Exception:
-                            band_completeness = None
-                    except Exception:
-                        bands = []
-                        band_completeness = None
-                    
-                    # STEP 2: Now calculate quality score ONCE with all complete data
-                    # Landsat native resolution: 30m
-                    # Heavily penalize Landsat 7 after SLC failure (2003-05-31) due to data gaps/black stripes
-                    base_quality_score = compute_quality_score(cf, sun_zen_val, None, vf, days_since, max_days, native_resolution=30.0, band_completeness=band_completeness)
-                    if is_l7_post_slc_failure:
-                        # Apply severe penalty for SLC failure - reduce quality by 50% to make it last resort
-                        # This ensures other satellites (Landsat 5, MODIS, ASTER) are preferred
-                        quality_score = base_quality_score * 0.5
-                        logging.debug(f"Landsat 7 post-SLC failure: quality reduced from {base_quality_score:.3f} to {quality_score:.3f} (last resort)")
-                    else:
-                        quality_score = base_quality_score
-                    
-                    # STEP 3: Create complete detailed stats with all collected data
-                    sat_name = key.replace("LANDSAT_", "Landsat-").replace("_", "-")
-                    detailed_stats = {
-                        "satellite": sat_name,
-                        "quality_score": quality_score,
-                        "cloud_fraction": cf,
-                        "solar_zenith": sun_zen_val,
-                        "view_zenith": None,
-                        "valid_pixel_fraction": vf,
-                        "temporal_recency_days": days_since,
-                        "native_resolution": 30.0,
-                        "band_completeness": band_completeness if band_completeness is not None else 0.0  # Use 0.0 instead of None
-                    }
-                    
-                    # STEP 4: Report test result with complete data
-                    if test_callback:
-                        test_callback(tile_idx, test_num, key, img_date_str, quality_score, None, detailed_stats)
-                    
-                    # OPTIMIZATION #8: Progressive quality threshold
-                    # Use threshold to adapt search aggressiveness, but do not exclude images solely on this gate.
-                    # We already exclude very low quality images (< 0.3) above.
-                    if quality_score < quality_threshold:
-                        if not threshold_lowered and test_num >= 3:
-                            # Lower threshold if we've tested 3+ images and none exceeded the high bar
-                            quality_threshold = 0.7
-                            threshold_lowered = True
-                            logging.debug(f"[Tile {_fmt_idx(tile_idx)}] Lowered quality threshold to 0.7 (no images > 0.9 found)")
-                        # Do not 'continue' here; still allow this image into prepared for fallback/mosaic
-                    
-                    # TWO-PHASE APPROACH: Track excellent images per satellite (up to 3 per satellite)
-                    if quality_score >= EXCELLENT_QUALITY_THRESHOLD:
-                        excellent_count_for_sat += 1
-                        if sat_name not in excellent_per_satellite:
-                            excellent_per_satellite[sat_name] = []
-                        excellent_per_satellite[sat_name].append((img_sel, quality_score, detailed_stats.copy()))
-                        # Stop searching THIS satellite after finding 3 excellent images
-                        if excellent_count_for_sat >= TARGET_EXCELLENT_PER_SATELLITE:
-                            logging.debug(f"[Tile {tile_idx:04d if tile_idx is not None else '???'}] Found {excellent_count_for_sat} excellent images from {sat_name}, continuing to next satellite")
-                            break
-                    
-                    # Update satellite_detailed_stats
-                    if sat_name not in satellite_detailed_stats or quality_score > satellite_detailed_stats[sat_name]["quality_score"]:
-                        satellite_detailed_stats[sat_name] = detailed_stats
-                    
-                    # Continue with band selection using collected bands
-                    try:
-                        if not bands:
-                            bands = img_p.bandNames().getInfo()
                         
-                        if tile_idx is not None:
-                            logging.debug(f"[Tile {_fmt_idx(tile_idx)}] {key} {img_date_str} Test {test_num:02d}: Available bands: {bands}")
-                        
-                        # Get RGB bands - check both original and renamed bands
-                        sel = []
-                        # Try renamed bands first (after landsat_prepare_image)
-                        for candidate in ["B4","B3","B2"]:
-                            if candidate in bands and len(sel) < 3:
-                                sel.append(candidate)
-                        # If not found, try original Landsat band names
-                        if len(sel) < 3:
-                            for candidate in ["SR_B4","SR_B3","SR_B2"]:
-                                if candidate in bands and len(sel) < 3:
-                                    sel.append(candidate)
-                        # If still not found, try older Landsat names (B1, B2, B3 for L5/L7)
-                        if len(sel) < 3:
-                            # Older Landsat might use different band order
-                            # Check if we have any RGB-like bands
-                            for candidate in bands:
-                                if candidate in ["B1","B2","B3","B4","B5","B6","B7"] and len(sel) < 3:
-                                    # For older Landsat: B1=Blue, B2=Green, B3=Red
-                                    if candidate in ["B1","B2","B3"]:
-                                        sel.append(candidate)
-                        
-                        # Allow images with missing bands - they'll be filled from fallback images via qualityMosaic
-                        # Just log a warning if RGB bands are incomplete
-                        if len(sel) < 3:
-                            logging.debug(f"[Tile {_fmt_idx(tile_idx)}] {key} {img_date_str} Test {test_num:02d}: Partial RGB bands ({len(sel)}/3). Missing bands will be filled from fallback images. Available bands: {bands}")
-                        
-                        # Require at least one band to be present (can't add image with zero bands)
-                        if len(sel) == 0:
-                            logging.warning(f"[Tile {_fmt_idx(tile_idx)}] {key} {img_date_str} Test {test_num:02d}: No RGB bands found. Available bands: {bands}")
+                        # OPTIMIZATION: Quick cloud check from batched metadata
+                        cc_val = metadata.get("CLOUD_COVER") or metadata.get("CLOUD_COVER_LAND")
+                        if cc_val is not None and float(cc_val) > 20.0:
                             if test_callback:
-                                test_callback(tile_idx, test_num, key, img_date_str, None, f"SKIPPED (no RGB bands found)")
+                                test_callback(tile_idx, test_num, key, img_date_str, None, "SKIPPED (>20% clouds)")
                             continue
                         
-                        # Add IR bands (ONLY raw bands - indices created AFTER mosaic)
-                        ir_bands = []
-                        if "B8" in bands:
-                            ir_bands.append("B8")
-                        elif "SR_B5" in bands:
-                            ir_bands.append("SR_B5")
-                        if "B11" in bands:
-                            ir_bands.append("B11")
-                        elif "SR_B6" in bands:
-                            ir_bands.append("SR_B6")
-                        if "B12" in bands:
-                            ir_bands.append("B12")
-                        elif "SR_B7" in bands:
-                            ir_bands.append("SR_B7")
+                        # STEP 1: Collect ALL parameters first (before any calculations)
+                        # CRITICAL: Calculate cloud fraction BEFORE masking (like MODIS)
+                        # Otherwise we're calculating cloud fraction from an already-masked image
+                        cf, vf = estimate_cloud_fraction(img, geom)  # Use original image, not masked
                         
-                        # NO INDICES HERE - indices are created AFTER qualityMosaic unifies all bands
-                        # This allows qualityMosaic to fill missing bands from fallback images
-                        
-                        # Combine only raw bands
-                        all_bands = sel[:3] + ir_bands
-                        
-                        img_sel = img_p.select(all_bands)
-                    except Exception as e:
-                        logging.debug(f"Landsat {key} image failed band selection: {e}")
-                        continue
-                    
-                    # OPTIMIZATION: Only add images with reasonable quality scores
-                    # Skip very low quality images to reduce processing
-                    if quality_score < 0.3:  # Skip images with quality < 30%
-                        if test_callback:
-                            test_callback(tile_idx, test_num, key, img_date_str, None, f"SKIPPED (quality too low: {quality_score:.3f})")
-                        logging.debug(f"Landsat {key} image skipped: quality score {quality_score:.3f} < 0.3")
-                        continue
-                    
-                    # Ensure quality band is explicitly float to match all images in collection
-                    # Use toFloat() to ensure server-side type consistency
-                    quality_band = ee.Image.constant(float(quality_score)).toFloat().rename("quality")
-                    img_sel = img_sel.addBands(quality_band)
-                    # CRITICAL: Standardize RAW bands BEFORE adding to collection to ensure homogeneous band structure
-                    # This ensures all images have the same RAW bands (B4, B3, B2, B8, B11, B12, quality)
-                    # Indices are created AFTER qualityMosaic unifies all bands
-                    img_sel = standardize_raw_bands_for_collection(img_sel)
-                    
-                    # TWO-PHASE APPROACH: Track excellent images and stop after finding 3
-                    if quality_score >= EXCELLENT_QUALITY_THRESHOLD:
-                        prepared_excellent.append(img_sel)
-                    
-                    prepared.append(img_sel)
-                    # Format satellite name for histogram
-                    sat_name = key.replace("LANDSAT_", "Landsat-").replace("_", "-")
-                    satellite_contributions.append(sat_name)
-                    # Track best quality score for this satellite
-                    if sat_name not in satellite_quality_scores or quality_score > satellite_quality_scores[sat_name]:
-                        satellite_quality_scores[sat_name] = quality_score
-                    
-                    # Track this image for fallback ranking
-                    all_image_stats.append((img_sel, quality_score, detailed_stats.copy(), sat_name))
-                    
-                    # Debug: Log successful addition to prepared list
-                    if tile_idx is not None:
-                        logging.debug(f"[Tile {tile_idx:04d}] {sat_name} image added to prepared list with quality score {quality_score:.3f}")
-                    
-                    # Track the single best image overall (highest quality score)
-                    # CRITICAL: Always prioritize higher quality score when difference is > 5%
-                    # Only use band completeness as tiebreaker when scores are truly close
-                    score_diff = quality_score - best_score
-                    if score_diff > 0.05:  # Clear winner (5%+ better) - always use higher score
+                        # Debug logging for Landsat cloud fraction
                         if tile_idx is not None:
-                            logging.debug(f"[Tile {tile_idx:04d}] New best image: {sat_name} (score: {quality_score:.3f}, previous best: {best_score:.3f})")
-                        best_score = quality_score
-                        best_image = img_sel
-                        best_satellite_name = sat_name
-                        best_detailed_stats = satellite_detailed_stats.get(sat_name)
-                    elif abs(score_diff) <= 0.05:  # Scores are truly close (within 5% in either direction)
-                        # Only in this case, use band completeness as tiebreaker
+                            logging.debug(f"[Tile {_fmt_idx(tile_idx)}] {key} {img_date_str} Test {test_num:02d}: cloud_frac={cf*100:.1f}%, valid_frac={vf*100:.1f}%")
+                        
+                        # OPTIMIZATION: Early exit if too cloudy (before processing)
+                        if cf > 0.2:  # Skip if >20% clouds (fair threshold for all satellites)
+                            if test_callback:
+                                test_callback(tile_idx, test_num, key, img_date_str, None, f"SKIPPED ({cf*100:.1f}% clouds)")
+                            continue
+                        
+                        # Now prepare the image (this masks clouds)
+                        img_p = landsat_prepare_image(img)
+                        
+                        if key == "LANDSAT_7":
+                            try:
+                                # Mask out invalid pixels (helps with SLC gaps)
+                                img_p = img_p.updateMask(img_p.reduce(ee.Reducer.allNonZero()))
+                            except Exception:
+                                pass
+                        
+                        # Get solar zenith from batched metadata (already fetched)
+                        sun_zen_val = None
                         try:
-                            current_bands = img_sel.bandNames().getInfo()
-                            current_completeness = check_band_completeness(current_bands)
-                            
-                            if best_image is not None:
-                                best_bands = best_image.bandNames().getInfo()
-                                best_completeness = check_band_completeness(best_bands)
-                                
-                                # If current image has significantly better completeness (>10%), prefer it
-                                # But only if scores are close (already checked above)
-                                if current_completeness > best_completeness + 0.1:  # 10% threshold
-                                    best_score = quality_score
-                                    best_image = img_sel
-                                    best_satellite_name = sat_name
-                                    best_detailed_stats = satellite_detailed_stats.get(sat_name)
-                                elif quality_score > best_score:  # If completeness similar, use higher score
-                                    best_score = quality_score
-                                    best_image = img_sel
-                                    best_satellite_name = sat_name
-                                    best_detailed_stats = satellite_detailed_stats.get(sat_name)
-                            else:
-                                best_score = quality_score
-                                best_image = img_sel
-                                best_satellite_name = sat_name
-                                best_detailed_stats = satellite_detailed_stats.get(sat_name)
+                            if metadata.get("SUN_ELEVATION") is not None:
+                                sun_zen_val = 90.0 - float(metadata["SUN_ELEVATION"])
                         except Exception:
-                            # Fallback: use higher score if band check fails
-                            if quality_score > best_score:
-                                best_score = quality_score
-                                best_image = img_sel
-                                best_satellite_name = sat_name
-                                best_detailed_stats = satellite_detailed_stats.get(sat_name)
-                        # If score is significantly lower (< -0.05), don't update
-                except Exception as e:
-                    logging.debug(f"Skipping {key} image {idx}: {e}")
-                    continue
-        except Exception as e:
-            logging.debug(f"Error processing {key}: {e}")
-            continue
+                            pass
+                        
+                        # Handle negative days (image before start date)
+                        if days_since is not None and days_since < 0:
+                            days_since = 0  # Clamp to 0 for images before start date
+                        
+                        # Harmonize and collect band information
+                        if enable_harmonize:
+                            img_p = harmonize_image(img_p, "LS_to_S2")
+                        
+                        # OPTIMIZATION #3: Cache band name lookups
+                        # Collect band information using cached lookup
+                        try:
+                            bands = get_cached_band_names(img_p, key)
+                            if not bands:  # Cache miss or first time
+                                bands = img_p.bandNames().getInfo()
+                            # Calculate band completeness from collected bands
+                            try:
+                                band_completeness = check_band_completeness(bands)
+                            except Exception:
+                                band_completeness = None
+                        except Exception:
+                            bands = []
+                            band_completeness = None
+                        
+                        # STEP 2: Now calculate quality score ONCE with all complete data
+                        # Landsat native resolution: 30m
+                        # Heavily penalize Landsat 7 after SLC failure (2003-05-31) due to data gaps/black stripes
+                        base_quality_score = compute_quality_score(cf, sun_zen_val, None, vf, days_since, max_days, native_resolution=30.0, band_completeness=band_completeness)
+                        if is_l7_post_slc_failure:
+                            # Apply severe penalty for SLC failure - reduce quality by 50% to make it last resort
+                            # This ensures other satellites (Landsat 5, MODIS, ASTER) are preferred
+                            quality_score = base_quality_score * 0.5
+                            logging.debug(f"Landsat 7 post-SLC failure: quality reduced from {base_quality_score:.3f} to {quality_score:.3f} (last resort)")
+                        else:
+                            quality_score = base_quality_score
+                        
+                        # STEP 3: Create complete detailed stats with all collected data
+                        sat_name = key.replace("LANDSAT_", "Landsat-").replace("_", "-")
+                        detailed_stats = {
+                            "satellite": sat_name,
+                            "quality_score": quality_score,
+                            "cloud_fraction": cf,
+                            "solar_zenith": sun_zen_val,
+                            "view_zenith": None,
+                            "valid_pixel_fraction": vf,
+                            "temporal_recency_days": days_since,
+                            "native_resolution": 30.0,
+                            "band_completeness": band_completeness if band_completeness is not None else 0.0  # Use 0.0 instead of None
+                        }
+                        
+                        # STEP 4: Report test result with complete data
+                        if test_callback:
+                            test_callback(tile_idx, test_num, key, img_date_str, quality_score, None, detailed_stats)
+                        
+                        # OPTIMIZATION #8: Progressive quality threshold
+                        # Use threshold to adapt search aggressiveness, but do not exclude images solely on this gate.
+                        # We already exclude very low quality images (< 0.3) above.
+                        if quality_score < quality_threshold:
+                            if not threshold_lowered and test_num >= 3:
+                                # Lower threshold if we've tested 3+ images and none exceeded the high bar
+                                quality_threshold = 0.7
+                                threshold_lowered = True
+                                logging.debug(f"[Tile {_fmt_idx(tile_idx)}] Lowered quality threshold to 0.7 (no images > 0.9 found)")
+                            # Do not 'continue' here; still allow this image into prepared for fallback/mosaic
+                        
+                        # TWO-PHASE APPROACH: Track excellent images per satellite (up to 3 per satellite)
+                        if quality_score >= EXCELLENT_QUALITY_THRESHOLD:
+                            excellent_count_for_sat += 1
+                            if sat_name not in excellent_per_satellite:
+                                excellent_per_satellite[sat_name] = []
+                            excellent_per_satellite[sat_name].append((img_sel, quality_score, detailed_stats.copy()))
+                            # Stop searching THIS satellite after finding 3 excellent images
+                            if excellent_count_for_sat >= TARGET_EXCELLENT_PER_SATELLITE:
+                                logging.debug(f"[Tile {tile_idx:04d if tile_idx is not None else '???'}] Found {excellent_count_for_sat} excellent images from {sat_name}, continuing to next satellite")
+                                break
+                        
+                        # Update satellite_detailed_stats
+                        if sat_name not in satellite_detailed_stats or quality_score > satellite_detailed_stats[sat_name]["quality_score"]:
+                            satellite_detailed_stats[sat_name] = detailed_stats
+                        
+                        # Continue with band selection using collected bands
+                        try:
+                            if not bands:
+                                bands = img_p.bandNames().getInfo()
+                            
+                            if tile_idx is not None:
+                                logging.debug(f"[Tile {_fmt_idx(tile_idx)}] {key} {img_date_str} Test {test_num:02d}: Available bands: {bands}")
+                            
+                            # Get RGB bands - check both original and renamed bands
+                            sel = []
+                            # Try renamed bands first (after landsat_prepare_image)
+                            for candidate in ["B4","B3","B2"]:
+                                if candidate in bands and len(sel) < 3:
+                                    sel.append(candidate)
+                            # If not found, try original Landsat band names
+                            if len(sel) < 3:
+                                for candidate in ["SR_B4","SR_B3","SR_B2"]:
+                                    if candidate in bands and len(sel) < 3:
+                                        sel.append(candidate)
+                            # If still not found, try older Landsat names (B1, B2, B3 for L5/L7)
+                            if len(sel) < 3:
+                                # Older Landsat might use different band order
+                                # Check if we have any RGB-like bands
+                                for candidate in bands:
+                                    if candidate in ["B1","B2","B3","B4","B5","B6","B7"] and len(sel) < 3:
+                                        # For older Landsat: B1=Blue, B2=Green, B3=Red
+                                        if candidate in ["B1","B2","B3"]:
+                                            sel.append(candidate)
+                            
+                            # Allow images with missing bands - they'll be filled from fallback images via qualityMosaic
+                            # Just log a warning if RGB bands are incomplete
+                            if len(sel) < 3:
+                                logging.debug(f"[Tile {_fmt_idx(tile_idx)}] {key} {img_date_str} Test {test_num:02d}: Partial RGB bands ({len(sel)}/3). Missing bands will be filled from fallback images. Available bands: {bands}")
+                            
+                            # Require at least one band to be present (can't add image with zero bands)
+                            if len(sel) == 0:
+                                logging.warning(f"[Tile {_fmt_idx(tile_idx)}] {key} {img_date_str} Test {test_num:02d}: No RGB bands found. Available bands: {bands}")
+                                if test_callback:
+                                    test_callback(tile_idx, test_num, key, img_date_str, None, f"SKIPPED (no RGB bands found)")
+                                continue
+                            
+                            # Add IR bands (ONLY raw bands - indices created AFTER mosaic)
+                            ir_bands = []
+                            if "B8" in bands:
+                                ir_bands.append("B8")
+                            elif "SR_B5" in bands:
+                                ir_bands.append("SR_B5")
+                            if "B11" in bands:
+                                ir_bands.append("B11")
+                            elif "SR_B6" in bands:
+                                ir_bands.append("SR_B6")
+                            if "B12" in bands:
+                                ir_bands.append("B12")
+                            elif "SR_B7" in bands:
+                                ir_bands.append("SR_B7")
+                            
+                            # NO INDICES HERE - indices are created AFTER qualityMosaic unifies all bands
+                            # This allows qualityMosaic to fill missing bands from fallback images
+                            
+                            # Combine only raw bands
+                            all_bands = sel[:3] + ir_bands
+                            
+                            img_sel = img_p.select(all_bands)
+                        except Exception as e:
+                            logging.debug(f"Landsat {key} image failed band selection: {e}")
+                            continue
+                        
+                        # OPTIMIZATION: Only add images with reasonable quality scores
+                        # Skip very low quality images to reduce processing
+                        if quality_score < 0.3:  # Skip images with quality < 30%
+                            if test_callback:
+                                test_callback(tile_idx, test_num, key, img_date_str, None, f"SKIPPED (quality too low: {quality_score:.3f})")
+                            logging.debug(f"Landsat {key} image skipped: quality score {quality_score:.3f} < 0.3")
+                            continue
+                        
+                        # Ensure quality band is explicitly float to match all images in collection
+                        # Use toFloat() to ensure server-side type consistency
+                        quality_band = ee.Image.constant(float(quality_score)).toFloat().rename("quality")
+                        img_sel = img_sel.addBands(quality_band)
+                        # CRITICAL: Standardize RAW bands BEFORE adding to collection to ensure homogeneous band structure
+                        # This ensures all images have the same RAW bands (B4, B3, B2, B8, B11, B12, quality)
+                        # Indices are created AFTER qualityMosaic unifies all bands
+                        img_sel = standardize_raw_bands_for_collection(img_sel)
+                        
+                        # TWO-PHASE APPROACH: Track excellent images and stop after finding 3
+                        if quality_score >= EXCELLENT_QUALITY_THRESHOLD:
+                            prepared_excellent.append(img_sel)
+                        
+                        prepared.append(img_sel)
+                        # Format satellite name for histogram
+                        sat_name = key.replace("LANDSAT_", "Landsat-").replace("_", "-")
+                        satellite_contributions.append(sat_name)
+                        # Track best quality score for this satellite
+                        if sat_name not in satellite_quality_scores or quality_score > satellite_quality_scores[sat_name]:
+                            satellite_quality_scores[sat_name] = quality_score
+                        
+                        # Track this image for fallback ranking
+                        all_image_stats.append((img_sel, quality_score, detailed_stats.copy(), sat_name))
+                        
+                        # Debug: Log successful addition to prepared list
+                        if tile_idx is not None:
+                            logging.debug(f"[Tile {tile_idx:04d}] {sat_name} image added to prepared list with quality score {quality_score:.3f}")
+                        
+                        # Track the single best image overall (highest quality score)
+                        # CRITICAL: Always prioritize higher quality score when difference is > 5%
+                        # Only use band completeness as tiebreaker when scores are truly close
+                        score_diff = quality_score - best_score
+                        if score_diff > 0.05:  # Clear winner (5%+ better) - always use higher score
+                            if tile_idx is not None:
+                                logging.debug(f"[Tile {tile_idx:04d}] New best image: {sat_name} (score: {quality_score:.3f}, previous best: {best_score:.3f})")
+                            best_score = quality_score
+                            best_image = img_sel
+                            best_satellite_name = sat_name
+                            best_detailed_stats = satellite_detailed_stats.get(sat_name)
+                        elif abs(score_diff) <= 0.05:  # Scores are truly close (within 5% in either direction)
+                            # Only in this case, use band completeness as tiebreaker
+                            try:
+                                current_bands = img_sel.bandNames().getInfo()
+                                current_completeness = check_band_completeness(current_bands)
+                                
+                                if best_image is not None:
+                                    best_bands = best_image.bandNames().getInfo()
+                                    best_completeness = check_band_completeness(best_bands)
+                                    
+                                    # If current image has significantly better completeness (>10%), prefer it
+                                    # But only if scores are close (already checked above)
+                                    if current_completeness > best_completeness + 0.1:  # 10% threshold
+                                        best_score = quality_score
+                                        best_image = img_sel
+                                        best_satellite_name = sat_name
+                                        best_detailed_stats = satellite_detailed_stats.get(sat_name)
+                                    elif quality_score > best_score:  # If completeness similar, use higher score
+                                        best_score = quality_score
+                                        best_image = img_sel
+                                        best_satellite_name = sat_name
+                                        best_detailed_stats = satellite_detailed_stats.get(sat_name)
+                                else:
+                                    best_score = quality_score
+                                    best_image = img_sel
+                                    best_satellite_name = sat_name
+                                    best_detailed_stats = satellite_detailed_stats.get(sat_name)
+                            except Exception:
+                                # Fallback: use higher score if band check fails
+                                if quality_score > best_score:
+                                    best_score = quality_score
+                                    best_image = img_sel
+                                    best_satellite_name = sat_name
+                                    best_detailed_stats = satellite_detailed_stats.get(sat_name)
+                            # If score is significantly lower (< -0.05), don't update
+                    except Exception as e:
+                        logging.debug(f"Skipping {key} image {idx}: {e}")
+                        continue
+            except Exception as e:
+                logging.debug(f"Error processing {key}: {e}")
+                continue
     
     # Process MODIS - LAST RESORT ONLY (only if no other satellite has <50% clouds)
     # MODIS should be tested and evaluated fairly like all other satellites
