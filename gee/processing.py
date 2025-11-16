@@ -93,13 +93,31 @@ def process_tile(tile_idx: int, tile_bounds: Tuple[float, float, float, float],
                     test_result["test_num"] = test_num_val
                     all_test_results.append(test_result)
         
+        # Decide operational satellites once per month and pass flags (skip non-operational sensors entirely)
+        from .utils import is_satellite_operational
+        include_s2 = is_satellite_operational("SENTINEL_2", month_start, month_end)
+        include_landsat = (
+            is_satellite_operational("LANDSAT_5", month_start, month_end) or
+            is_satellite_operational("LANDSAT_7", month_start, month_end) or
+            is_satellite_operational("LANDSAT_8", month_start, month_end) or
+            is_satellite_operational("LANDSAT_9", month_start, month_end)
+        )
+        include_modis_flag = include_modis and (
+            is_satellite_operational("MODIS_TERRA", month_start, month_end) or
+            is_satellite_operational("MODIS_AQUA", month_start, month_end)
+        )
+        include_aster_flag = include_aster and is_satellite_operational("ASTER", month_start, month_end)
+        include_viirs_flag = include_viirs and is_satellite_operational("VIIRS", month_start, month_end)
+        
         result = build_best_mosaic_for_tile(
             tile_bounds, month_start, month_end, 
             include_l7=include_l7, 
             enable_harmonize=enable_harmonize,
-            include_modis=include_modis,
-            include_aster=include_aster,
-            include_viirs=include_viirs,
+            include_s2=include_s2,
+            include_landsat=include_landsat,
+            include_modis=include_modis_flag,
+            include_aster=include_aster_flag,
+            include_viirs=include_viirs_flag,
             tile_idx=tile_idx,
             test_callback=test_callback,
         )
@@ -665,6 +683,14 @@ def process_month(bbox: Tuple[float, float, float, float], year: int, month: int
                     workers, effective_workers, cpu_count, MAX_CONCURRENT_TILES, len(tiles))
     else:
         logging.info("Using %d workers for %d tiles (CPU count: %d)", effective_workers, len(tiles), cpu_count)
+    
+    # Proactively size the connection pool to avoid initial 'pool is full' warnings
+    try:
+        new_pool = update_connection_pool_size(effective_workers)
+        if new_pool:
+            logging.debug(f"Primed urllib3 connection pool size to {new_pool} (effective workers: {effective_workers})")
+    except Exception:
+        pass
     
     # Progress tracking
     tile_status = {}

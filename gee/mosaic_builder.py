@@ -72,7 +72,10 @@ def standardize_raw_bands_for_collection(img):
             else:
                 # Fill missing bands with zeros (qualityMosaic will fill from fallback images)
                 # Use Float constant to match type
-                standardized_bands.append(ee.Image.constant(0.0).toFloat().rename(std_name))
+                # IMPORTANT: Make missing bands fully masked so they don't count as 'valid' in coverage checks
+                missing = ee.Image.constant(0.0).toFloat().rename(std_name)
+                missing = missing.updateMask(ee.Image(0))  # fully masked placeholder
+                standardized_bands.append(missing)
         
         # Combine all standardized bands
         standardized = ee.Image.cat(standardized_bands)
