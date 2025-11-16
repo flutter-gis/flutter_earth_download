@@ -219,6 +219,13 @@ def build_best_mosaic_for_tile(tile_bounds: Tuple[float, float, float, float],
     excellent_per_satellite = {}  # Dict: satellite_name -> list of (image, score, stats) tuples
     phase_2_mode = False  # Whether we're in gap-filling phase
     
+    # Helper: safe tile index formatting for logs
+    def _fmt_idx(idx):
+        try:
+            return f"{int(idx):04d}"
+        except Exception:
+            return "????"
+    
     # Process Sentinel-2
     try:
         s2_col = sentinel_collection(start, end)
@@ -249,6 +256,7 @@ def build_best_mosaic_for_tile(tile_bounds: Tuple[float, float, float, float],
                 
                 # OPTIMIZATION #1 & #4: Batch fetch metadata for all images at once
                 # Collect all images first
+                MAX_IMAGES_PER_SATELLITE = 5  # Reduced from 20 - images already sorted by quality
                 images_to_process = []
                 for i in range(min(s2_count, MAX_IMAGES_PER_SATELLITE)):
                     try:
@@ -268,9 +276,6 @@ def build_best_mosaic_for_tile(tile_bounds: Tuple[float, float, float, float],
                 else:
                     metadata_list = []
                 
-                # Only process top N images (best quality, lowest clouds)
-                # Images already sorted by cloud cover, so top 5 are usually best
-                MAX_IMAGES_PER_SATELLITE = 5  # Reduced from 20 - images already sorted by quality
                 test_num = 0
                 sat_name = "Copernicus Sentinel-2"
                 excellent_count_for_sat = 0  # Track excellent images for THIS satellite
@@ -308,7 +313,7 @@ def build_best_mosaic_for_tile(tile_bounds: Tuple[float, float, float, float],
                         
                         # Debug logging for Sentinel-2 cloud fraction
                         if tile_idx is not None:
-                            logging.debug(f"[Tile {tile_idx:04d}] Sentinel-2 {img_date_str} Test {test_num:02d}: cloud_frac={cf*100:.1f}%, valid_frac={vf*100:.1f}%")
+                            logging.debug(f"[Tile {_fmt_idx(tile_idx)}] Sentinel-2 {img_date_str} Test {test_num:02d}: cloud_frac={cf*100:.1f}%, valid_frac={vf*100:.1f}%")
                         
                         # OPTIMIZATION: Early exit if too cloudy (before processing)
                         if cf > 0.2:  # Skip if >20% clouds (fair threshold for all satellites)
@@ -441,7 +446,7 @@ def build_best_mosaic_for_tile(tile_bounds: Tuple[float, float, float, float],
                             excellent_per_satellite[sat_name].append((sel, quality_score, detailed_stats.copy()))
                             # Stop searching THIS satellite after finding 3 excellent images
                             if excellent_count_for_sat >= TARGET_EXCELLENT_PER_SATELLITE:
-                                logging.debug(f"[Tile {tile_idx:04d if tile_idx is not None else '???'}] Found {excellent_count_for_sat} excellent images from {sat_name}, continuing to next satellite")
+                                logging.debug(f"[Tile {_fmt_idx(tile_idx)}] Found {excellent_count_for_sat} excellent images from {sat_name}, continuing to next satellite")
                                 break
                         
                         prepared.append(sel)
@@ -1549,11 +1554,11 @@ def build_best_mosaic_for_tile(tile_bounds: Tuple[float, float, float, float],
     for img, score, stats, sat_name in all_excellent_candidates[:5]:  # Top 5 overall
         selected_best.append(img)
         prepared_excellent.append(img)
-        logging.debug(f"[Tile {tile_idx:04d if tile_idx is not None else '???'}] Phase 1: Selected best image from {sat_name} (score={score:.3f})")
+        logging.debug(f"[Tile {_fmt_idx(tile_idx)}] Phase 1: Selected best image from {sat_name} (score={score:.3f})")
     
     if len(selected_best) > 0:
         prepared = selected_best
-        logging.debug(f"[Tile {tile_idx:04d if tile_idx is not None else '???'}] Phase 1: Selected {len(selected_best)} best images from {len(excellent_per_satellite)} satellites")
+        logging.debug(f"[Tile {_fmt_idx(tile_idx)}] Phase 1: Selected {len(selected_best)} best images from {len(excellent_per_satellite)} satellites")
     elif len(prepared) == 0:
         return None, None, None, None, []
     
@@ -1565,7 +1570,7 @@ def build_best_mosaic_for_tile(tile_bounds: Tuple[float, float, float, float],
     # Continue until 100% coverage is achieved - no gaps allowed
     max_iterations = 10  # Increased iterations to ensure 100% coverage
     iteration = 0
-    target_coverage = 1.0  # Target 100% coverage - no gaps at all
+    target_coverage = 0.999  # Practical ceiling; exact 1.0 often unattainable
     
     while iteration < max_iterations:
         iteration += 1
@@ -1590,32 +1595,21 @@ def build_best_mosaic_for_tile(tile_bounds: Tuple[float, float, float, float],
                 # Get mean coverage (average of all bands)
                 mean_coverage = sum(coverage_info.values()) / len(coverage_info) if coverage_info else 0.0
                 
-                logging.debug(f"[Tile {tile_idx:04d if tile_idx is not None else '???'}] Phase 2 Iteration {iteration}: Coverage {mean_coverage*100:.1f}%")
+                logging.debug(f"[Tile {_fmt_idx(tile_idx)}] Phase 2 Iteration {iteration}: Coverage {mean_coverage*100:.1f}%")
                 
                 # If coverage is sufficient, we're done
                 if mean_coverage >= target_coverage:
-                    logging.debug(f"[Tile {tile_idx:04d if tile_idx is not None else '???'}] Phase 2: Coverage {mean_coverage*100:.1f}% >= {target_coverage*100:.0f}%, gap-filling complete")
+                    logging.debug(f"[Tile {_fmt_idx(tile_idx)}] Phase 2: Coverage {mean_coverage*100:.1f}% >= {target_coverage*100:.0f}%, gap-filling complete")
                     break
                 
                 # Coverage < target - need to add gap-filling images
-                logging.debug(f"[Tile {tile_idx:04d if tile_idx is not None else '???'}] Phase 2: Coverage {mean_coverage*100:.1f}% < {target_coverage*100:.0f}%, searching for gap-filling images")
+                logging.debug(f"[Tile {_fmt_idx(tile_idx)}] Phase 2: Coverage {mean_coverage*100:.1f}% < {target_coverage*100:.0f}%, searching for gap-filling images")
                 phase_2_mode = True
                 
                 # Find additional images that can fill gaps
                 # Use ALL images from all_image_stats (sorted by quality, descending)
                 # This includes images from all satellites, not just the ones we've selected
                 remaining_images = sorted(all_image_stats, key=lambda x: x[1], reverse=True)
-                
-                # Track which images are already in prepared (to avoid duplicates)
-                prepared_image_ids = set()
-                for prep_img in prepared:
-                    try:
-                        # Use a unique identifier for each image (date + satellite)
-                        prep_id = prep_img.get("system:time_start")
-                        if prep_id:
-                            prepared_image_ids.add(prep_id.getInfo())
-                    except Exception:
-                        pass
                 
                 # Add images that can fill gaps (prioritize high quality, but accept lower quality if needed)
                 # For 100% coverage, we must be aggressive in filling gaps
@@ -1624,14 +1618,6 @@ def build_best_mosaic_for_tile(tile_bounds: Tuple[float, float, float, float],
                 max_gap_fillers_per_iteration = 15  # Allow more gap-fillers per iteration
                 
                 for img, score, stats, sat_name in remaining_images:
-                    # Skip if already in prepared list
-                    try:
-                        img_id = img.get("system:time_start")
-                        if img_id and img_id.getInfo() in prepared_image_ids:
-                            continue
-                    except Exception:
-                        pass
-                    
                     # Check if image is already in prepared by comparing directly
                     is_duplicate = False
                     for prep_img in prepared:

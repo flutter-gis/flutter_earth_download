@@ -59,7 +59,8 @@ def aster_collection(start: str, end: str):
     if not is_satellite_operational("ASTER", start, end):
         logging.debug(f"Skipping ASTER: not operational during {start} to {end} (ended 2008)")
         return None
-    return ee.ImageCollection("NASA/ASTER_L1T_003").filterDate(start, end)
+    # Correct ASTER collection ID
+    return ee.ImageCollection("ASTER/AST_L1T_003").filterDate(start, end)
 
 
 def viirs_collection(start: str, end: str):
