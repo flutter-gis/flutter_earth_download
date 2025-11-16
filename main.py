@@ -11,6 +11,14 @@ import logging
 # Initialize Earth Engine
 try:
     import ee
+    from gee.config import MAX_WORKERS, update_connection_pool_size
+    
+    # Set initial connection pool size based on MAX_WORKERS
+    # This ensures we have enough connections from the start
+    initial_pool_size = update_connection_pool_size(MAX_WORKERS)
+    if initial_pool_size:
+        logging.info(f"Initialized urllib3 connection pool size: {initial_pool_size} (based on MAX_WORKERS={MAX_WORKERS})")
+    
     ee.Initialize()
 except Exception as e:
     print(f"ERROR: Earth Engine initialization failed: {e}", file=sys.stderr)

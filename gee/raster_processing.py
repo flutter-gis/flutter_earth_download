@@ -16,6 +16,11 @@ from rasterio.transform import from_origin
 from rasterio.warp import Resampling
 from skimage.filters import threshold_otsu
 from skimage.morphology import remove_small_objects, binary_closing, disk
+try:
+    from scipy.ndimage import binary_dilation, distance_transform_edt
+    SCIPY_AVAILABLE = True
+except ImportError:
+    SCIPY_AVAILABLE = False
 
 from .config import TARGET_RES, MIN_WATER_AREA_PX, COG_OVERVIEWS
 
@@ -330,7 +335,55 @@ def feather_and_merge(tile_paths: List[str], out_path: str, feather_px: int = 50
             if np.any(mask_valid):
                 mosaic_band[mask_valid] = (numerator[mask_valid] / denominator[mask_valid]).astype(dtype)
             
-            # Set nodata where no valid data
+            # INTERPOLATION: Fill missing bands (zeros) from neighboring tiles
+            # This helps when a tile is missing IR bands but neighbors have them
+            if SCIPY_AVAILABLE and np.any(~mask_valid) and band_idx > 3:  # Only interpolate IR bands and indices (bands 4+), not RGB
+                # Find pixels that are zero/missing but have valid neighbors
+                missing_mask = ~mask_valid
+                
+                # Dilate valid pixels to find nearby valid data
+                # Use a 5-pixel radius for interpolation (about 25m at 5m resolution)
+                dilated_valid = binary_dilation(mask_valid, structure=np.ones((5, 5)))
+                interpolation_candidates = missing_mask & dilated_valid
+                
+                if np.any(interpolation_candidates):
+                    # For each missing pixel, find nearest valid pixel and use its value
+                    # Use distance transform to find closest valid pixel
+                    dist_to_valid = distance_transform_edt(~mask_valid)
+                    
+                    # Only interpolate if within reasonable distance (20 pixels = 100m)
+                    max_interp_dist = 20
+                    can_interpolate = (dist_to_valid <= max_interp_dist) & missing_mask
+                    
+                    if np.any(can_interpolate):
+                        # For each pixel to interpolate, find the closest valid pixel
+                        # Simple approach: use the value from the nearest valid neighbor
+                        # More sophisticated: could use inverse distance weighting
+                        for y, x in zip(*np.where(can_interpolate)):
+                            # Find nearest valid pixel using distance transform
+                            # Get a small window around this pixel
+                            y_min = max(0, y - max_interp_dist)
+                            y_max = min(out_h, y + max_interp_dist + 1)
+                            x_min = max(0, x - max_interp_dist)
+                            x_max = min(out_w, x + max_interp_dist + 1)
+                            
+                            window = mask_valid[y_min:y_max, x_min:x_max]
+                            if np.any(window):
+                                # Get valid pixels in window
+                                valid_y, valid_x = np.where(window)
+                                valid_y += y_min
+                                valid_x += x_min
+                                
+                                # Find closest valid pixel
+                                distances = np.sqrt((valid_y - y)**2 + (valid_x - x)**2)
+                                closest_idx = np.argmin(distances)
+                                
+                                # Use value from closest valid pixel
+                                closest_y, closest_x = valid_y[closest_idx], valid_x[closest_idx]
+                                mosaic_band[y, x] = mosaic_band[closest_y, closest_x]
+                                mask_valid[y, x] = True  # Mark as valid after interpolation
+            
+            # Set nodata where no valid data (and couldn't be interpolated)
             if nodata is not None:
                 mosaic_band[~mask_valid] = nodata
             else:
@@ -348,6 +401,164 @@ def feather_and_merge(tile_paths: List[str], out_path: str, feather_px: int = 50
     finally:
         shutil.rmtree(tmpdir, ignore_errors=True)
     return out_path
+
+
+def add_indices_to_mosaic_local(mosaic_path: str) -> str:
+    """
+    Calculate vegetation and water indices locally from the stitched mosaic.
+    This is much faster than calculating on Earth Engine server.
+    
+    Expected band order: B4 (Red), B3 (Green), B2 (Blue), B8 (NIR), B11 (SWIR1), B12 (SWIR2)
+    Adds indices: NDVI, NDWI, MNDWI, EVI, SAVI, FVI, AVI
+    
+    Returns path to updated mosaic (creates new file with indices appended).
+    """
+    try:
+        # Create temporary output file
+        tmp_path = mosaic_path + ".with_indices.tif"
+        
+        with rasterio.open(mosaic_path, "r") as src:
+            # Get band indices by name (check descriptions or assume standard order)
+            # Standard order: B4, B3, B2, B8, B11, B12
+            band_count = src.count
+            
+            # Check if we have at least 6 bands (RGB + IR)
+            if band_count < 6:
+                logging.warning(f"Mosaic has only {band_count} bands, cannot calculate indices. Expected at least 6 bands (B4, B3, B2, B8, B11, B12).")
+                return mosaic_path
+            
+            # Read raw bands (assuming standard order)
+            # Band 1 = B4 (Red), Band 2 = B3 (Green), Band 3 = B2 (Blue)
+            # Band 4 = B8 (NIR), Band 5 = B11 (SWIR1), Band 6 = B12 (SWIR2)
+            b4 = src.read(1).astype(np.float32)  # Red
+            b3 = src.read(2).astype(np.float32)  # Green
+            b2 = src.read(3).astype(np.float32)  # Blue
+            b8 = src.read(4).astype(np.float32)  # NIR
+            b11 = src.read(5).astype(np.float32)  # SWIR1
+            b12 = src.read(6).astype(np.float32)  # SWIR2
+            
+            # Handle nodata values
+            nodata = src.nodata if src.nodata is not None else 0
+            valid_mask = (b4 > 0) & (b3 > 0) & (b2 > 0) & (b8 > 0) & np.isfinite(b4) & np.isfinite(b3) & np.isfinite(b2) & np.isfinite(b8)
+            
+            indices = []
+            
+            # NDVI: (NIR - Red) / (NIR + Red)
+            ndvi = np.zeros_like(b4, dtype=np.float32)
+            denominator = b8 + b4
+            valid_ndvi = valid_mask & (denominator > 0)
+            ndvi[valid_ndvi] = (b8[valid_ndvi] - b4[valid_ndvi]) / denominator[valid_ndvi]
+            ndvi[~valid_ndvi] = nodata
+            indices.append(("NDVI", ndvi))
+            
+            # NDWI: (Green - NIR) / (Green + NIR)
+            ndwi = np.zeros_like(b3, dtype=np.float32)
+            denominator = b3 + b8
+            valid_ndwi = valid_mask & (denominator > 0)
+            ndwi[valid_ndwi] = (b3[valid_ndwi] - b8[valid_ndwi]) / denominator[valid_ndwi]
+            ndwi[~valid_ndwi] = nodata
+            indices.append(("NDWI", ndwi))
+            
+            # MNDWI: (Green - SWIR1) / (Green + SWIR1)
+            if np.any(b11 > 0):
+                mndwi = np.zeros_like(b3, dtype=np.float32)
+                denominator = b3 + b11
+                valid_mndwi = valid_mask & (denominator > 0) & (b11 > 0)
+                mndwi[valid_mndwi] = (b3[valid_mndwi] - b11[valid_mndwi]) / denominator[valid_mndwi]
+                mndwi[~valid_mndwi] = nodata
+                indices.append(("MNDWI", mndwi))
+            
+            # EVI: 2.5 * ((NIR - Red) / (NIR + 6*Red - 7.5*Blue + 1))
+            evi = np.zeros_like(b4, dtype=np.float32)
+            denominator = b8 + 6 * b4 - 7.5 * b2 + 1
+            valid_evi = valid_mask & (denominator > 0)
+            evi[valid_evi] = 2.5 * (b8[valid_evi] - b4[valid_evi]) / denominator[valid_evi]
+            evi[~valid_evi] = nodata
+            indices.append(("EVI", evi))
+            
+            # SAVI: ((NIR - Red) / (NIR + Red + L)) * (1 + L), where L = 0.5
+            savi = np.zeros_like(b4, dtype=np.float32)
+            L = 0.5
+            denominator = b8 + b4 + L
+            valid_savi = valid_mask & (denominator > 0)
+            savi[valid_savi] = ((b8[valid_savi] - b4[valid_savi]) / denominator[valid_savi]) * (1 + L)
+            savi[~valid_savi] = nodata
+            indices.append(("SAVI", savi))
+            
+            # FVI: Floating Vegetation Index (NIR - SWIR1) / (NIR + SWIR1)
+            if np.any(b11 > 0):
+                fvi = np.zeros_like(b8, dtype=np.float32)
+                denominator = b8 + b11
+                valid_fvi = valid_mask & (denominator > 0) & (b11 > 0)
+                fvi[valid_fvi] = (b8[valid_fvi] - b11[valid_fvi]) / denominator[valid_fvi]
+                fvi[~valid_fvi] = nodata
+                indices.append(("FVI", fvi))
+            
+            # AVI: Aquatic Vegetation Index (requires NDVI and water index)
+            # AVI = NDVI * (1 - |water_index|) for pixels with moderate water presence
+            if len(indices) > 0:  # We have at least NDVI
+                # Use MNDWI if available, otherwise NDWI
+                water_idx = None
+                for name, arr in indices:
+                    if name == "MNDWI":
+                        water_idx = np.abs(arr)
+                        break
+                if water_idx is None:
+                    for name, arr in indices:
+                        if name == "NDWI":
+                            water_idx = np.abs(arr)
+                            break
+                
+                if water_idx is not None:
+                    water_mask = water_idx < 0.3  # Moderate water presence
+                    avi = np.zeros_like(ndvi, dtype=np.float32)
+                    valid_avi = valid_mask & water_mask
+                    avi[valid_avi] = ndvi[valid_avi] * (1 - water_idx[valid_avi])
+                    avi[~valid_avi] = nodata
+                    indices.append(("AVI", avi))
+            
+            # Create new file with original bands + indices
+            new_count = src.count + len(indices)
+            out_profile = src.profile.copy()
+            out_profile.update({
+                "count": new_count,
+                "compress": "LZW",
+                "tiled": True,
+                "blockxsize": 512,
+                "blockysize": 512
+            })
+            
+            # Write all bands (original + indices)
+            with rasterio.open(tmp_path, "w", **out_profile) as dst:
+                # Write original bands
+                for band_idx in range(1, src.count + 1):
+                    dst.write(src.read(band_idx), band_idx)
+                
+                # Write indices (append after original bands)
+                next_band_idx = src.count + 1
+                for name, index_arr in indices:
+                    dst.write(index_arr, next_band_idx)
+                    logging.debug(f"Added {name} index to mosaic (band {next_band_idx})")
+                    next_band_idx += 1
+            
+            logging.info(f"Added {len(indices)} indices to mosaic: {[name for name, _ in indices]}")
+        
+        # Replace original file with new file containing indices
+        os.replace(tmp_path, mosaic_path)
+        return mosaic_path
+            
+    except Exception as e:
+        logging.warning(f"Error calculating indices locally: {e}")
+        import traceback
+        logging.debug(traceback.format_exc())
+        # Clean up temp file if it exists
+        tmp_path = mosaic_path + ".with_indices.tif"
+        if os.path.exists(tmp_path):
+            try:
+                os.remove(tmp_path)
+            except Exception:
+                pass
+        return mosaic_path
 
 
 def create_cog(in_tif: str, out_cog: str):

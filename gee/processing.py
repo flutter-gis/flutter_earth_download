@@ -24,8 +24,10 @@ except ImportError:
 from .config import (
     TARGET_RES, MIN_TILE_PIXELS, MAX_CONCURRENT_TILES, DEFAULT_WORKERS,
     DOWNLOAD_RETRIES, DOWNLOAD_RETRY_DELAY, SAFE_DOWNLOAD_SIZE_BYTES,
-    ENABLE_DYNAMIC_WORKERS, DYNAMIC_WORKER_CHECK_INTERVAL, MIN_WORKERS, MAX_WORKERS
+    ENABLE_DYNAMIC_WORKERS, DYNAMIC_WORKER_CHECK_INTERVAL, MIN_WORKERS, MAX_WORKERS,
+    update_connection_pool_size
 )
+from .optimization_helpers import calculate_tile_variance
 from .utils import month_ranges, make_utm_tiles
 from .mosaic_builder import build_best_mosaic_for_tile
 from .download import generate_download_url, download_tile_from_url
@@ -385,6 +387,11 @@ def _process_tiles_with_dynamic_workers(tiles, month_start, month_end, temp_root
                         # We can't forcefully kill threads, but they'll finish current work
                         pass
                     active_workers = new_worker_count
+                    
+                    # Update connection pool size dynamically based on new worker count
+                    new_pool_size = update_connection_pool_size(new_worker_count)
+                    if new_pool_size:
+                        logging.debug(f"Adjusted connection pool size to {new_pool_size} for {new_worker_count} workers")
             
             last_check_tile_count = current_completed
     
@@ -684,11 +691,12 @@ def process_month(bbox: Tuple[float, float, float, float], year: int, month: int
     
     if ENABLE_DYNAMIC_WORKERS:
         # Use adaptive worker pool with dynamic scaling
+        # OPTIMIZATION #9: Use priority-ordered tiles (high-variance first)
         _process_tiles_with_dynamic_workers(
-            tiles, month_start, month_end, temp_root, include_l7, enable_ml,
+            priority_tiles, month_start, month_end, temp_root, include_l7, enable_ml,
             enable_harmonize, include_modis, include_aster, include_viirs,
             effective_res, effective_workers, progress_callback, histogram,
-            provenance, tile_files, pbar, counters
+            provenance, tile_files, pbar, counters, processed_regions
         )
         success_count = counters["success"]
         failed_count = counters["failed"]
