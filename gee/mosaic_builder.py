@@ -211,6 +211,14 @@ def build_best_mosaic_for_tile(tile_bounds: Tuple[float, float, float, float],
     TARGET_EXCELLENT_PER_SATELLITE = 3  # Collect up to 3 excellent images per satellite
     prepared = []  # Images to use in mosaic
     prepared_excellent = []  # Track excellent images separately (best from all satellites)
+    
+    # Log which sensors are enabled for this tile/month (helps diagnose unexpected skips)
+    try:
+        logging.debug(f"[Tile {_fmt_idx(tile_idx)}] Sensors enabled: "
+                      f"S2={include_s2}, Landsat={include_landsat}, MODIS={include_modis}, "
+                      f"ASTER={include_aster}, VIIRS={include_viirs}")
+    except Exception:
+        pass
     satellite_contributions = []  # Track which satellites contributed images to this tile
     satellite_quality_scores = {}  # Track best quality score per satellite (for dominance determination)
     satellite_detailed_stats = {}  # Track detailed statistics per satellite (for debugging/visualization)
