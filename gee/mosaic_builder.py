@@ -528,6 +528,9 @@ def build_best_mosaic_for_tile(tile_bounds: Tuple[float, float, float, float],
         except Exception:
             pass
     
+    # Max images per satellite (client-side cap after server-side cloud filtering)
+    MAX_IMAGES_PER_SATELLITE = 5  # Reduced from 20 - collections are already sorted by cloud cover
+    
     for coll_id, key in ls_defs:
         try:
             col = ee.ImageCollection(coll_id).filterBounds(geom).filterDate(start, end)
@@ -563,8 +566,6 @@ def build_best_mosaic_for_tile(tile_bounds: Tuple[float, float, float, float],
             else:
                 metadata_list = []
             
-            # Images already sorted by cloud cover, so top 5 are usually best
-            MAX_IMAGES_PER_SATELLITE = 5  # Reduced from 20 - images already sorted by quality
             test_num = 0
             sat_name = key.replace("LANDSAT_", "Landsat-").replace("_", "-")
             excellent_count_for_sat = 0  # Track excellent images for THIS satellite
