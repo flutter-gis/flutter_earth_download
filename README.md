@@ -1,32 +1,32 @@
-# 🌍🛰️ GEE Satellite Imagery Downloader & Processor
+# 🌸 Flutter Earth 🌸
 
-> **Download the best satellite imagery like a space-obsessed nerd!** 🚀✨
+> **Download the prettiest satellite imagery with the gentlest touch!** ✨🦋
 
-A **production-grade** Python tool for downloading and processing satellite imagery from Google Earth Engine. Supports **multiple sensors** (Sentinel-2, Landsat, MODIS, ASTER, VIIRS) with **intelligent quality-based mosaic generation**. Because who doesn't want the **best pixels** from space? 🎯
+A **beautifully crafted** Python tool for downloading and processing satellite imagery from Google Earth Engine. Supports **multiple sensors** (Sentinel-2, Landsat, MODIS, ASTER, VIIRS) with **intelligent quality-based mosaic generation**. Because every pixel deserves to be perfect! 💖
 
 ![Python](https://img.shields.io/badge/python-3.7+-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Status](https://img.shields.io/badge/status-awesome-brightgreen.svg)
-![Satellites](https://img.shields.io/badge/satellites-5+-orange.svg)
+![Status](https://img.shields.io/badge/status-adorable-pink.svg)
+![Satellites](https://img.shields.io/badge/satellites-5+-lavender.svg)
 
 ---
 
-## 🎯 What Does This Do?
+## 🌈 What Does This Do?
 
 Ever wanted to download satellite imagery but got frustrated with:
-- ❌ **Cloudy images** ruining your day? ☁️
-- ❌ **Low-resolution data** that looks pixelated? 📉
-- ❌ Having to **manually pick** the "best" satellite? 🤔
-- ❌ **Complex APIs** that make you cry? 😭
+- ❌ **Cloudy images** ruining your beautiful mosaics? ☁️💔
+- ❌ **Low-resolution data** that looks pixelated? 📉😢
+- Having to **manually pick** the "best" satellite? 🤔😓
+- **Complex APIs** that make you cry? 😭💧
 
-**Well, cry no more!** 😊 This tool automatically:
-- ✅ Finds the **best quality** images across **all available satellites** 🏆
-- ✅ Intelligently combines them into **beautiful mosaics** 🎨
-- ✅ Handles **clouds, shadows, and atmospheric effects** like a pro ☁️➡️☀️
-- ✅ Creates **Cloud-Optimized GeoTIFFs (COGs)** ready for analysis 📦
-- ✅ Shows you **real-time progress** with a fancy dashboard 📊
-- ✅ **Dynamic worker scaling** that pushes your CPU to the limit (but safely!) 💪
-- ✅ **24/7 server mode** - designed to run continuously without babysitting 🖥️
+**Well, worry no more!** 🌸✨ Flutter Earth automatically:
+- ✅ Finds the **best quality** images across **all available satellites** 🏆💎
+- ✅ Intelligently combines them into **gorgeous mosaics** 🎨🌈
+- ✅ Handles **clouds, shadows, and atmospheric effects** like magic ☁️➡️☀️✨
+- ✅ Creates **Cloud-Optimized GeoTIFFs (COGs)** ready for analysis 📦💖
+- ✅ Shows you **real-time progress** with a beautiful dashboard 📊🦋
+- ✅ **Dynamic worker scaling** that works efficiently and gently 💪🌸
+- ✅ **Server mode** - designed to run continuously with care 🖥️💕
 
 ---
 
@@ -34,8 +34,8 @@ Ever wanted to download satellite imagery but got frustrated with:
 
 ### Prerequisites
 
-1. **Python 3.7+** (because we're modern like that) 🐍
-2. **Google Earth Engine account** (it's free! 🎉)
+1. **Python 3.7+** (because we're modern and lovely! 🐍💕)
+2. **Google Earth Engine account** (it's free! 🎉✨)
    - Sign up at: https://earthengine.google.com/
 3. **Authenticate with Earth Engine:**
    ```bash
@@ -52,46 +52,48 @@ Ever wanted to download satellite imagery but got frustrated with:
 
 2. **Install dependencies:**
    ```bash
-   pip install earthengine-api rasterio numpy shapely pyproj tqdm requests scikit-image psutil
+   pip install -r requirements.txt
    ```
    
-   *(Optional but recommended: `s2cloudless` for advanced cloud detection)*
+   Or install individually:
    ```bash
-   pip install s2cloudless
+   pip install earthengine-api rasterio numpy shapely pyproj tqdm requests scikit-image psutil reportlab matplotlib s2cloudless
    ```
+   
+   *(Optional but recommended: `s2cloudless` for advanced cloud detection)* ☁️🔍
 
 3. **Run it!**
    ```bash
    python main.py
    ```
    
-   Or on Windows, just double-click `run_gee.bat` 🪟
+   Or on Windows, just double-click `run_gee.bat` 🪟💖
 
 ---
 
 ## 📖 How to Use
 
-### GUI Mode (Recommended for Humans 🧑)
+### GUI Mode (Recommended for Everyone! 🧑💕)
 
 Just run `python main.py` and a friendly GUI will pop up! Fill in:
-- **Bounding Box**: Where do you want imagery? (lon_min, lat_min, lon_max, lat_max) 📍
-- **Date Range**: When do you want imagery? (YYYY-MM-DD format) 📅
-- **Output Folder**: Where should we save your beautiful mosaics? 💾
-- **Max Tiles**: How many tiles? (auto-validates against 40MB limit) 🔢
-- **Options**: Toggle satellites, harmonization, ML cloud cleanup, dynamic workers, etc. ⚙️
+- **Bounding Box**: Where do you want imagery? (lon_min, lat_min, lon_max, lat_max) 📍🌍
+- **Date Range**: When do you want imagery? (YYYY-MM-DD format) 📅✨
+- **Output Folder**: Where should we save your beautiful mosaics? 💾🌸
+- **Max Tiles**: How many tiles? (auto-validates against 40MB limit) 🔢💖
+- **Options**: Toggle satellites, harmonization, ML cloud cleanup, dynamic workers, server mode, etc. ⚙️🌈
 
-Click **Submit** and watch the magic happen! ✨
+Click **Submit** and watch the magic happen! ✨🦋
 
 The dashboard will automatically open in your browser showing:
-- 📊 Real-time satellite usage histogram
-- ⏱️ Countdown timer (estimated time remaining)
-- 📋 Detailed test results table (all satellites tested per tile)
-- 🎯 Quality scores, cloud fractions, band completeness
-- 🌟 Highlighted selected images and fallback images
+- 📊 Real-time progress bars (tile, mosaic, and full project!)
+- ⏱️ Countdown timer (estimated time remaining) ⏰
+- 📋 Console output with timestamps and color-coded messages 💬
+- 🛰️ Satellite usage statistics with quality metrics 🌟
+- 🎯 Pause/Resume button for gentle control ⏸️▶️
 
 ### CLI Mode (For Terminal Lovers 💻)
 
-If you're a command-line warrior, the tool will prompt you for all the same information. No GUI? No problem!
+If you're a command-line warrior, the tool will prompt you for all the same information. No GUI? No problem! 💪
 
 ### Programmatic Usage
 
@@ -102,245 +104,653 @@ from gee import process_month
 process_month(
     bbox=(34.9, 31.0, 35.8, 32.0),  # Dead Sea region
     year=2024,
-    month=11,
-    out_folder="my_outputs",
-    workers=8,  # Or use dynamic workers!
+    month=1,
+    out="output_folder",
+    workers=8,
+    enable_ml=False,
     enable_harmonize=True,
     include_modis=True,
     include_aster=True,
-    include_viirs=True,
-    max_tiles=2000  # Optional: limit tile count
+    include_viirs=True
 )
 ```
 
 ---
 
-## 🛰️ Supported Satellites
+## ✨ Features
 
-Our tool is like a **satellite buffet**! 🍽️ We support:
+### 🎯 Intelligent Quality Scoring
 
-| Satellite | Resolution | Best For | Status | Notes |
-|-----------|-----------|----------|--------|-------|
-| **Copernicus Sentinel-2** | 10m | High-res, recent imagery | ⭐ Favorite | Best quality, frequent revisits |
-| **Landsat 5/7/8/9** | 30m | Historical data, consistency | 🏆 Reliable | Longest time series (1984-present) |
-| **ASTER** | 15m | 2000-2008 period | 📅 Retro | Good for early 2000s |
-| **MODIS** | 250m | Large-scale analysis | 🌍 Big picture | Daily coverage, penalized for low res |
-| **VIIRS** | 375m | Night lights, large areas | 🌙 Night mode | Started 2011 |
+Flutter Earth evaluates each satellite image based on:
+- ☁️ **Cloud fraction** (less is better!)
+- ☀️ **Solar zenith angle** (optimal lighting!)
+- ✅ **Valid pixel fraction** (data completeness!)
+- 📅 **Temporal recency** (fresh data!)
+- 🔍 **Native resolution** (crisp details!)
+- 🎨 **Band completeness** (full spectrum!)
 
-The tool **automatically picks the best pixels** from all available satellites based on:
-- ☁️ **Cloud coverage** (less is more!)
-- 📊 **Image quality** (comprehensive scoring system)
-- 📈 **Resolution** (higher is better!)
-- 🆕 **Temporal recency** (newer is fresher!)
-- 🌞 **Solar/view angles** (better geometry = better quality)
-- 🎯 **Band completeness** (missing bands = penalty)
+### 🌈 Resolution-First Gap Filling
+
+When filling gaps in mosaics, Flutter Earth prioritizes:
+- 🏆 **Higher resolution** images (even with minor clouds!)
+- 💎 **Quality scores** as tiebreakers
+- ✨ **Smart iteration** until coverage is complete
 
 ---
 
-## 🏗️ Architecture
+## 🦋 The Magical Image Selection Process: How Flutter Earth Chooses the Perfect Pixels! ✨
 
-This project is **modular** (because we like clean code! 🧹):
+Ever wondered how Flutter Earth magically picks the best satellite images from thousands of options? Let's dive into the beautiful, intricate process that makes every pixel perfect! 💖
+
+### 📊 Phase 1: The Great Image Hunt 🎯
+
+When Flutter Earth starts processing a tile, it embarks on an epic quest to find the best images from **all available satellites**! Here's what happens:
+
+#### Step 1: Collection Gathering 🌍
+
+Flutter Earth queries **multiple satellite collections** simultaneously:
+- 🛰️ **Sentinel-2** (10m resolution, launched 2015) - The sharp-eyed observer!
+- 🌍 **Landsat 5/7/8/9** (30m resolution, 1984-present) - The reliable workhorses!
+- 🌎 **MODIS** (250m resolution, 2000-present) - The wide-eyed watcher!
+- 🔬 **ASTER** (15-90m resolution, 2000-2008) - The detailed scientist!
+- 🌌 **VIIRS** (375m resolution, 2011-present) - The night vision specialist!
+
+Each satellite is checked to see if it was **operational** during your requested date range. For example, if you're looking at imagery from 2000, Sentinel-2 won't be available (it didn't launch until 2015)! Flutter Earth knows this and gracefully skips unavailable satellites. 🎯
+
+#### Step 2: Server-Side Filtering ⚡
+
+Before downloading any metadata, Flutter Earth asks Earth Engine to **pre-filter** images on the server:
+- Filters by **cloud cover** (removes images with >20% clouds initially)
+- Sorts by **cloud cover** (best images first!)
+- Limits to **top 5 images per satellite** (efficiency is key!)
+
+This saves tons of time and bandwidth! 🚀
+
+#### Step 3: The Quality Scoring Magic ✨
+
+For each candidate image, Flutter Earth calculates a **comprehensive quality score** (0.0 to 1.0, where 1.0 is perfect!). Here's how each factor contributes:
+
+**☁️ Cloud Fraction (25% weight)**
+- Less clouds = better score!
+- Formula: `cloud_score = max(0.0, 1.0 - cloud_fraction * 1.5)`
+- A 10% cloudy image gets: `1.0 - 0.10 * 1.5 = 0.85` (85% of cloud score)
+- A 50% cloudy image gets: `1.0 - 0.50 * 1.5 = 0.25` (25% of cloud score)
+- **Heavy penalty** for cloudy images! ☁️💔
+
+**☀️ Solar Zenith Angle (15% weight)**
+- Lower zenith = sun higher in sky = better lighting!
+- Optimal: <30° zenith (perfect score!)
+- Good: 30-60° zenith (gradual penalty)
+- Poor: >60° zenith (significant penalty, low sun = shadows!)
+- Formula accounts for time of day and season! 🌅
+
+**👁️ View Zenith Angle (10% weight)**
+- Lower = more nadir (straight down) = less distortion!
+- Optimal: <10° (perfect score!)
+- Acceptable: 10-50° (gradual penalty)
+- Poor: >50° (significant penalty, oblique angles = stretched pixels!)
+
+**✅ Valid Pixel Fraction (15% weight)**
+- More valid data = better score!
+- Minimum 30% valid pixels required (below this = heavy penalty!)
+- Accounts for sensor errors, scan line gaps, and data quality issues!
+
+**📅 Temporal Recency (5% weight)**
+- Newer images get slightly higher scores!
+- Formula: `temporal_score = max(0.5, 1.0 - (days_since_start / max_days) * 0.5)`
+- A 1-day-old image gets ~100% of temporal score
+- A 365-day-old image gets ~50% of temporal score
+- **Small but meaningful** preference for fresh data! 🆕
+
+**🔍 Native Resolution (30% weight) - THE BIGGEST FACTOR!** 🏆
+- **Resolution is king!** Higher resolution = dramatically better score!
+- Scoring tiers:
+  - **≤4m**: Perfect score (1.0) - Ultra-high resolution! 💎
+  - **≤15m**: Excellent (0.95) - Sentinel-2, ASTER! ✨
+  - **≤30m**: Good (0.85) - Landsat family! 🌍
+  - **≤60m**: Moderate (0.60) - Lower-res Landsat variants
+  - **≤250m**: Poor (0.40) - MODIS territory! 🌎
+  - **≤400m**: Very poor (0.25) - VIIRS range! 🌌
+  - **>400m**: Worst (0.15) - Coarse resolution! 😢
+
+**Why resolution matters so much:**
+- A **10m Sentinel-2** image with 5% clouds beats a **250m MODIS** image with 0% clouds!
+- Resolution determines how much detail you can see!
+- Flutter Earth **prioritizes crisp, detailed imagery** over perfect cloud-free conditions! 🎯
+
+**🎨 Band Completeness (10% weight)**
+- Checks for critical bands: RGB (required!), NIR, SWIR1, SWIR2 (highly desired!)
+- Missing IR bands = significant penalty (can't compute vegetation indices!)
+- Formula: `completeness = RGB_score * 0.2 + IR_score * 0.6 + index_score * 0.2`
+- Ensures images have the spectral data needed for analysis! 🌈
+
+#### Step 4: The Two-Phase Selection Strategy 🎭
+
+Flutter Earth uses a **smart two-phase approach** to select images:
+
+**Phase 1A: Excellent Image Collection** ⭐
+- Searches for "excellent" images (quality score ≥ 0.9) from each satellite
+- Collects up to **3 excellent images per satellite**
+- Stops searching a satellite once it finds 3 excellent images (efficiency!)
+- Tracks all excellent candidates in a special list
+
+**Phase 1B: Best Overall Selection** 🏆
+- Takes all excellent images from all satellites
+- Sorts them by quality score (highest first!)
+- Selects the **top 5 overall images** (regardless of satellite!)
+- This ensures you get the **absolute best quality**, not just the best per satellite!
+
+**Why this matters:**
+- If Sentinel-2 has 5 excellent images (scores: 0.95, 0.94, 0.93, 0.92, 0.91)
+- And Landsat-8 has 2 excellent images (scores: 0.96, 0.95)
+- Flutter Earth will pick: **Landsat-8 (0.96), Landsat-8 (0.95), Sentinel-2 (0.95), Sentinel-2 (0.94), Sentinel-2 (0.93)**
+- The **best overall**, not just best per satellite! 🎯
+
+#### Step 5: Band Standardization 🎨
+
+Before images can be combined, Flutter Earth **standardizes all bands**:
+- Renames bands to standard names: `B4` (Red), `B3` (Green), `B2` (Blue), `B8` (NIR), `B11` (SWIR1), `B12` (SWIR2)
+- Handles different naming conventions (Sentinel-2 uses `B4`, Landsat-8 uses `SR_B4`, etc.)
+- Fills missing bands with zeros (they'll be filled from fallback images later!)
+- Ensures all images have the **same band structure** for seamless combination! ✨
+
+---
+
+### 🌈 Phase 2: The Targeted Gap-Filling Adventure! 🎯
+
+Once the initial best images are selected, Flutter Earth creates a mosaic and checks for **gaps** (missing pixels). This is where the magic really happens! ✨
+
+#### Step 1: Coverage Detection 📊
+
+Flutter Earth creates a test mosaic from the selected images and checks:
+- **Coverage percentage**: How much of the tile has valid data?
+- Uses RGB bands (`B4`, `B3`, `B2`) to detect valid pixels
+- Calculates mean coverage across all bands
+- Target: **99.9% coverage** (practical ceiling - 100% is often impossible!)
+
+#### Step 2: Gap Identification 🔍
+
+If coverage < 99.9%, Flutter Earth identifies **gap areas**:
+- Creates a **gap mask**: `gap_mask = valid_mask.Not()`
+- This includes:
+  1. **True gaps**: Pixels with no data from any image
+  2. **Cloud gaps**: Pixels that are cloud-masked in the best image
+- Cloud-masked pixels are treated as gaps to be filled! ☁️➡️☀️
+
+#### Step 3: Resolution-First Gap Filling! 🏆
+
+This is where Flutter Earth's **resolution-first strategy** shines! For each gap area:
+
+**The Resolution-First Selection Logic:**
+
+1. **Much Better Resolution (>50m better)**: 
+   - If a new image has **>50m better resolution**, it wins even if quality score is **10% lower**!
+   - Example: A 30m Landsat image (score 0.75) beats a 250m MODIS image (score 0.85)!
+   - Why? **Resolution is the biggest factor!** 🎯
+
+2. **Moderately Better Resolution (20-50m better)**:
+   - If a new image has **20-50m better resolution**, it wins if quality score is within **5%**!
+   - Example: A 30m Landsat image (score 0.80) beats a 60m image (score 0.82)!
+   - Small quality difference is acceptable for better resolution! ✨
+
+3. **Similar Resolution (within 20m)**:
+   - If resolutions are similar, **quality score** is the tiebreaker!
+   - Example: Two 30m Landsat images - the one with lower clouds wins! 🌍
+
+4. **Worse Resolution**:
+   - If a new image has **worse resolution**, it only wins if quality is **significantly better**!
+   - Example: A 250m MODIS image needs to be **15% better** in quality to beat a 30m Landsat image!
+   - This prevents low-resolution images from dominating! 🛡️
+
+**The Iterative Process:**
+- **Iteration 1**: Quality threshold = 0.5 (moderate quality required)
+- **Iteration 2**: Quality threshold = 0.45 (slightly lower)
+- **Iteration 3**: Quality threshold = 0.40 (even lower)
+- ...and so on, down to 0.2 (very low threshold for desperate gaps!)
+- **Maximum 20 iterations** to prevent infinite loops!
+
+**Why This Works:**
+- First iterations: Fill gaps with high-quality, high-resolution images! 🏆
+- Later iterations: Fill remaining gaps with lower-quality images (but still prioritize resolution!)
+- Each iteration checks coverage again - stops when coverage ≥ 99.9%! ✅
+
+#### Step 4: The Fallback Strategy 🛡️
+
+If no suitable image is found with the normal threshold, Flutter Earth tries a **fallback strategy**:
+- Lowers quality threshold to **0.1** (very permissive!)
+- **Still prioritizes resolution** even in fallback mode!
+- Only gives up if truly no images are available
+
+#### Step 5: Quality Mosaic Magic! ✨
+
+Once all images are selected, Flutter Earth uses Earth Engine's **`qualityMosaic`** function:
+- For each pixel, selects the image with the **highest quality score** where that pixel is valid!
+- If the best image has a cloud-masked pixel, **automatically fills it** with the next-best image's data!
+- This creates a **seamless mosaic** with the best data everywhere! 🌈
+
+**Example:**
+- Pixel (100, 200): 
+  - Sentinel-2 (score 0.95) has valid data → **Selected!** ✅
+- Pixel (150, 250):
+  - Sentinel-2 (score 0.95) has cloud → **Skip!**
+  - Landsat-8 (score 0.85) has valid data → **Selected!** ✅
+- Pixel (200, 300):
+  - Sentinel-2 (score 0.95) has cloud → **Skip!**
+  - Landsat-8 (score 0.85) has cloud → **Skip!**
+  - MODIS (score 0.70) has valid data → **Selected!** ✅
+
+This ensures **every pixel** gets the best available data! 💖
+
+---
+
+### 🎨 Phase 3: Final Touches and Beautification! ✨
+
+After the mosaic is created, Flutter Earth adds the finishing touches:
+
+#### Step 1: Reprojection to UTM 🗺️
+
+- Determines optimal **UTM zone** for the tile's location
+- Reprojects to UTM coordinates for **maximum accuracy**
+- Ensures all tiles have **consistent pixel size** (5m by default!)
+
+#### Step 2: Band Standardization 🎨
+
+- Ensures all bands are in **Float type** (consistent data types!)
+- Standardizes band names across all images
+- Prepares for seamless combination!
+
+#### Step 3: Index Calculation 🌈
+
+After the mosaic is unified, Flutter Earth calculates **vegetation and water indices**:
+- **NDVI**: `(NIR - Red) / (NIR + Red)` - Vegetation health! 🌿
+- **NDWI**: `(Green - NIR) / (Green + NIR)` - Water detection! 💧
+- **MNDWI**: `(Green - SWIR1) / (Green + SWIR1)` - Better water detection! 🌊
+- **EVI**: Enhanced Vegetation Index - More sensitive! 🌳
+- **SAVI**: Soil-Adjusted Vegetation Index - Accounts for soil! 🌱
+
+These indices are calculated **after** the mosaic is unified, so they use the best available data for each pixel! ✨
+
+---
+
+### 📊 The Complete Selection Flowchart! 🗺️
 
 ```
-gee/
-├── config.py              # ⚙️ Settings and constants
-├── utils.py               # 🔧 Helper functions
-├── ee_collections.py      # 🛰️ Earth Engine collections
-├── cloud_detection.py     # ☁️ Cloud masking magic
-├── image_preparation.py   # 🖼️ Image processing & harmonization
-├── quality_scoring.py     # 📊 Quality assessment (the brain!)
-├── mosaic_builder.py     # 🎨 Mosaic creation (the artist!)
-├── raster_processing.py   # 💾 Local raster ops (stitching, COG creation)
-├── download.py            # ⬇️ Download helpers
-├── manifest.py           # 📋 Tracking & provenance
-├── visualization.py       # 📊 Real-time dashboard (HTML/Chart.js)
-├── processing.py          # 🚀 Main processing logic (orchestration)
-└── cli_gui.py            # 🖥️ User interface (GUI + CLI)
+Start Processing Tile
+    ↓
+Query All Satellites (S2, L5/7/8/9, MODIS, ASTER, VIIRS)
+    ↓
+Filter by Operational Dates
+    ↓
+Server-Side Filtering (cloud cover < 20%, sort by clouds)
+    ↓
+For Each Satellite:
+    ├─→ Fetch Top 5 Images
+    ├─→ For Each Image:
+    │   ├─→ Calculate Quality Score:
+    │   │   ├─→ Cloud Fraction (25%)
+    │   │   ├─→ Solar Zenith (15%)
+    │   │   ├─→ View Zenith (10%)
+    │   │   ├─→ Valid Pixels (15%)
+    │   │   ├─→ Temporal Recency (5%)
+    │   │   ├─→ Native Resolution (30%) ⭐ BIGGEST FACTOR!
+    │   │   └─→ Band Completeness (10%)
+    │   ├─→ If Score ≥ 0.9: Add to Excellent List
+    │   └─→ Standardize Bands
+    └─→ Stop After 3 Excellent Images
+    ↓
+Select Top 5 Overall Images (Best Quality, All Satellites)
+    ↓
+Create Initial Mosaic
+    ↓
+Check Coverage
+    ↓
+If Coverage < 99.9%:
+    ├─→ Identify Gap Areas
+    ├─→ For Each Gap:
+    │   ├─→ Find Best Gap-Filling Image:
+    │   │   ├─→ Resolution-First Selection:
+    │   │   │   ├─→ >50m better res? → Win if score ≥ 90% of best
+    │   │   │   ├─→ 20-50m better res? → Win if score ≥ 95% of best
+    │   │   │   ├─→ Similar res (±20m)? → Use quality score
+    │   │   │   └─→ Worse res? → Only if score ≥ 110-115% of best
+    │   │   └─→ Add to Mosaic
+    │   └─→ Check Coverage Again
+    └─→ Repeat Until Coverage ≥ 99.9% or Max Iterations
+    ↓
+Apply Quality Mosaic (Best Pixel Per Location)
+    ↓
+Reproject to UTM
+    ↓
+Calculate Indices (NDVI, NDWI, etc.)
+    ↓
+Done! ✨
 ```
 
-Each module has a clear purpose, making the code:
-- 🧪 **Testable**: Test individual components
-- 🔧 **Maintainable**: Easy to fix bugs
-- 🚀 **Extensible**: Add new features easily
-- 📚 **Readable**: Your future self will thank you
+---
+
+### 💡 Key Insights: Why Flutter Earth is So Smart! 🧠
+
+1. **Resolution is King!** 👑
+   - A 10m image with 5% clouds beats a 250m image with 0% clouds!
+   - Flutter Earth prioritizes **detail** over perfect conditions!
+
+2. **No Sensor Bias!** ⚖️
+   - All satellites are evaluated **equally** based on quality!
+   - Sentinel-2 doesn't automatically win - it must earn its place!
+
+3. **Smart Gap Filling!** 🎯
+   - Fills gaps **iteratively** with the best available images!
+   - Prioritizes resolution even when quality is slightly lower!
+
+4. **Automatic Cloud Handling!** ☁️
+   - Cloud-masked pixels are treated as gaps!
+   - Automatically filled with valid data from other images!
+
+5. **Efficiency First!** ⚡
+   - Server-side filtering saves time!
+   - Stops searching satellites after finding excellent images!
+   - Limits iterations to prevent infinite loops!
 
 ---
 
-## 🎨 Features
+### 🎉 The Result: Perfect Pixels Everywhere! ✨
 
-### 🏆 Quality-Based Selection
-**No sensor bias!** The tool picks pixels based purely on quality metrics. A 30m Landsat image with 5% clouds beats a 250m MODIS image with 0% clouds. It's all about that **quality score**! 📊
+After this intricate, beautiful process, Flutter Earth delivers:
+- ✅ **Highest quality** images selected from all satellites
+- ✅ **Maximum resolution** prioritized throughout
+- ✅ **Complete coverage** with intelligent gap-filling
+- ✅ **Seamless mosaics** with best data everywhere
+- ✅ **Rich spectral data** with all indices calculated
 
-The quality scoring system considers:
-- Cloud fraction (weight: 0.25)
-- Solar zenith angle (weight: 0.15)
-- View zenith angle (weight: 0.10)
-- Valid pixel fraction (weight: 0.15)
-- Temporal recency (weight: 0.15)
-- Resolution penalty (weight: 0.10)
-- Band completeness (weight: 0.10)
+**Every pixel is perfect because Flutter Earth cares!** 💖🦋✨
 
-### 📊 Real-Time Dashboard
-Watch your tiles process in **real-time** with a beautiful HTML dashboard showing:
-- 📈 Which satellites are being used (live histogram)
-- ⏱️ **Countdown timer** (estimated time remaining based on actual processing times)
-- 📋 **Detailed test results table** (every satellite tested, sorted by tile & quality)
-- 🎯 Quality scores, cloud fractions, band completeness
-- 🌟 **Highlighted selected images** (yellow) and **fallback images** (blue)
-- 📥 **Copy table to clipboard** button (CSV format)
+### 🦋 Multi-Sensor Support
 
-The dashboard **auto-refreshes every second** and **auto-archives** when complete!
+- **Sentinel-2** (10m resolution) 🛰️💙
+- **Landsat 5/7/8/9** (30m resolution) 🌍💚
+- **MODIS** (250m resolution) 🌎🧡
+- **ASTER** (15-90m resolution) 🔬💜
+- **VIIRS** (375m resolution) 🌌💛
 
-### ☁️ Intelligent Cloud Handling
-- **Advanced cloud masking** for each sensor type
-- **Metadata-based cloud fraction** estimation (fast! ⚡)
-- **Fallback to mask-based** calculation when needed
-- **MODIS cloud detection** bug fixed! 🐛➡️✅
-- **Per-pixel fallback** - if a pixel is cloudy in the best image, it automatically uses the next best image that has valid data at that pixel location
+### 🎨 Advanced Processing
 
-### 💪 Memory Efficient
-- **Band-by-band processing** for large rasters
-- Prevents memory errors on big datasets
-- Handles **35+ GB mosaics** without breaking a sweat
-- **Dynamic tile size calculation** to stay under 40MB per tile
+- **Cloud masking** with multiple algorithms ☁️🎭
+- **Shadow detection** and correction 🌑✨
+- **Sensor harmonization** (Sentinel-2 ↔ Landsat) 🔄🌈
+- **NDWI water masking** for coastal areas 💧🌊
+- **COG creation** with overviews for fast viewing 📦⚡
 
-### 🎨 Feather Blending
-Smooth transitions between tiles using **cosine-based feathering**. No harsh edges! Your mosaics will look seamless. 🎨
+### 💖 User-Friendly Features
 
-### ⚡ Dynamic Worker Scaling
-**24/7 server mode** - the tool automatically scales workers based on system performance:
-- 📈 **Increases workers** when CPU < 95% and memory < 90% (aggressive mode!)
-- 📉 **Decreases workers** ONLY when CPU > 95% or memory > 95% (critical territory)
-- 🔄 **Checks every 10 completed tiles** (not time-based, more accurate)
-- 💪 **Designed for continuous operation** - pushes your system hard but safely
-
-### 🧮 Local Index Calculation
-Vegetation and water indices (NDVI, EVI, SAVI, NDWI, MNDWI, AVI, FVI) are calculated **locally** after download - much faster than server-side computation! 🚀
+- **Beautiful HTML dashboard** that auto-refreshes 📊🦋
+- **Real-time progress tracking** with countdown timers ⏱️✨
+- **Pause/Resume functionality** for gentle control ⏸️▶️
+- **Comprehensive PDF reports** with statistics and visualizations 📄💕
+- **Server mode** for maximum resource utilization 🖥️💪
 
 ---
 
-## 📊 Output
+## 🎨 Configuration
 
-For each month processed, you get:
-- **Mosaic GeoTIFF**: Stitched tiles with feather blending 🎨
-- **Cloud-Optimized GeoTIFF (COG)**: Ready for cloud storage ☁️
-- **Provenance JSON**: Track which satellites were used 📋
-- **Satellite Histogram**: Visual dashboard of satellite usage 📊
-- **Archived Histograms**: Timestamped snapshots when complete 🗄️
-- **Manifest CSV**: Keep track of all processed months 📝
-- **Processing Log**: Detailed log file in output directory 📄
+### Default Settings
 
----
+- **Target Resolution**: 5 meters per pixel 🎯
+- **Tile Size**: Auto-calculated (validates against 40MB limit) 📏
+- **Workers**: Auto-detected CPU count (capped at 8) 💻
+- **Dynamic Workers**: Enabled by default (auto-adjusts based on system) ⚡
+- **Harmonization**: Enabled by default (seamless sensor blending) 🌈
 
-## 🐛 Known Issues & Fixes
+### Server Mode 🌟
 
-- ✅ **MODIS Cloud Detection**: Fixed incorrect cloud fraction calculation (was using masked image)
-- ✅ **Memory Errors**: Fixed by processing bands individually (handles 35+ GB files)
-- ✅ **Tile Size Limits**: Handles 50MB download limit gracefully with validation
-- ✅ **Band Type Mismatch**: Fixed homogeneous collection requirement for qualityMosaic
-- ✅ **Landsat Band Selection**: Fixed missing SR_B6 handling for Landsat 5/7
-- ✅ **Countdown Timer**: Fixed to use actual processing times and unique tile count
-- ✅ **Dynamic Workers**: Made more aggressive for 24/7 server operation
+When enabled, Server Mode:
+- Uses **all available CPU cores** 💪
+- Increases **max workers** for I/O-bound tasks ⚡
+- Sets process priority to **HIGH** on Windows 🚀
+- Focuses **all resources** on processing 🎯
+
+Perfect for dedicated processing machines! 🖥️✨
 
 ---
 
-## 🔧 Configuration
+## 📊 Output Structure
 
-Key settings in `gee/config.py`:
-- `TARGET_RES`: Target resolution (default: 5m) 📏
-- `MAX_CONCURRENT_TILES`: Max concurrent downloads (default: 10) 🔢
-- `DEFAULT_WORKERS`: Default worker count (default: min(CPU_count, 8)) 👷
-- `ENABLE_DYNAMIC_WORKERS`: Enable dynamic scaling (default: True) ⚡
-- `DYNAMIC_WORKER_CHECK_INTERVAL`: Check every N tiles (default: 10) 🔄
-- `MIN_WORKERS`: Minimum workers (default: 1) 📉
-- `MAX_WORKERS`: Maximum workers (default: 16) 📈
+```
+output_folder/
+├── YYYY_MM/
+│   ├── mosaic_YYYY_MM.tif          # Final mosaic
+│   ├── mosaic_YYYY_MM_COG.tif       # Cloud-Optimized GeoTIFF
+│   ├── mosaic_YYYY_MM_mask.tif      # Water mask
+│   ├── processing_YYYY_MM.log       # Detailed log
+│   ├── mosaic_report_YYYY_MM.pdf   # Comprehensive report
+│   └── progress.html                # Real-time dashboard
+└── manifest.csv                      # Processing manifest
+```
+
+---
+
+## 🐛 Troubleshooting
+
+### "Earth Engine initialization failed"
+```bash
+earthengine authenticate
+```
+
+### "reportlab not available"
+```bash
+pip install reportlab
+```
+
+### "Port already in use" (for dashboard)
+The HTML dashboard will automatically try the next available port! 💖
+
+### Tiles too large?
+- Increase the `max_tiles` parameter
+- The system will auto-calculate optimal tile size
+- Validates against 40MB download limit automatically ✅
+
+---
+
+## 🎯 Best Practices
+
+1. **Start small** - Test with a small date range first! 🧪
+2. **Use Server Mode** - For dedicated processing machines 🖥️💪
+3. **Check the dashboard** - Monitor progress in real-time! 📊✨
+4. **Review PDF reports** - Get detailed statistics and insights! 📄💕
+5. **Be patient** - Quality takes time, but it's worth it! ⏰🌸
 
 ---
 
 ## 🤝 Contributing
 
-Found a bug? 🐛 Have an idea? 💡 Want to add a feature? 🚀
+We welcome contributions! Whether it's:
+- 🐛 Bug fixes
+- ✨ New features
+- 📝 Documentation improvements
+- 🎨 UI/UX enhancements
+- 💡 Ideas and suggestions
 
-1. Fork the repo 🍴
-2. Create a feature branch (`git checkout -b feature/amazing-feature`) 🌿
-3. Commit your changes (`git commit -m 'Add amazing feature'`) 💾
-4. Push to the branch (`git push origin feature/amazing-feature`) 📤
-5. Open a Pull Request 🎯
-
-We love contributions! ❤️
+Just open an issue or pull request! We're friendly and gentle! 💖
 
 ---
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+MIT License - Feel free to use Flutter Earth however you'd like! 🌸✨
 
 ---
 
-## 🙏 Acknowledgments
+## 💕 Acknowledgments
 
-- **Google Earth Engine** for providing amazing satellite data 🌍
-- **All the satellite missions** for looking down on Earth 🛰️
-- **The open-source community** for awesome tools like `rasterio`, `numpy`, `Chart.js`, and more 🎉
-- **NASA, ESA, USGS** for operating these amazing satellites 🚀
+Built with love and care for the geospatial community! 🌍💖
 
----
-
-## 💬 Support
-
-Having issues? Questions? Want to chat? 💬
-
-- 📧 Open an issue on GitHub
-- 📚 Check the documentation in the code (it's well-commented!)
-- 🔍 Read the module docstrings for detailed function descriptions
-- 🐛 Check the log files in `logs/` directory
+Special thanks to:
+- Google Earth Engine team for the amazing platform! 🛰️
+- The open-source geospatial community! 🌟
+- Everyone who makes satellite imagery accessible! 🦋
 
 ---
 
-## 🎉 Fun Facts
+## 🌸 Support
 
-- This tool can process imagery from **2000 to present** (that's 24+ years!) 📅
-- It supports **5 different satellite constellations** 🛰️
-- The quality scoring system considers **7 different factors** 📊
-- Real-time dashboard updates **every second** (because we're impatient!) ⚡
-- Dynamic workers can scale from **1 to 16 workers** automatically 🔄
-- The tool tests **top 5 images per satellite** (sorted by cloud cover) 🎯
-- **Per-pixel fallback** means every pixel gets the best possible data from any satellite 🌟
-- Indices are calculated **locally** for speed (10x faster than server-side!) 🚀
-- The dashboard **auto-archives** when complete and **auto-resets** for next mosaic 📦
+Having issues? Questions? Just want to say hi? 💬
+
+- Open an issue on GitHub 🐛
+- Check the logs in the `logs/` folder 📋
+- Review the PDF reports for detailed information 📄
+
+Remember: Flutter Earth is here to help, gently and beautifully! ✨🦋💖
 
 ---
 
-## 🎯 Performance Tips
+---
 
-- 💪 **Use dynamic workers** for 24/7 operation (default: ON)
-- 🖥️ **More CPU cores = faster processing** (scales up to 16 workers)
-- 💾 **SSD storage** recommended for faster tile I/O
-- 🌐 **Stable internet** for Earth Engine downloads
-- 📊 **Monitor the dashboard** to see which satellites are being used
+## 🌟 Fun Facts & Easter Eggs! 🥚✨
+
+### Did You Know? 🤓
+
+**The Satellite Family Tree:**
+- **Landsat 5** holds the Guinness World Record for the longest-operating Earth observation satellite (28 years, 10 months)! 🏆 It's like the Energizer Bunny of space! 🔋
+- **Sentinel-2** takes a picture of the entire Earth every 5 days - that's like taking a selfie of the whole planet! 📸🌍
+- The **Dead Sea** (our default example region) is the lowest point on Earth's surface and gets **saltier every year** - it's literally evaporating before our eyes! 💧🔬
+
+**The Power of Resolution:**
+- At **10m resolution** (Sentinel-2), you can see individual **parking spaces** in a parking lot! 🚗🅿️
+- At **30m resolution** (Landsat), you can distinguish **large buildings** but not individual cars! 🏢
+- At **250m resolution** (MODIS), you can see **entire neighborhoods** but not much detail! 🏘️
+
+**Cloud Fun Facts:**
+- The average cloud weighs about **1.1 million pounds** (500,000 kg) - that's why Flutter Earth works so hard to avoid them! ☁️⚖️💪
+- Earth Engine processes **over 5,000 images per minute** - Flutter Earth helps you find the perfect ones! 🚀✨
+- A single Sentinel-2 image can be up to **100 GB uncompressed** - but Flutter Earth only downloads what you need! 📦💖
+
+### Hidden Easter Eggs 🐰
+
+**Easter Egg #1: The Temporal Consistency Secret** 🕐
+- Flutter Earth prefers images from the **middle of your date range** - it's like picking the perfect photo from a photo album, not just the newest one! 📸✨
+- This creates **temporally coherent mosaics** that look natural, not like a collage of random dates! 🎨
+
+**Easter Egg #2: The Resolution Hierarchy** 👑
+- Flutter Earth has a **"resolution-first" philosophy** - it would rather have a slightly cloudy 10m image than a perfect 250m image! 
+- This means your mosaics will **always prioritize detail** over perfect cloud conditions! 🔍💎
+
+**Easter Egg #3: The Gap-Filling Magic** ✨
+- When filling gaps, Flutter Earth looks for images **within 10-30 days** of already-selected images for better temporal consistency!
+- It's like making sure all the puzzle pieces are from the same puzzle box! 🧩💖
+
+**Easter Egg #4: Server Mode Overclocking** 🚀
+- In server mode, Flutter Earth processes **2x more images** per satellite and uses **up to 16 parallel metadata workers**!
+- It's like switching from a bicycle to a rocket ship! 🚴➡️🚀
+
+**Easter Egg #5: The Quality Score Formula** 🧮
+- Resolution accounts for **30% of the quality score** - the biggest single factor!
+- Cloud fraction gets **25%** - second biggest!
+- This means a 10m image with 5% clouds will almost always beat a 250m image with 0% clouds! 🏆✨
 
 ---
 
-**Made with ❤️, lots of ☕, and an unhealthy obsession with satellites 🛰️**
+## 🎮 Performance Tips & Tricks! 💡
 
-*Happy satellite downloading!* 🚀✨🌍
+### Get The Most Out Of Flutter Earth! ⚡
+
+**Speed Boosters:**
+- Use **Server Mode** for dedicated processing machines - it uses all your CPU cores like a champion! 🏆💪
+- Enable **Dynamic Workers** - it automatically adjusts to your system's capabilities! 🤖
+- Process **smaller date ranges** first to test settings before big jobs! 🧪
+
+**Quality Boosters:**
+- Enable **ML Cloud Detection** (s2cloudless) for even better cloud removal! ☁️➡️☀️
+- Use **Harmonization** to blend sensors seamlessly - it's like Photoshop for satellites! 🎨
+- Check the **PDF reports** - they show you exactly which satellites contributed to each tile! 📊
+
+**Memory Savers:**
+- Flutter Earth automatically adjusts tile size to stay under the 40MB download limit! 📦
+- Dynamic workers scale down if your system gets stressed! 🛡️
+- The system pauses between tiles to prevent overload - it's gentle and caring! 💖
 
 ---
 
-## 📸 Example Output
+## 🎨 The Art of Satellite Mosaics 🖼️
 
-```
-Processing Month 2024-11...
-📊 Opened satellite histogram dashboard
-⏱️ Estimated time remaining: 02:15:30
-📈 Workers: 8 (CPU: 45%, Mem: 62%)
-✅ Tile 0001: Landsat-8 (Score: 0.845)
-✅ Tile 0002: Sentinel-2 (Score: 0.912)
-✅ Tile 0003: Landsat-8 (Score: 0.831)
-...
-🎉 Mosaic complete! Saved to: outputs/2024_11/deadsea_2024_11_COG.tif
-```
+Creating beautiful satellite mosaics is both **science and art**! Here's what makes Flutter Earth's mosaics special:
+
+**The Perfect Blend:**
+- Flutter Earth doesn't just **stack images** - it intelligently selects the **best pixel from the best image** at every location! 🎯
+- Quality Mosaic ensures **no visible seams** - the final result looks like one perfect image! ✨
+- Temporal consistency makes everything look **naturally coherent** - no jarring date jumps! 📅
+
+**Color Harmony:**
+- Sensor harmonization ensures **consistent colors** across different satellites! 🌈
+- Band standardization means **perfect spectral alignment** for accurate indices! 🎨
+- The final mosaic is ready for **visualization AND analysis** - beautiful AND functional! 💎
+
+**The Magic Touch:**
+- Cloud gaps are **automatically filled** from other images - like Photoshop's content-aware fill, but for satellites! 🪄
+- Resolution-first selection means **maximum detail** everywhere! 🔍
+- Gap-filling with temporal neighbors creates **smooth transitions** even in difficult areas! 🌊
 
 ---
 
-*Last updated: November 2024* 📅
+## 🚀 What's New & Coming Soon! ✨
+
+**Recent Improvements:**
+- ✅ **Dynamic worker scaling** - automatically adjusts to your system! 🤖
+- ✅ **Server mode overclocking** - push everything to the limit! 🚀
+- ✅ **Temporal consistency optimization** - prettier mosaics! 🎨
+- ✅ **Enhanced gap-filling** - better coverage in tough areas! 🎯
+- ✅ **Parallel metadata fetching** - faster processing! ⚡
+
+**Coming Soon:**
+- 🔮 More satellite support (maybe even PlanetScope? 🌍)
+- 🔮 Advanced visualization tools (3D terrain? 🏔️)
+- 🔮 Machine learning enhancements (AI-powered quality scoring? 🤖)
+- 🔮 Real-time collaboration features (team processing? 👥)
+
+*Have ideas? Open an issue and let us know!* 💬✨
+
+---
+
+## 💖 Community & Support 💕
+
+### Join The Flutter Earth Family! 🌸
+
+We're a friendly, inclusive community that loves:
+- 🛰️ **Beautiful satellite imagery**
+- 🌈 **Making GIS accessible to everyone**
+- ✨ **Perfect pixels and pretty mosaics**
+- 🦋 **Gentle, caring technology**
+
+**Ways to Get Involved:**
+- 🌟 **Star the repo** - show your love! ⭐
+- 🐛 **Report bugs** - help us improve! 🐞
+- 💡 **Suggest features** - we love ideas! 💭
+- 📝 **Improve docs** - make it clearer for everyone! 📚
+- 🎨 **Share your mosaics** - show off your beautiful results! 🖼️
+
+---
+
+## 📚 Additional Resources 📖
+
+**Learn More About:**
+- [Google Earth Engine](https://earthengine.google.com/) - The amazing platform behind Flutter Earth! 🛰️
+- [Sentinel Hub](https://www.sentinel-hub.com/) - More satellite imagery tools! 🌍
+- [QGIS](https://qgis.org/) - Great for viewing your beautiful mosaics! 🗺️
+- [Rasterio](https://rasterio.readthedocs.io/) - Python library for geospatial data! 🐍
+
+**GIS Communities:**
+- r/gis on Reddit - Friendly geospatial discussions! 💬
+- GIS Stack Exchange - Technical Q&A! 🧑‍💻
+- Local GIS meetups - Find your local community! 👥
+
+---
+
+**Made with 💖 and lots of ✨ by the Flutter Earth team**
+
+*"Because every pixel deserves to be perfect!"* 🌸
+
+---
+
+## 💝 Special Thanks & Credits 🙏
+
+**Made by a trans girl who loves GIS** 🏳️‍⚧️✨💖🌈🦋🛰️🌍💕✨🎨🦄🌸💎🚀🎯💝⚡🔬🌊💙💜💚🧡💛🤍🖤❤️🧡💛💚💙💜🤎🖤🤍♥️🧡💛💚💙💜🖤🤍💖💕💗💓💞💝❣️💟
+
+*P.S. - If you see this, you found the easter egg! 🥚✨ Trans rights are human rights! 🏳️‍⚧️💖*

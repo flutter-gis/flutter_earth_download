@@ -896,7 +896,7 @@ def build_best_mosaic_for_tile(tile_bounds: Tuple[float, float, float, float],
                 sat_name = "MODIS"
                 excellent_count_for_sat = 0  # Track excellent images for THIS satellite
                 # Only process top 5 MODIS images (last resort, don't need many)
-                for i in range(min(modis_count, 5)):
+                for i in range(min(modis_count, MAX_IMAGES_PER_SATELLITE)):
                     try:
                         img = ee.Image(modis_col.toList(modis_count).get(i))
                         test_num += 1
@@ -1121,11 +1121,11 @@ def build_best_mosaic_for_tile(tile_bounds: Tuple[float, float, float, float],
             else:
                 aster_col = aster_col.filterBounds(geom)
                 aster_count = int(aster_col.size().getInfo())
-                MAX_IMAGES_PER_SATELLITE = 20  # Reduced to speed up processing
+                aster_cap = MAX_IMAGES_PER_SATELLITE
                 test_num = 0
                 sat_name = "ASTER"
                 excellent_count_for_sat = 0  # Track excellent images for THIS satellite
-                for i in range(min(aster_count, MAX_IMAGES_PER_SATELLITE)):
+                for i in range(min(aster_count, aster_cap)):
                     try:
                         img = ee.Image(aster_col.toList(aster_count).get(i))
                         test_num += 1
