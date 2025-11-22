@@ -116,7 +116,6 @@ The dashboard will automatically open in your browser showing:
 - ⏱️ Countdown timer (estimated time remaining) ⏰
 - 📋 Console output with timestamps and color-coded messages 💬
 - 🛰️ Satellite usage statistics with quality metrics 🌟
-- 🎯 Pause/Resume button for gentle control ⏸️▶️
 
 ### CLI Mode (For Terminal Lovers) 💻
 
@@ -176,7 +175,6 @@ When filling gaps in mosaics, Flutter Earth prioritizes:
   - File writing: `Writing mosaic file...`, `Writing indices to mosaic file...`
   - COG creation: `Creating COG from mosaic...`
 - **Detailed console logging** with timestamps and color-coded messages 💬
-- **Pause/Resume functionality** for gentle control ⏸️▶️
 - **Comprehensive PDF reports** with statistics, visualizations, and satellite usage 📄💕
 
 ### 🎨 Advanced Processing
