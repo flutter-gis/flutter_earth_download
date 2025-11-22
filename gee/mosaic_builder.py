@@ -3115,6 +3115,10 @@ def build_best_mosaic_for_tile(tile_bounds: Tuple[float, float, float, float],
                                 is_duplicate = True
                     except Exception:
                         # Fallback: use equals() if ID check fails
+                        pass
+                
+                # If ID check failed, try equals() comparison
+                if not is_duplicate:
                     for prep_img in prepared:
                         try:
                             if img.equals(prep_img):

@@ -1,8 +1,8 @@
-# 🌸 Flutter Earth 🌸
+# <span style="color: #ff6b9d;">🌸</span> <span style="color: #4ecdc4; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">Flutter Earth</span> <span style="color: #ff6b9d;">🌸</span>
 
-> **Download the prettiest satellite imagery with the gentlest touch!** ✨🦋
+> <span style="color: #667eea; font-size: 1.1em;">**Download the prettiest satellite imagery with the gentlest touch!**</span> ✨🦋
 
-A **beautifully crafted** Python tool for downloading and processing satellite imagery from Google Earth Engine. Supports **12+ satellite sensors** (Sentinel-2, Landsat 4/5/7/8/9, Landsat MSS 1-3, SPOT 1-4, MODIS, ASTER, VIIRS, NOAA AVHRR) covering **1972 to present** with **intelligent adaptive quality-based mosaic generation**. Features **dynamic thresholds**, **fallback mechanisms**, and **real-time progress tracking** for the entire processing pipeline. Because every pixel deserves to be perfect! 💖
+A <span style="color: #f093fb; font-weight: bold;">**beautifully crafted**</span> Python tool for downloading and processing satellite imagery from Google Earth Engine. Supports <span style="color: #4facfe; font-weight: bold;">**12+ satellite sensors**</span> (<span style="color: #00d2ff;">Sentinel-2</span>, <span style="color: #a8edea;">Landsat 4/5/7/8/9</span>, <span style="color: #a8edea;">Landsat MSS 1-3</span>, <span style="color: #ffecd2;">SPOT 1-4</span>, <span style="color: #fcb69f;">MODIS</span>, <span style="color: #ff9a9e;">ASTER</span>, <span style="color: #fecfef;">VIIRS</span>, <span style="color: #ffd89b;">NOAA AVHRR</span>) covering <span style="color: #ff6b6b; font-weight: bold;">**1972 to present**</span> with <span style="color: #4ecdc4; font-weight: bold;">**intelligent adaptive quality-based mosaic generation**</span>. Features <span style="color: #a8c0ff;">**dynamic thresholds**</span>, <span style="color: #ffecd2;">**fallback mechanisms**</span>, and <span style="color: #ff9a9e;">**real-time progress tracking**</span> for the entire processing pipeline. <span style="color: #ff6b9d; font-style: italic;">Because every pixel deserves to be perfect!</span> 💖
 
 ![Python](https://img.shields.io/badge/python-3.7+-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
@@ -13,50 +13,50 @@ A **beautifully crafted** Python tool for downloading and processing satellite i
 
 ---
 
-## 🌈 What Does This Do?
+## <span style="color: #667eea; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.3em;">🌈 What Does This Do?</span>
 
 Ever wanted to download satellite imagery but got frustrated with:
-- ❌ **Cloudy images** ruining your beautiful mosaics? ☁️💔
-- ❌ **Low-resolution data** that looks pixelated? 📉😢
-- Having to **manually pick** the "best" satellite? 🤔😓
-- **Complex APIs** that make you cry? 😭💧
+- <span style="color: #ff6b6b;">❌ **Cloudy images** ruining your beautiful mosaics?</span> ☁️💔
+- <span style="color: #ffa500;">❌ **Low-resolution data** that looks pixelated?</span> 📉😢
+- <span style="color: #ff6b9d;">Having to **manually pick** the "best" satellite?</span> 🤔😓
+- <span style="color: #ff4757;">**Complex APIs** that make you cry?</span> 😭💧
 
-**Well, worry no more!** 🌸✨ Flutter Earth automatically:
-- ✅ Finds the **best quality** images across **all available satellites** 🏆💎
-- ✅ Intelligently combines them into **gorgeous mosaics** 🎨🌈
-- ✅ Handles **clouds, shadows, and atmospheric effects** like magic ☁️➡️☀️✨
-- ✅ Creates **Cloud-Optimized GeoTIFFs (COGs)** ready for analysis 📦💖
-- ✅ Shows you **real-time progress** with a beautiful dashboard 📊🦋
-- ✅ **Progress bars for EVERYTHING** - tile processing, mosaic stitching, index calculation, COG creation! 📊✨
-- ✅ **Adaptive quality thresholds** - automatically lowers standards if only poor images exist! 📉📈
-- ✅ **Fallback mechanisms** - uses best available image even if all are "bad" (clouds better than holes!) ☁️>🕳️
-- ✅ **Pre-check system** - counts all available images first to optimize strategy! 🔍🎯
-- ✅ **Dynamic worker scaling** that works efficiently and gently 💪🌸
-- ✅ **Server mode** - designed to run continuously with care 🖥️💕
+<span style="color: #4ecdc4; font-size: 1.1em; font-weight: bold;">**Well, worry no more!**</span> 🌸✨ <span style="color: #ff6b9d; font-weight: bold;">Flutter Earth</span> automatically:
+- <span style="color: #00d2ff;">✅ Finds the **best quality** images across **all available satellites**</span> 🏆💎
+- <span style="color: #a8edea;">✅ Intelligently combines them into **gorgeous mosaics**</span> 🎨🌈
+- <span style="color: #ffecd2;">✅ Handles **clouds, shadows, and atmospheric effects** like magic</span> ☁️➡️☀️✨
+- <span style="color: #ff9a9e;">✅ Creates **Cloud-Optimized GeoTIFFs (COGs)** ready for analysis</span> 📦💖
+- <span style="color: #f093fb;">✅ Shows you **real-time progress** with a beautiful dashboard</span> 📊🦋
+- <span style="color: #4facfe;">✅ **Progress bars for EVERYTHING** - tile processing, mosaic stitching, index calculation, COG creation!</span> 📊✨
+- <span style="color: #a8c0ff;">✅ **Adaptive quality thresholds** - automatically lowers standards if only poor images exist!</span> 📉📈
+- <span style="color: #ffd89b;">✅ **Fallback mechanisms** - uses best available image even if all are "bad" (clouds better than holes!)</span> ☁️>🕳️
+- <span style="color: #fcb69f;">✅ **Pre-check system** - counts all available images first to optimize strategy!</span> 🔍🎯
+- <span style="color: #667eea;">✅ **Dynamic worker scaling** that works efficiently and gently</span> 💪🌸
+- <span style="color: #764ba2;">✅ **Server mode** - designed to run continuously with care</span> 🖥️💕
 
 ---
 
-## 🚀 Quick Start
+## <span style="color: #ff6b6b; background: linear-gradient(90deg, #ff6b6b 0%, #ee5a6f 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.3em;">🚀 Quick Start</span>
 
-### Prerequisites
+### <span style="color: #4facfe;">Prerequisites</span>
 
-1. **Python 3.7+** (because we're modern and lovely! 🐍💕)
-2. **Google Earth Engine account** (it's free! 🎉✨)
-   - Sign up at: https://earthengine.google.com/
-3. **Authenticate with Earth Engine:**
+1. <span style="color: #00d2ff; font-weight: bold;">**Python 3.7+**</span> <span style="color: #a8edea;">(because we're modern and lovely!)</span> 🐍💕
+2. <span style="color: #4ecdc4; font-weight: bold;">**Google Earth Engine account**</span> <span style="color: #ffd89b;">(it's free!)</span> 🎉✨
+   - Sign up at: <span style="color: #667eea;">https://earthengine.google.com/</span>
+3. <span style="color: #f093fb;">**Authenticate with Earth Engine:**</span>
    ```bash
    earthengine authenticate
    ```
 
-### Installation
+### <span style="color: #ff9a9e;">Installation</span>
 
-1. **Clone this repository:**
+1. <span style="color: #a8c0ff; font-weight: bold;">**Clone this repository:**</span>
    ```bash
    git clone https://github.com/flutter-gis/flutter_earth_download.git
    cd flutter_earth_download
    ```
 
-2. **Install dependencies:**
+2. <span style="color: #fcb69f; font-weight: bold;">**Install dependencies:**</span>
    ```bash
    pip install -r requirements.txt
    ```
@@ -66,42 +66,42 @@ Ever wanted to download satellite imagery but got frustrated with:
    pip install earthengine-api rasterio numpy shapely pyproj tqdm requests scikit-image psutil reportlab matplotlib s2cloudless
    ```
    
-   *(Optional but recommended: `s2cloudless` for advanced cloud detection)* ☁️🔍
+   <span style="color: #ff6b9d; font-style: italic;">*(Optional but recommended: `s2cloudless` for advanced cloud detection)*</span> ☁️🔍
 
-3. **Run it!**
+3. <span style="color: #ff6b6b; font-weight: bold; font-size: 1.1em;">**Run it!**</span>
    ```bash
    python main.py
    ```
    
-   Or on Windows, just double-click `run_gee.bat` 🪟💖
+   Or on Windows, just double-click <span style="color: #4ecdc4;">`run_gee.bat`</span> 🪟💖
 
 ---
 
-## 📖 How to Use
+## <span style="color: #667eea; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.3em;">📖 How to Use</span>
 
-### GUI Mode (Recommended for Everyone! 🧑💕)
+### <span style="color: #4facfe; font-size: 1.1em;">GUI Mode</span> <span style="color: #ff6b9d;">(Recommended for Everyone!)</span> 🧑💕
 
-Just run `python main.py` and a friendly GUI will pop up! Fill in:
-- **Bounding Box**: Where do you want imagery? (lon_min, lat_min, lon_max, lat_max) 📍🌍
-- **Date Range**: When do you want imagery? (YYYY-MM-DD format) 📅✨
-- **Output Folder**: Where should we save your beautiful mosaics? 💾🌸
-- **Max Tiles**: How many tiles? (auto-validates against 40MB limit) 🔢💖
-- **Options**: Toggle satellites, harmonization, ML cloud cleanup, dynamic workers, server mode, etc. ⚙️🌈
+Just run <span style="color: #00d2ff; font-family: monospace; background: rgba(0,210,255,0.1); padding: 2px 6px; border-radius: 3px;">`python main.py`</span> and a friendly GUI will pop up! Fill in:
+- <span style="color: #4ecdc4; font-weight: bold;">**Bounding Box**</span>: <span style="color: #a8edea;">Where do you want imagery?</span> <span style="color: #ffd89b;">(lon_min, lat_min, lon_max, lat_max)</span> 📍🌍
+- <span style="color: #f093fb; font-weight: bold;">**Date Range**</span>: <span style="color: #ff9a9e;">When do you want imagery?</span> <span style="color: #fcb69f;">(YYYY-MM-DD format)</span> 📅✨
+- <span style="color: #a8c0ff; font-weight: bold;">**Output Folder**</span>: <span style="color: #ffecd2;">Where should we save your beautiful mosaics?</span> 💾🌸
+- <span style="color: #667eea; font-weight: bold;">**Max Tiles**</span>: <span style="color: #764ba2;">How many tiles?</span> <span style="color: #ff6b9d;">(auto-validates against 40MB limit)</span> 🔢💖
+- <span style="color: #ff6b6b; font-weight: bold;">**Options**</span>: <span style="color: #ee5a6f;">Toggle satellites, harmonization, ML cloud cleanup, dynamic workers, server mode, etc.</span> ⚙️🌈
 
-Click **Submit** and watch the magic happen! ✨🦋
+Click <span style="color: #4facfe; font-weight: bold; font-size: 1.1em;">**Submit**</span> and watch the magic happen! ✨🦋
 
 The dashboard will automatically open in your browser showing:
-- 📊 Real-time progress bars (tile, mosaic, and full project!)
-- ⏱️ Countdown timer (estimated time remaining) ⏰
-- 📋 Console output with timestamps and color-coded messages 💬
-- 🛰️ Satellite usage statistics with quality metrics 🌟
-- 🎯 Pause/Resume button for gentle control ⏸️▶️
+- <span style="color: #00d2ff;">📊 Real-time progress bars</span> <span style="color: #a8edea;">(tile, mosaic, and full project!)</span>
+- <span style="color: #ffd89b;">⏱️ Countdown timer</span> <span style="color: #fcb69f;">(estimated time remaining)</span> ⏰
+- <span style="color: #f093fb;">📋 Console output</span> <span style="color: #ff9a9e;">with timestamps and color-coded messages</span> 💬
+- <span style="color: #a8c0ff;">🛰️ Satellite usage statistics</span> <span style="color: #667eea;">with quality metrics</span> 🌟
+- <span style="color: #764ba2;">🎯 Pause/Resume button</span> <span style="color: #ff6b9d;">for gentle control</span> ⏸️▶️
 
-### CLI Mode (For Terminal Lovers 💻)
+### <span style="color: #4facfe;">CLI Mode</span> <span style="color: #ff6b9d;">(For Terminal Lovers)</span> 💻
 
-If you're a command-line warrior, the tool will prompt you for all the same information. No GUI? No problem! 💪
+If you're a <span style="color: #00d2ff;">command-line warrior</span>, the tool will prompt you for all the same information. <span style="color: #a8edea;">No GUI? No problem!</span> 💪
 
-### Programmatic Usage
+### <span style="color: #4facfe;">Programmatic Usage</span>
 
 ```python
 from gee import process_month
@@ -123,45 +123,45 @@ process_month(
 
 ---
 
-## ✨ Features
+## <span style="color: #ff6b6b; background: linear-gradient(90deg, #ff6b6b 0%, #ee5a6f 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.3em;">✨ Features</span>
 
-### 🎯 Intelligent Quality Scoring
+### <span style="color: #4facfe; font-size: 1.1em;">🎯 Intelligent Quality Scoring</span>
 
-Flutter Earth evaluates each satellite image based on:
-- ☁️ **Cloud fraction** (less is better!)
-- ☀️ **Solar zenith angle** (optimal lighting!)
-- ✅ **Valid pixel fraction** (data completeness!)
-- 📅 **Temporal recency** (fresh data!)
-- 🔍 **Native resolution** (crisp details!)
-- 🎨 **Band completeness** (full spectrum!)
+<span style="color: #a8edea;">Flutter Earth evaluates each satellite image based on:</span>
+- <span style="color: #00d2ff;">☁️ **Cloud fraction**</span> <span style="color: #ffd89b;">(less is better!)</span>
+- <span style="color: #ffa500;">☀️ **Solar zenith angle**</span> <span style="color: #fcb69f;">(optimal lighting!)</span>
+- <span style="color: #4ecdc4;">✅ **Valid pixel fraction**</span> <span style="color: #a8edea;">(data completeness!)</span>
+- <span style="color: #f093fb;">📅 **Temporal recency**</span> <span style="color: #ff9a9e;">(fresh data!)</span>
+- <span style="color: #a8c0ff;">🔍 **Native resolution**</span> <span style="color: #667eea;">(crisp details!)</span>
+- <span style="color: #764ba2;">🎨 **Band completeness**</span> <span style="color: #ff6b9d;">(full spectrum!)</span>
 
-### 🌈 Resolution-First Gap Filling
+### <span style="color: #667eea; font-size: 1.1em;">🌈 Resolution-First Gap Filling</span>
 
-When filling gaps in mosaics, Flutter Earth prioritizes:
-- 🏆 **Higher resolution** images (even with minor clouds!)
-- 💎 **Quality scores** as tiebreakers
-- ✨ **Smart iteration** until coverage is complete
+<span style="color: #4facfe;">When filling gaps in mosaics, Flutter Earth prioritizes:</span>
+- <span style="color: #00d2ff;">🏆 **Higher resolution** images</span> <span style="color: #a8edea;">(even with minor clouds!)</span>
+- <span style="color: #ffd89b;">💎 **Quality scores** as tiebreakers</span>
+- <span style="color: #fcb69f;">✨ **Smart iteration** until coverage is complete</span>
 
 ---
 
-## 🦋 The Magical Image Selection Process: How Flutter Earth Chooses the Perfect Pixels! ✨
+## <span style="color: #667eea; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.4em;">🦋 The Magical Image Selection Process: How Flutter Earth Chooses the Perfect Pixels!</span> ✨
 
-Ever wondered how Flutter Earth magically picks the best satellite images from thousands of options? Let's dive into the beautiful, intricate process that makes every pixel perfect! 💖
+<span style="color: #4facfe;">Ever wondered how Flutter Earth magically picks the best satellite images from thousands of options?</span> <span style="color: #ff6b9d;">Let's dive into the beautiful, intricate process that makes every pixel perfect!</span> 💖
 
-### 📊 Phase 1: The Great Image Hunt 🎯
+### <span style="color: #4facfe; font-size: 1.2em;">📊 Phase 1: The Great Image Hunt</span> 🎯
 
-When Flutter Earth starts processing a tile, it embarks on an epic quest to find the best images from **all available satellites**! Here's what happens:
+<span style="color: #a8edea;">When Flutter Earth starts processing a tile, it embarks on an epic quest to find the best images from</span> <span style="color: #00d2ff; font-weight: bold;">**all available satellites**</span><span style="color: #a8edea;">!</span> <span style="color: #ffd89b;">Here's what happens:</span>
 
-#### Step 1: Collection Gathering 🌍
+#### <span style="color: #4ecdc4;">Step 1: Collection Gathering</span> 🌍
 
-Flutter Earth queries **multiple satellite collections** simultaneously:
-- 🛰️ **Sentinel-2** (10m resolution, launched 2015) - The sharp-eyed observer!
-- 🌍 **Landsat 4/5/7/8/9** (30m resolution, 1982-present) - The reliable workhorses! 🏆
-- 🌎 **MODIS** (250m resolution, 2000-present) - The wide-eyed watcher!
-- 🔬 **ASTER** (15-90m resolution, 2000-2008) - The detailed scientist!
-- 🌌 **VIIRS** (375m resolution, 2011-present) - The night vision specialist!
+<span style="color: #f093fb;">Flutter Earth queries</span> <span style="color: #ff9a9e; font-weight: bold;">**multiple satellite collections**</span> <span style="color: #fcb69f;">simultaneously:</span>
+- <span style="color: #00d2ff;">🛰️ **Sentinel-2**</span> <span style="color: #a8edea;">(10m resolution, launched 2015)</span> <span style="color: #ffd89b;">- The sharp-eyed observer!</span>
+- <span style="color: #4ecdc4;">🌍 **Landsat 4/5/7/8/9**</span> <span style="color: #a8edea;">(30m resolution, 1982-present)</span> <span style="color: #fcb69f;">- The reliable workhorses!</span> 🏆
+- <span style="color: #ffa500;">🌎 **MODIS**</span> <span style="color: #ffd89b;">(250m resolution, 2000-present)</span> <span style="color: #fcb69f;">- The wide-eyed watcher!</span>
+- <span style="color: #f093fb;">🔬 **ASTER**</span> <span style="color: #ff9a9e;">(15-90m resolution, 2000-2008)</span> <span style="color: #a8c0ff;">- The detailed scientist!</span>
+- <span style="color: #667eea;">🌌 **VIIRS**</span> <span style="color: #764ba2;">(375m resolution, 2011-present)</span> <span style="color: #ff6b9d;">- The night vision specialist!</span>
 
-Each satellite is checked to see if it was **operational** during your requested date range. For example, if you're looking at imagery from 2000, Sentinel-2 won't be available (it didn't launch until 2015)! Flutter Earth knows this and gracefully skips unavailable satellites. 🎯
+<span style="color: #4facfe;">Each satellite is checked to see if it was</span> <span style="color: #00d2ff; font-weight: bold;">**operational**</span> <span style="color: #a8edea;">during your requested date range.</span> <span style="color: #ffd89b;">For example, if you're looking at imagery from 2000, Sentinel-2 won't be available (it didn't launch until 2015)!</span> <span style="color: #4ecdc4;">Flutter Earth knows this and gracefully skips unavailable satellites.</span> 🎯
 
 #### Step 2: Pre-Check System - The Intelligence Gathering Phase! 🔍
 
@@ -192,63 +192,63 @@ Flutter Earth uses **adaptive thresholds** that progressively relax if no images
 - Still none → 0.5 (50% - moderate) → 0.3 (30% - poor) → 0.0 (accept anything!)
 - **Never gives up** until all images are checked! 📊📈
 
-#### Step 3: The Quality Scoring Magic ✨
+#### <span style="color: #4facfe;">Step 3: The Quality Scoring Magic</span> ✨
 
-For each candidate image, Flutter Earth calculates a **comprehensive quality score** (0.0 to 1.0, where 1.0 is perfect!). Here's how each factor contributes:
+<span style="color: #a8edea;">For each candidate image, Flutter Earth calculates a</span> <span style="color: #00d2ff; font-weight: bold;">**comprehensive quality score**</span> <span style="color: #ffd89b;">(0.0 to 1.0, where 1.0 is perfect!).</span> <span style="color: #fcb69f;">Here's how each factor contributes:</span>
 
-**☁️ Cloud Fraction (25% weight)**
-- Less clouds = better score!
-- Formula: `cloud_score = max(0.0, 1.0 - cloud_fraction * 1.5)`
-- A 10% cloudy image gets: `1.0 - 0.10 * 1.5 = 0.85` (85% of cloud score)
-- A 50% cloudy image gets: `1.0 - 0.50 * 1.5 = 0.25` (25% of cloud score)
-- **Heavy penalty** for cloudy images! ☁️💔
+<span style="color: #00d2ff; font-weight: bold; font-size: 1.1em;">**☁️ Cloud Fraction (25% weight)**</span>
+- <span style="color: #a8edea;">Less clouds = better score!</span>
+- <span style="color: #4ecdc4;">Formula:</span> <span style="color: #f093fb; font-family: monospace; background: rgba(240,147,251,0.1); padding: 2px 6px; border-radius: 3px;">`cloud_score = max(0.0, 1.0 - cloud_fraction * 1.5)`</span>
+- <span style="color: #ff9a9e;">A 10% cloudy image gets:</span> <span style="color: #a8c0ff; font-family: monospace; background: rgba(168,192,255,0.1); padding: 2px 6px; border-radius: 3px;">`1.0 - 0.10 * 1.5 = 0.85`</span> <span style="color: #667eea;">(85% of cloud score)</span>
+- <span style="color: #764ba2;">A 50% cloudy image gets:</span> <span style="color: #ff6b9d; font-family: monospace; background: rgba(255,107,157,0.1); padding: 2px 6px; border-radius: 3px;">`1.0 - 0.50 * 1.5 = 0.25`</span> <span style="color: #ff6b6b;">(25% of cloud score)</span>
+- <span style="color: #ee5a6f; font-weight: bold;">**Heavy penalty** for cloudy images!</span> ☁️💔
 
-**☀️ Solar Zenith Angle (15% weight)**
-- Lower zenith = sun higher in sky = better lighting!
-- Optimal: <30° zenith (perfect score!)
-- Good: 30-60° zenith (gradual penalty)
-- Poor: >60° zenith (significant penalty, low sun = shadows!)
-- Formula accounts for time of day and season! 🌅
+<span style="color: #ffa500; font-weight: bold; font-size: 1.1em;">**☀️ Solar Zenith Angle (15% weight)**</span>
+- <span style="color: #ffd89b;">Lower zenith = sun higher in sky = better lighting!</span>
+- <span style="color: #4ecdc4;">Optimal:</span> <span style="color: #00d2ff; font-weight: bold;"><30° zenith</span> <span style="color: #a8edea;">(perfect score!)</span>
+- <span style="color: #fcb69f;">Good:</span> <span style="color: #ff9a9e;">30-60° zenith</span> <span style="color: #a8c0ff;">(gradual penalty)</span>
+- <span style="color: #667eea;">Poor:</span> <span style="color: #764ba2;">>60° zenith</span> <span style="color: #ff6b9d;">(significant penalty, low sun = shadows!)</span>
+- <span style="color: #4facfe;">Formula accounts for time of day and season!</span> 🌅
 
-**👁️ View Zenith Angle (10% weight)**
-- Lower = more nadir (straight down) = less distortion!
-- Optimal: <10° (perfect score!)
-- Acceptable: 10-50° (gradual penalty)
-- Poor: >50° (significant penalty, oblique angles = stretched pixels!)
+<span style="color: #4ecdc4; font-weight: bold; font-size: 1.1em;">**👁️ View Zenith Angle (10% weight)**</span>
+- <span style="color: #a8edea;">Lower = more nadir (straight down) = less distortion!</span>
+- <span style="color: #00d2ff;">Optimal:</span> <span style="color: #4ecdc4; font-weight: bold;"><10°</span> <span style="color: #f093fb;">(perfect score!)</span>
+- <span style="color: #ff9a9e;">Acceptable:</span> <span style="color: #fcb69f;">10-50°</span> <span style="color: #a8c0ff;">(gradual penalty)</span>
+- <span style="color: #667eea;">Poor:</span> <span style="color: #764ba2;">>50°</span> <span style="color: #ff6b9d;">(significant penalty, oblique angles = stretched pixels!)</span>
 
-**✅ Valid Pixel Fraction (15% weight)**
-- More valid data = better score!
-- Minimum 30% valid pixels required (below this = heavy penalty!)
-- Accounts for sensor errors, scan line gaps, and data quality issues!
+<span style="color: #4facfe; font-weight: bold; font-size: 1.1em;">**✅ Valid Pixel Fraction (15% weight)**</span>
+- <span style="color: #00d2ff;">More valid data = better score!</span>
+- <span style="color: #a8edea;">Minimum 30% valid pixels required</span> <span style="color: #ffd89b;">(below this = heavy penalty!)</span>
+- <span style="color: #fcb69f;">Accounts for sensor errors, scan line gaps, and data quality issues!</span>
 
-**📅 Temporal Recency (5% weight)**
-- Newer images get slightly higher scores!
-- Formula: `temporal_score = max(0.5, 1.0 - (days_since_start / max_days) * 0.5)`
-- A 1-day-old image gets ~100% of temporal score
-- A 365-day-old image gets ~50% of temporal score
-- **Small but meaningful** preference for fresh data! 🆕
+<span style="color: #f093fb; font-weight: bold; font-size: 1.1em;">**📅 Temporal Recency (5% weight)**</span>
+- <span style="color: #ff9a9e;">Newer images get slightly higher scores!</span>
+- <span style="color: #a8c0ff;">Formula:</span> <span style="color: #667eea; font-family: monospace; background: rgba(102,126,234,0.1); padding: 2px 6px; border-radius: 3px;">`temporal_score = max(0.5, 1.0 - (days_since_start / max_days) * 0.5)`</span>
+- <span style="color: #764ba2;">A 1-day-old image gets</span> <span style="color: #ff6b9d; font-weight: bold;">~100%</span> <span style="color: #ff6b6b;">of temporal score</span>
+- <span style="color: #ee5a6f;">A 365-day-old image gets</span> <span style="color: #ffa500; font-weight: bold;">~50%</span> <span style="color: #ffd89b;">of temporal score</span>
+- <span style="color: #4ecdc4; font-weight: bold;">**Small but meaningful** preference for fresh data!</span> 🆕
 
-**🔍 Native Resolution (30% weight) - THE BIGGEST FACTOR!** 🏆
-- **Resolution is king!** Higher resolution = dramatically better score!
-- Scoring tiers:
-  - **≤4m**: Perfect score (1.0) - Ultra-high resolution! 💎
-  - **≤15m**: Excellent (0.95) - Sentinel-2, ASTER! ✨
-  - **≤30m**: Good (0.85) - Landsat family! 🌍
-  - **≤60m**: Moderate (0.60) - Lower-res Landsat variants
-  - **≤250m**: Poor (0.40) - MODIS territory! 🌎
-  - **≤400m**: Very poor (0.25) - VIIRS range! 🌌
-  - **>400m**: Worst (0.15) - Coarse resolution! 😢
+<span style="color: #ff6b6b; font-weight: bold; font-size: 1.2em;">**🔍 Native Resolution (30% weight) - THE BIGGEST FACTOR!**</span> 🏆
+- <span style="color: #ee5a6f; font-weight: bold; font-size: 1.1em;">**Resolution is king!**</span> <span style="color: #ffa500;">Higher resolution = dramatically better score!</span>
+- <span style="color: #ffd89b;">Scoring tiers:</span>
+  - <span style="color: #00d2ff; font-weight: bold;">**≤4m**:</span> <span style="color: #4ecdc4;">Perfect score (1.0)</span> <span style="color: #a8edea;">- Ultra-high resolution!</span> 💎
+  - <span style="color: #4facfe; font-weight: bold;">**≤15m**:</span> <span style="color: #f093fb;">Excellent (0.95)</span> <span style="color: #ff9a9e;">- Sentinel-2, ASTER!</span> ✨
+  - <span style="color: #a8c0ff; font-weight: bold;">**≤30m**:</span> <span style="color: #667eea;">Good (0.85)</span> <span style="color: #764ba2;">- Landsat family!</span> 🌍
+  - <span style="color: #ff6b9d; font-weight: bold;">**≤60m**:</span> <span style="color: #ff6b6b;">Moderate (0.60)</span> <span style="color: #ee5a6f;">- Lower-res Landsat variants</span>
+  - <span style="color: #ffa500; font-weight: bold;">**≤250m**:</span> <span style="color: #ffd89b;">Poor (0.40)</span> <span style="color: #fcb69f;">- MODIS territory!</span> 🌎
+  - <span style="color: #667eea; font-weight: bold;">**≤400m**:</span> <span style="color: #764ba2;">Very poor (0.25)</span> <span style="color: #ff6b9d;">- VIIRS range!</span> 🌌
+  - <span style="color: #ff6b6b; font-weight: bold;">**>400m**:</span> <span style="color: #ee5a6f;">Worst (0.15)</span> <span style="color: #ffa500;">- Coarse resolution!</span> 😢
 
-**Why resolution matters so much:**
-- A **10m Sentinel-2** image with 5% clouds beats a **250m MODIS** image with 0% clouds!
-- Resolution determines how much detail you can see!
-- Flutter Earth **prioritizes crisp, detailed imagery** over perfect cloud-free conditions! 🎯
+<span style="color: #4facfe; font-weight: bold;">**Why resolution matters so much:**</span>
+- <span style="color: #00d2ff;">A</span> <span style="color: #4ecdc4; font-weight: bold;">**10m Sentinel-2**</span> <span style="color: #a8edea;">image with 5% clouds beats a</span> <span style="color: #ffd89b; font-weight: bold;">**250m MODIS**</span> <span style="color: #fcb69f;">image with 0% clouds!</span>
+- <span style="color: #f093fb;">Resolution determines how much detail you can see!</span>
+- <span style="color: #ff9a9e;">Flutter Earth</span> <span style="color: #a8c0ff; font-weight: bold;">**prioritizes crisp, detailed imagery**</span> <span style="color: #667eea;">over perfect cloud-free conditions!</span> 🎯
 
-**🎨 Band Completeness (10% weight)**
-- Checks for critical bands: RGB (required!), NIR, SWIR1, SWIR2 (highly desired!)
-- Missing IR bands = significant penalty (can't compute vegetation indices!)
-- Formula: `completeness = RGB_score * 0.2 + IR_score * 0.6 + index_score * 0.2`
-- Ensures images have the spectral data needed for analysis! 🌈
+<span style="color: #764ba2; font-weight: bold; font-size: 1.1em;">**🎨 Band Completeness (10% weight)**</span>
+- <span style="color: #ff6b9d;">Checks for critical bands:</span> <span style="color: #ff6b6b; font-weight: bold;">RGB (required!)</span><span style="color: #ff6b9d;">,</span> <span style="color: #ee5a6f; font-weight: bold;">NIR, SWIR1, SWIR2 (highly desired!)</span>
+- <span style="color: #ffa500;">Missing IR bands = significant penalty</span> <span style="color: #ffd89b;">(can't compute vegetation indices!)</span>
+- <span style="color: #fcb69f;">Formula:</span> <span style="color: #f093fb; font-family: monospace; background: rgba(240,147,251,0.1); padding: 2px 6px; border-radius: 3px;">`completeness = RGB_score * 0.2 + IR_score * 0.6 + index_score * 0.2`</span>
+- <span style="color: #ff9a9e;">Ensures images have the spectral data needed for analysis!</span> 🌈
 
 #### Step 4: Fallback Mechanisms - Never Give Up! 🛡️
 
@@ -788,150 +788,150 @@ After this intricate, beautiful process, Flutter Earth delivers:
 
 **Every pixel is perfect because Flutter Earth cares!** 💖🦋✨
 
-### 🦋 Multi-Sensor Support (12+ Satellites!)
+### <span style="color: #667eea; font-size: 1.2em;">🦋 Multi-Sensor Support (12+ Satellites!)</span>
 
-**High Resolution (≤30m):**
-- 🛰️ **Sentinel-2** (10m, 2015-present) - The sharp-eyed observer! 💙
-- 🌍 **Landsat 4 TM** (30m, 1982-1993) - The early pioneer! 💚
-- 🌍 **Landsat 5 TM** (30m, 1984-2013) - The record-holder (28+ years!) 🏆💚
-- 🌍 **Landsat 7 ETM+** (30m, 1999-present) - The striped survivor! 💚
-- 🌍 **Landsat 8 OLI/TIRS** (30m, 2013-present) - The modern workhorse! 💚
-- 🌍 **Landsat 9 OLI-2/TIRS-2** (30m, 2021-present) - The newest addition! 💚
-- 🌍 **Landsat 1-3 MSS** (60m, 1972-1983) - The historical archive! 📜💚
-- 🛰️ **SPOT 1** (10m pan, 20m MS, 1986-2003) - The French precision! 🇫🇷
-- 🛰️ **SPOT 2** (10m pan, 20m MS, 1990-2009) - The reliable backup! 🇫🇷
-- 🛰️ **SPOT 3** (10m pan, 20m MS, 1993-1997) - The short-lived star! 🇫🇷
-- 🛰️ **SPOT 4** (10m pan, 20m MS, 1998-2013) - The extended mission! 🇫🇷
+<span style="color: #4facfe; font-weight: bold; font-size: 1.1em;">**High Resolution (≤30m):**</span>
+- <span style="color: #00d2ff;">🛰️ **Sentinel-2**</span> <span style="color: #a8edea;">(10m, 2015-present)</span> <span style="color: #ffd89b;">- The sharp-eyed observer!</span> 💙
+- <span style="color: #4ecdc4;">🌍 **Landsat 4 TM**</span> <span style="color: #a8edea;">(30m, 1982-1993)</span> <span style="color: #fcb69f;">- The early pioneer!</span> 💚
+- <span style="color: #4ecdc4;">🌍 **Landsat 5 TM**</span> <span style="color: #a8edea;">(30m, 1984-2013)</span> <span style="color: #f093fb;">- The record-holder (28+ years!)</span> 🏆💚
+- <span style="color: #4ecdc4;">🌍 **Landsat 7 ETM+**</span> <span style="color: #a8edea;">(30m, 1999-present)</span> <span style="color: #ff9a9e;">- The striped survivor!</span> 💚
+- <span style="color: #4ecdc4;">🌍 **Landsat 8 OLI/TIRS**</span> <span style="color: #a8edea;">(30m, 2013-present)</span> <span style="color: #a8c0ff;">- The modern workhorse!</span> 💚
+- <span style="color: #4ecdc4;">🌍 **Landsat 9 OLI-2/TIRS-2**</span> <span style="color: #a8edea;">(30m, 2021-present)</span> <span style="color: #667eea;">- The newest addition!</span> 💚
+- <span style="color: #4ecdc4;">🌍 **Landsat 1-3 MSS**</span> <span style="color: #a8edea;">(60m, 1972-1983)</span> <span style="color: #764ba2;">- The historical archive!</span> 📜💚
+- <span style="color: #ffa500;">🛰️ **SPOT 1**</span> <span style="color: #ffd89b;">(10m pan, 20m MS, 1986-2003)</span> <span style="color: #fcb69f;">- The French precision!</span> 🇫🇷
+- <span style="color: #ffa500;">🛰️ **SPOT 2**</span> <span style="color: #ffd89b;">(10m pan, 20m MS, 1990-2009)</span> <span style="color: #f093fb;">- The reliable backup!</span> 🇫🇷
+- <span style="color: #ffa500;">🛰️ **SPOT 3**</span> <span style="color: #ffd89b;">(10m pan, 20m MS, 1993-1997)</span> <span style="color: #ff9a9e;">- The short-lived star!</span> 🇫🇷
+- <span style="color: #ffa500;">🛰️ **SPOT 4**</span> <span style="color: #ffd89b;">(10m pan, 20m MS, 1998-2013)</span> <span style="color: #a8c0ff;">- The extended mission!</span> 🇫🇷
 
-**Medium Resolution (60-400m):**
-- 🔬 **ASTER** (15-90m, 2000-2008) - The detailed scientist! 💜
+<span style="color: #f093fb; font-weight: bold; font-size: 1.1em;">**Medium Resolution (60-400m):**</span>
+- <span style="color: #ff9a9e;">🔬 **ASTER**</span> <span style="color: #a8c0ff;">(15-90m, 2000-2008)</span> <span style="color: #667eea;">- The detailed scientist!</span> 💜
 
-**Low Resolution (>400m):**
-- 🌎 **MODIS Terra** (250m, 2000-present) - The wide-eyed watcher! 🧡
-- 🌎 **MODIS Aqua** (250m, 2002-present) - The water-focused twin! 🧡
-- 🌌 **VIIRS** (375m, 2011-present) - The night vision specialist! 💛
-- 🌍 **NOAA AVHRR** (1km, 1978-present) - **ABSOLUTE LAST RESORT** only! ⚠️🔴
-  - Only used when ALL other satellites fail (very coarse resolution!)
+<span style="color: #ff6b6b; font-weight: bold; font-size: 1.1em;">**Low Resolution (>400m):**</span>
+- <span style="color: #ffa500;">🌎 **MODIS Terra**</span> <span style="color: #ffd89b;">(250m, 2000-present)</span> <span style="color: #fcb69f;">- The wide-eyed watcher!</span> 🧡
+- <span style="color: #ffa500;">🌎 **MODIS Aqua**</span> <span style="color: #ffd89b;">(250m, 2002-present)</span> <span style="color: #f093fb;">- The water-focused twin!</span> 🧡
+- <span style="color: #667eea;">🌌 **VIIRS**</span> <span style="color: #764ba2;">(375m, 2011-present)</span> <span style="color: #ff6b9d;">- The night vision specialist!</span> 💛
+- <span style="color: #ff6b6b;">🌍 **NOAA AVHRR**</span> <span style="color: #ee5a6f;">(1km, 1978-present)</span> <span style="color: #ff6b6b; font-weight: bold;">- **ABSOLUTE LAST RESORT** only!</span> ⚠️🔴
+  - <span style="color: #ffa500;">Only used when ALL other satellites fail</span> <span style="color: #ffd89b;">(very coarse resolution!)</span>
 
-**Coverage Timeline:**
-- 🌟 **1972-1982**: Landsat MSS 1-3 only (60m, historical)
-- 🌟 **1982-1985**: Landsat 4 TM (early 30m era)
-- 🌟 **1985-1993**: Landsat 4 + 5 overlap (best coverage!)
-- 🌟 **1993-1999**: Landsat 5 only (30m reliable)
-- 🌟 **1999-2013**: Landsat 5 + 7 (with SLC stripes after 2003)
-- 🌟 **2013-2015**: Landsat 7 + 8 (transition period)
-- 🌟 **2015-present**: Sentinel-2 + Landsat 7/8/9 (golden era - 10m + 30m!)
+<span style="color: #4facfe; font-weight: bold; font-size: 1.1em;">**Coverage Timeline:**</span>
+- <span style="color: #00d2ff;">🌟 **1972-1982**:</span> <span style="color: #a8edea;">Landsat MSS 1-3 only</span> <span style="color: #ffd89b;">(60m, historical)</span>
+- <span style="color: #4ecdc4;">🌟 **1982-1985**:</span> <span style="color: #a8edea;">Landsat 4 TM</span> <span style="color: #fcb69f;">(early 30m era)</span>
+- <span style="color: #f093fb;">🌟 **1985-1993**:</span> <span style="color: #ff9a9e;">Landsat 4 + 5 overlap</span> <span style="color: #a8c0ff; font-weight: bold;">(best coverage!)</span>
+- <span style="color: #667eea;">🌟 **1993-1999**:</span> <span style="color: #764ba2;">Landsat 5 only</span> <span style="color: #ff6b9d;">(30m reliable)</span>
+- <span style="color: #ff6b6b;">🌟 **1999-2013**:</span> <span style="color: #ee5a6f;">Landsat 5 + 7</span> <span style="color: #ffa500;">(with SLC stripes after 2003)</span>
+- <span style="color: #ffd89b;">🌟 **2013-2015**:</span> <span style="color: #fcb69f;">Landsat 7 + 8</span> <span style="color: #f093fb;">(transition period)</span>
+- <span style="color: #4facfe; font-weight: bold;">🌟 **2015-present**:</span> <span style="color: #00d2ff;">Sentinel-2 + Landsat 7/8/9</span> <span style="color: #4ecdc4; font-weight: bold;">(golden era - 10m + 30m!)</span>
 
-**Default Start Date: 1985** - Ensures both Landsat 4 and 5 are operational for maximum redundancy! 🎯
+<span style="color: #ff6b6b; font-weight: bold;">**Default Start Date: 1985**</span> <span style="color: #ee5a6f;">- Ensures both Landsat 4 and 5 are operational for maximum redundancy!</span> 🎯
 
-### 🎨 Advanced Processing
+### <span style="color: #667eea; font-size: 1.1em;">🎨 Advanced Processing</span>
 
-- **Adaptive Cloud Thresholds** - Automatically relaxes cloud limits (20% → 80%) if no images pass! ☁️📉
-- **Adaptive Quality Thresholds** - Automatically lowers quality bar (0.9 → 0.0) if no images meet standard! 📊📈
-- **Pre-Check System** - Counts all available images first to optimize threshold strategy! 🔍🎯
-- **Fallback Mechanisms**:
-  - If all images rejected by clouds → Uses **least cloudy** image (clouds > holes!) ☁️>🕳️
-  - If all images rejected by quality → Uses **highest quality** image (bad > nothing!) 📉>❌
-- **Cloud masking** with multiple algorithms (Sentinel-2 QA60, Landsat QA_PIXEL, pixel-level cloud detection) ☁️🎭
-- **Shadow detection** and correction 🌑✨
-- **Multi-sensor harmonization** (Sentinel-2 ↔ Landsat ↔ SPOT ↔ MSS ↔ AVHRR) 🔄🌈
-- **Band standardization** - All satellites normalized to same band structure (B2/B3/B4/B8/B11/B12) 🎨✨
-- **NDWI water masking** for coastal areas 💧🌊
-- **Feather blending** with soft-edge weight masks for seamless tile merging 🪶✨
-- **COG creation** with overviews (2x, 4x, 8x, 16x, 32x) for fast viewing 📦⚡
-- **Progress tracking** for EVERY phase: reprojection, blending, index calculation, file writing! 📊💫
+- <span style="color: #00d2ff; font-weight: bold;">**Adaptive Cloud Thresholds**</span> <span style="color: #a8edea;">- Automatically relaxes cloud limits</span> <span style="color: #ffd89b;">(20% → 80%)</span> <span style="color: #fcb69f;">if no images pass!</span> ☁️📉
+- <span style="color: #4ecdc4; font-weight: bold;">**Adaptive Quality Thresholds**</span> <span style="color: #a8edea;">- Automatically lowers quality bar</span> <span style="color: #f093fb;">(0.9 → 0.0)</span> <span style="color: #ff9a9e;">if no images meet standard!</span> 📊📈
+- <span style="color: #a8c0ff; font-weight: bold;">**Pre-Check System**</span> <span style="color: #667eea;">- Counts all available images first to optimize threshold strategy!</span> 🔍🎯
+- <span style="color: #764ba2; font-weight: bold;">**Fallback Mechanisms**:</span>
+  - <span style="color: #ff6b9d;">If all images rejected by clouds → Uses</span> <span style="color: #ff6b6b; font-weight: bold;">**least cloudy**</span> <span style="color: #ee5a6f;">image</span> <span style="color: #ffa500;">(clouds > holes!)</span> ☁️>🕳️
+  - <span style="color: #ffd89b;">If all images rejected by quality → Uses</span> <span style="color: #fcb69f; font-weight: bold;">**highest quality**</span> <span style="color: #f093fb;">image</span> <span style="color: #ff9a9e;">(bad > nothing!)</span> 📉>❌
+- <span style="color: #4facfe; font-weight: bold;">**Cloud masking**</span> <span style="color: #00d2ff;">with multiple algorithms</span> <span style="color: #a8edea;">(Sentinel-2 QA60, Landsat QA_PIXEL, pixel-level cloud detection)</span> ☁️🎭
+- <span style="color: #4ecdc4; font-weight: bold;">**Shadow detection**</span> <span style="color: #ffd89b;">and correction</span> 🌑✨
+- <span style="color: #f093fb; font-weight: bold;">**Multi-sensor harmonization**</span> <span style="color: #ff9a9e;">(Sentinel-2 ↔ Landsat ↔ SPOT ↔ MSS ↔ AVHRR)</span> 🔄🌈
+- <span style="color: #a8c0ff; font-weight: bold;">**Band standardization**</span> <span style="color: #667eea;">- All satellites normalized to same band structure</span> <span style="color: #764ba2;">(B2/B3/B4/B8/B11/B12)</span> 🎨✨
+- <span style="color: #ff6b9d; font-weight: bold;">**NDWI water masking**</span> <span style="color: #ff6b6b;">for coastal areas</span> 💧🌊
+- <span style="color: #ffa500; font-weight: bold;">**Feather blending**</span> <span style="color: #ffd89b;">with soft-edge weight masks for seamless tile merging</span> 🪶✨
+- <span style="color: #fcb69f; font-weight: bold;">**COG creation**</span> <span style="color: #f093fb;">with overviews</span> <span style="color: #ff9a9e;">(2x, 4x, 8x, 16x, 32x)</span> <span style="color: #a8c0ff;">for fast viewing</span> 📦⚡
+- <span style="color: #667eea; font-weight: bold;">**Progress tracking**</span> <span style="color: #764ba2;">for EVERY phase:</span> <span style="color: #ff6b9d;">reprojection, blending, index calculation, file writing!</span> 📊💫
 
-### 💖 User-Friendly Features
+### <span style="color: #ff6b9d; font-size: 1.1em;">💖 User-Friendly Features</span>
 
-- **Beautiful HTML dashboard** that auto-refreshes every 2 seconds 📊🦋
-- **Real-time progress tracking** with countdown timers ⏱️✨
-- **Progress bars for EVERYTHING**:
-  - Tile processing: `[Tile 1234/2009] ✅ SUCCESS`
-  - Reprojection: `Reprojecting tiles: 500/2009`
-  - Band blending: `Blending Band 1: tile 1500/2009`
-  - Index calculation: `Calculating NDVI... (2/9)`, `Calculating EVI... (5/9)`
-  - File writing: `Writing mosaic file...`, `Writing indices to mosaic file...`
-  - COG creation: `Creating COG from mosaic...`
-- **Detailed console logging** with timestamps and color-coded messages 💬
-- **Pause/Resume functionality** for gentle control ⏸️▶️
-- **Comprehensive PDF reports** with statistics, visualizations, and satellite usage 📄💕
-- **Satellite usage statistics** showing which satellites contributed to each tile 🛰️📊
-- **Quality score tracking** - see exactly how good each image is! 🏆
-- **Server mode** for maximum resource utilization (uses all CPU cores, max workers) 🖥️💪
-
----
-
-## 🎨 Configuration
-
-### Default Settings
-
-- **Default Start Date**: 1985-01-01 (both Landsat 4 and 5 operational for redundancy!) 📅✨
-- **Default End Date**: Current date (2025-11-30) 📅
-- **Target Resolution**: 10 meters per pixel 🎯 (native Sentinel-2 - preserves best quality!)
-- **Tile Size**: Auto-calculated (validates against 40MB limit) 📏
-- **Workers**: Auto-detected CPU count (capped at 8, server mode uses all cores) 💻
-- **Dynamic Workers**: Enabled by default (auto-adjusts based on CPU/memory) ⚡
-- **Harmonization**: Enabled by default (seamless sensor blending) 🌈
-- **Initial Cloud Threshold**: 20% (metadata) / 20% (calculated fraction) ☁️
-- **Initial Quality Threshold**: 0.9 (90% quality score) 📊
-- **Adaptive Threshold Strategy**: 
-  - ≤3 images: Lower after 1 test
-  - ≤10 images: Lower after 2 tests  
-  - >10 images: Lower after 3 tests
-
-### Server Mode 🌟
-
-When enabled, Server Mode:
-- Uses **all available CPU cores** 💪
-- Increases **max workers** for I/O-bound tasks ⚡
-- Sets process priority to **HIGH** on Windows 🚀
-- Focuses **all resources** on processing 🎯
-
-Perfect for dedicated processing machines! 🖥️✨
+- <span style="color: #4facfe; font-weight: bold;">**Beautiful HTML dashboard**</span> <span style="color: #00d2ff;">that auto-refreshes every 2 seconds</span> 📊🦋
+- <span style="color: #4ecdc4; font-weight: bold;">**Real-time progress tracking**</span> <span style="color: #a8edea;">with countdown timers</span> ⏱️✨
+- <span style="color: #f093fb; font-weight: bold;">**Progress bars for EVERYTHING**:</span>
+  - <span style="color: #ff9a9e;">Tile processing:</span> <span style="color: #a8c0ff; font-family: monospace; background: rgba(168,192,255,0.1); padding: 2px 6px; border-radius: 3px;">`[Tile 1234/2009] ✅ SUCCESS`</span>
+  - <span style="color: #667eea;">Reprojection:</span> <span style="color: #764ba2; font-family: monospace; background: rgba(118,75,162,0.1); padding: 2px 6px; border-radius: 3px;">`Reprojecting tiles: 500/2009`</span>
+  - <span style="color: #ff6b9d;">Band blending:</span> <span style="color: #ff6b6b; font-family: monospace; background: rgba(255,107,107,0.1); padding: 2px 6px; border-radius: 3px;">`Blending Band 1: tile 1500/2009`</span>
+  - <span style="color: #ee5a6f;">Index calculation:</span> <span style="color: #ffa500; font-family: monospace; background: rgba(255,165,0,0.1); padding: 2px 6px; border-radius: 3px;">`Calculating NDVI... (2/9)`</span><span style="color: #ffa500;">,</span> <span style="color: #ffd89b; font-family: monospace; background: rgba(255,216,155,0.1); padding: 2px 6px; border-radius: 3px;">`Calculating EVI... (5/9)`</span>
+  - <span style="color: #fcb69f;">File writing:</span> <span style="color: #f093fb; font-family: monospace; background: rgba(240,147,251,0.1); padding: 2px 6px; border-radius: 3px;">`Writing mosaic file...`</span><span style="color: #f093fb;">,</span> <span style="color: #ff9a9e; font-family: monospace; background: rgba(255,154,158,0.1); padding: 2px 6px; border-radius: 3px;">`Writing indices to mosaic file...`</span>
+  - <span style="color: #a8c0ff;">COG creation:</span> <span style="color: #667eea; font-family: monospace; background: rgba(102,126,234,0.1); padding: 2px 6px; border-radius: 3px;">`Creating COG from mosaic...`</span>
+- <span style="color: #764ba2; font-weight: bold;">**Detailed console logging**</span> <span style="color: #ff6b9d;">with timestamps and color-coded messages</span> 💬
+- <span style="color: #ff6b6b; font-weight: bold;">**Pause/Resume functionality**</span> <span style="color: #ee5a6f;">for gentle control</span> ⏸️▶️
+- <span style="color: #ffa500; font-weight: bold;">**Comprehensive PDF reports**</span> <span style="color: #ffd89b;">with statistics, visualizations, and satellite usage</span> 📄💕
+- <span style="color: #fcb69f; font-weight: bold;">**Satellite usage statistics**</span> <span style="color: #f093fb;">showing which satellites contributed to each tile</span> 🛰️📊
+- <span style="color: #ff9a9e; font-weight: bold;">**Quality score tracking**</span> <span style="color: #a8c0ff;">- see exactly how good each image is!</span> 🏆
+- <span style="color: #667eea; font-weight: bold;">**Server mode**</span> <span style="color: #764ba2;">for maximum resource utilization</span> <span style="color: #ff6b9d;">(uses all CPU cores, max workers)</span> 🖥️💪
 
 ---
 
-## 📊 Output Structure
+## <span style="color: #667eea; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.3em;">🎨 Configuration</span>
+
+### <span style="color: #4facfe; font-size: 1.1em;">Default Settings</span>
+
+- <span style="color: #00d2ff; font-weight: bold;">**Default Start Date**:</span> <span style="color: #a8edea;">1985-01-01</span> <span style="color: #ffd89b;">(both Landsat 4 and 5 operational for redundancy!)</span> 📅✨
+- <span style="color: #4ecdc4; font-weight: bold;">**Default End Date**:</span> <span style="color: #a8edea;">Current date (2025-11-30)</span> 📅
+- <span style="color: #f093fb; font-weight: bold;">**Target Resolution**:</span> <span style="color: #ff9a9e;">10 meters per pixel</span> <span style="color: #a8c0ff;">(native Sentinel-2 - preserves best quality!)</span> 🎯
+- <span style="color: #667eea; font-weight: bold;">**Tile Size**:</span> <span style="color: #764ba2;">Auto-calculated</span> <span style="color: #ff6b9d;">(validates against 40MB limit)</span> 📏
+- <span style="color: #ff6b6b; font-weight: bold;">**Workers**:</span> <span style="color: #ee5a6f;">Auto-detected CPU count</span> <span style="color: #ffa500;">(capped at 8, server mode uses all cores)</span> 💻
+- <span style="color: #ffd89b; font-weight: bold;">**Dynamic Workers**:</span> <span style="color: #fcb69f;">Enabled by default</span> <span style="color: #f093fb;">(auto-adjusts based on CPU/memory)</span> ⚡
+- <span style="color: #ff9a9e; font-weight: bold;">**Harmonization**:</span> <span style="color: #a8c0ff;">Enabled by default</span> <span style="color: #667eea;">(seamless sensor blending)</span> 🌈
+- <span style="color: #764ba2; font-weight: bold;">**Initial Cloud Threshold**:</span> <span style="color: #ff6b9d;">20% (metadata) / 20% (calculated fraction)</span> ☁️
+- <span style="color: #ff6b6b; font-weight: bold;">**Initial Quality Threshold**:</span> <span style="color: #ee5a6f;">0.9 (90% quality score)</span> 📊
+- <span style="color: #ffa500; font-weight: bold;">**Adaptive Threshold Strategy**:</span> 
+  - <span style="color: #00d2ff;">≤3 images:</span> <span style="color: #a8edea;">Lower after 1 test</span>
+  - <span style="color: #4ecdc4;">≤10 images:</span> <span style="color: #ffd89b;">Lower after 2 tests</span>  
+  - <span style="color: #f093fb;">>10 images:</span> <span style="color: #ff9a9e;">Lower after 3 tests</span>
+
+### <span style="color: #4facfe; font-size: 1.1em;">Server Mode</span> 🌟
+
+<span style="color: #a8edea;">When enabled, Server Mode:</span>
+- <span style="color: #00d2ff;">Uses</span> <span style="color: #4ecdc4; font-weight: bold;">**all available CPU cores**</span> 💪
+- <span style="color: #ffd89b;">Increases</span> <span style="color: #fcb69f; font-weight: bold;">**max workers**</span> <span style="color: #f093fb;">for I/O-bound tasks</span> ⚡
+- <span style="color: #ff9a9e;">Sets process priority to</span> <span style="color: #a8c0ff; font-weight: bold;">**HIGH**</span> <span style="color: #667eea;">on Windows</span> 🚀
+- <span style="color: #764ba2;">Focuses</span> <span style="color: #ff6b9d; font-weight: bold;">**all resources**</span> <span style="color: #ff6b6b;">on processing</span> 🎯
+
+<span style="color: #4facfe;">Perfect for dedicated processing machines!</span> 🖥️✨
+
+---
+
+## <span style="color: #667eea; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.3em;">📊 Output Structure</span>
 
 ```
 output_folder/
-├── YYYY_MM/
-│   ├── mosaic_YYYY_MM.tif          # Final mosaic
-│   ├── mosaic_YYYY_MM_COG.tif       # Cloud-Optimized GeoTIFF
-│   ├── mosaic_YYYY_MM_mask.tif      # Water mask
-│   ├── processing_YYYY_MM.log       # Detailed log
-│   ├── mosaic_report_YYYY_MM.pdf   # Comprehensive report
-│   └── progress.html                # Real-time dashboard
-└── manifest.csv                      # Processing manifest
+├── <span style="color: #4facfe;">YYYY_MM/</span>
+│   ├── <span style="color: #00d2ff;">mosaic_YYYY_MM.tif</span>          # Final mosaic
+│   ├── <span style="color: #4ecdc4;">mosaic_YYYY_MM_COG.tif</span>       # Cloud-Optimized GeoTIFF
+│   ├── <span style="color: #a8edea;">mosaic_YYYY_MM_mask.tif</span>      # Water mask
+│   ├── <span style="color: #ffd89b;">processing_YYYY_MM.log</span>       # Detailed log
+│   ├── <span style="color: #fcb69f;">mosaic_report_YYYY_MM.pdf</span>   # Comprehensive report
+│   └── <span style="color: #f093fb;">progress.html</span>                # Real-time dashboard
+└── <span style="color: #ff9a9e;">manifest.csv</span>                      # Processing manifest
 ```
 
 ---
 
-## 🐛 Troubleshooting
+## <span style="color: #ff6b6b; background: linear-gradient(90deg, #ff6b6b 0%, #ee5a6f 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.3em;">🐛 Troubleshooting</span>
 
-### "Earth Engine initialization failed"
+### <span style="color: #ff6b6b;">"Earth Engine initialization failed"</span>
 ```bash
 earthengine authenticate
 ```
 
-### "reportlab not available"
+### <span style="color: #ffa500;">"reportlab not available"</span>
 ```bash
 pip install reportlab
 ```
 
-### "Port already in use" (for dashboard)
-The HTML dashboard will automatically try the next available port! 💖
+### <span style="color: #ffd89b;">"Port already in use"</span> <span style="color: #fcb69f;">(for dashboard)</span>
+<span style="color: #f093fb;">The HTML dashboard will automatically try the next available port!</span> 💖
 
-### Tiles too large?
-- Increase the `max_tiles` parameter
-- The system will auto-calculate optimal tile size
-- Validates against 40MB download limit automatically ✅
+### <span style="color: #ff9a9e;">Tiles too large?</span>
+- <span style="color: #a8c0ff;">Increase the</span> <span style="color: #667eea; font-family: monospace; background: rgba(102,126,234,0.1); padding: 2px 6px; border-radius: 3px;">`max_tiles`</span> <span style="color: #764ba2;">parameter</span>
+- <span style="color: #ff6b9d;">The system will auto-calculate optimal tile size</span>
+- <span style="color: #ff6b6b;">Validates against 40MB download limit automatically</span> ✅
 
 ---
 
 ## 🚀 Project Ideas: What Can You Build?
 
-Ready to dive into some amazing projects? We've created **50+ pre-configured bounding boxes** for exciting research projects! Each project includes a ready-to-use GeoJSON file in the `bbox_files/` folder that you can import directly. Just click "Import" in the map selector and choose your project!
+<span style="color: #4facfe;">Ready to dive into some amazing projects?</span> <span style="color: #00d2ff;">We've created</span> <span style="color: #4ecdc4; font-weight: bold; font-size: 1.1em;">**50+ pre-configured bounding boxes**</span> <span style="color: #a8edea;">for exciting research projects!</span> <span style="color: #ffd89b;">Each project includes a ready-to-use GeoJSON file in the</span> <span style="color: #fcb69f; font-family: monospace; background: rgba(252,182,159,0.1); padding: 2px 6px; border-radius: 3px;">`bbox_files/`</span> <span style="color: #f093fb;">folder that you can import directly.</span> <span style="color: #ff9a9e;">Just click "Import" in the map selector and choose your project!</span>
 
 ### 💧 Water Resources & Hydrology
 
@@ -1106,67 +1106,67 @@ Ready to dive into some amazing projects? We've created **50+ pre-configured bou
 
 </details>
 
-### 📊 How to Use Project Bounding Boxes
+### <span style="color: #4facfe; font-size: 1.1em;">📊 How to Use Project Bounding Boxes</span>
 
-1. **Start Flutter Earth** and click the map selector button
-2. **Click "Import"** in the map interface
-3. **Navigate to `bbox_files/`** folder
-4. **Select any `.geojson` file** from the project list above
-5. **The bounding box will load automatically!** Just adjust dates and start processing!
+1. <span style="color: #00d2ff; font-weight: bold;">**Start Flutter Earth**</span> <span style="color: #a8edea;">and click the map selector button</span>
+2. <span style="color: #4ecdc4; font-weight: bold;">**Click "Import"**</span> <span style="color: #ffd89b;">in the map interface</span>
+3. <span style="color: #f093fb; font-weight: bold;">**Navigate to**</span> <span style="color: #ff9a9e; font-family: monospace; background: rgba(255,154,158,0.1); padding: 2px 6px; border-radius: 3px;">`bbox_files/`</span> <span style="color: #a8c0ff;">folder</span>
+4. <span style="color: #667eea; font-weight: bold;">**Select any**</span> <span style="color: #764ba2; font-family: monospace; background: rgba(118,75,162,0.1); padding: 2px 6px; border-radius: 3px;">`.geojson`</span> <span style="color: #ff6b9d;">file from the project list above</span>
+5. <span style="color: #ff6b6b; font-weight: bold; font-size: 1.1em;">**The bounding box will load automatically!**</span> <span style="color: #ee5a6f;">Just adjust dates and start processing!</span>
 
-**Pro Tip:** Each project file includes metadata about the project, recommended date ranges, and key metrics to monitor. Check the GeoJSON properties for details!
-
----
-
-## 🎯 Best Practices
-
-1. **Start small** - Test with a small date range first! 🧪
-2. **Use Server Mode** - For dedicated processing machines 🖥️💪
-3. **Check the dashboard** - Monitor progress in real-time! 📊✨
-4. **Review PDF reports** - Get detailed statistics and insights! 📄💕
-5. **Be patient** - Quality takes time, but it's worth it! ⏰🌸
+<span style="color: #ffa500; font-weight: bold;">**Pro Tip:**</span> <span style="color: #ffd89b;">Each project file includes metadata about the project, recommended date ranges, and key metrics to monitor.</span> <span style="color: #fcb69f;">Check the GeoJSON properties for details!</span>
 
 ---
 
-## 🤝 Contributing
+## <span style="color: #667eea; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.3em;">🎯 Best Practices</span>
 
-We welcome contributions! Whether it's:
-- 🐛 Bug fixes
-- ✨ New features
-- 📝 Documentation improvements
-- 🎨 UI/UX enhancements
-- 💡 Ideas and suggestions
-
-Just open an issue or pull request! We're friendly and gentle! 💖
+1. <span style="color: #00d2ff; font-weight: bold;">**Start small**</span> <span style="color: #a8edea;">- Test with a small date range first!</span> 🧪
+2. <span style="color: #4ecdc4; font-weight: bold;">**Use Server Mode**</span> <span style="color: #ffd89b;">- For dedicated processing machines</span> 🖥️💪
+3. <span style="color: #f093fb; font-weight: bold;">**Check the dashboard**</span> <span style="color: #ff9a9e;">- Monitor progress in real-time!</span> 📊✨
+4. <span style="color: #a8c0ff; font-weight: bold;">**Review PDF reports**</span> <span style="color: #667eea;">- Get detailed statistics and insights!</span> 📄💕
+5. <span style="color: #764ba2; font-weight: bold;">**Be patient**</span> <span style="color: #ff6b9d;">- Quality takes time, but it's worth it!</span> ⏰🌸
 
 ---
 
-## 📝 License
+## <span style="color: #ff6b6b; background: linear-gradient(90deg, #ff6b6b 0%, #ee5a6f 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.3em;">🤝 Contributing</span>
 
-MIT License - Feel free to use Flutter Earth however you'd like! 🌸✨
+<span style="color: #4facfe;">We welcome contributions!</span> <span style="color: #00d2ff;">Whether it's:</span>
+- <span style="color: #ff6b6b;">🐛 Bug fixes</span>
+- <span style="color: #ffa500;">✨ New features</span>
+- <span style="color: #4ecdc4;">📝 Documentation improvements</span>
+- <span style="color: #f093fb;">🎨 UI/UX enhancements</span>
+- <span style="color: #ff9a9e;">💡 Ideas and suggestions</span>
 
----
-
-## 💕 Acknowledgments
-
-Built with love and care for the geospatial community! 🌍💖
-
-Special thanks to:
-- Google Earth Engine team for the amazing platform! 🛰️
-- The open-source geospatial community! 🌟
-- Everyone who makes satellite imagery accessible! 🦋
+<span style="color: #a8c0ff;">Just open an issue or pull request!</span> <span style="color: #667eea;">We're friendly and gentle!</span> 💖
 
 ---
 
-## 🌸 Support
+## <span style="color: #667eea; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.3em;">📝 License</span>
 
-Having issues? Questions? Just want to say hi? 💬
+<span style="color: #4facfe; font-weight: bold;">MIT License</span> <span style="color: #00d2ff;">- Feel free to use Flutter Earth however you'd like!</span> 🌸✨
 
-- Open an issue on GitHub 🐛
-- Check the logs in the `logs/` folder 📋
-- Review the PDF reports for detailed information 📄
+---
 
-Remember: Flutter Earth is here to help, gently and beautifully! ✨🦋💖
+## <span style="color: #ff6b9d; background: linear-gradient(90deg, #ff6b9d 0%, #ff6b6b 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.3em;">💕 Acknowledgments</span>
+
+<span style="color: #4facfe;">Built with love and care for the geospatial community!</span> 🌍💖
+
+<span style="color: #00d2ff; font-weight: bold;">Special thanks to:</span>
+- <span style="color: #4ecdc4;">Google Earth Engine team</span> <span style="color: #a8edea;">for the amazing platform!</span> 🛰️
+- <span style="color: #ffd89b;">The open-source geospatial community!</span> 🌟
+- <span style="color: #fcb69f;">Everyone who makes satellite imagery accessible!</span> 🦋
+
+---
+
+## <span style="color: #667eea; background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.3em;">🌸 Support</span>
+
+<span style="color: #4facfe;">Having issues? Questions? Just want to say hi?</span> 💬
+
+- <span style="color: #00d2ff;">Open an issue on GitHub</span> 🐛
+- <span style="color: #4ecdc4;">Check the logs in the</span> <span style="color: #a8edea; font-family: monospace; background: rgba(168,237,234,0.1); padding: 2px 6px; border-radius: 3px;">`logs/`</span> <span style="color: #ffd89b;">folder</span> 📋
+- <span style="color: #fcb69f;">Review the PDF reports</span> <span style="color: #f093fb;">for detailed information</span> 📄
+
+<span style="color: #ff9a9e;">Remember:</span> <span style="color: #a8c0ff;">Flutter Earth is here to help, gently and beautifully!</span> ✨🦋💖
 
 ---
 
