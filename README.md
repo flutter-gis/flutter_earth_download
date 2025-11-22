@@ -47,7 +47,7 @@ Ever wanted to download satellite imagery but got frustrated with:
 - ✅ Intelligently combines them into **gorgeous mosaics** 🎨🌈
 - ✅ Handles **clouds, shadows, and atmospheric effects** like magic ☁️➡️☀️✨
 - ✅ Creates **Cloud-Optimized GeoTIFFs (COGs)** ready for analysis 📦💖
-- ✅ Shows you **real-time progress** with a beautiful dashboard 📊🦋
+- ✅ Shows you **real-time progress** with detailed console output and satellite usage statistics 📊🦋
 - ✅ **Progress bars for EVERYTHING** - tile processing, mosaic stitching, index calculation, COG creation! 📊✨
 - ✅ **Adaptive quality thresholds** - automatically lowers standards if only poor images exist! 📉📈
 - ✅ **Fallback mechanisms** - uses best available image even if all are "bad" (clouds better than holes!) ☁️>🕳️
@@ -110,12 +110,7 @@ Just run `python main.py` and a friendly GUI will pop up! Fill in:
 
 Click **Submit** and watch the magic happen! ✨🦋
 
-The dashboard will automatically open in your browser showing:
-
-- 📊 Real-time progress bars (tile, mosaic, and full project!)
-- ⏱️ Countdown timer (estimated time remaining) ⏰
-- 📋 Console output with timestamps and color-coded messages 💬
-- 🛰️ Satellite usage statistics with quality metrics 🌟
+Progress is displayed in the console with detailed status updates for each tile, and a satellite usage histogram is generated showing which satellites were used for each tile.
 
 ### CLI Mode (For Terminal Lovers) 💻
 
@@ -159,14 +154,14 @@ Flutter Earth evaluates each satellite image based on:
 
 When filling gaps in mosaics, Flutter Earth prioritizes:
 
-- 🏆 **Higher resolution** images (even with minor clouds!)
+- 🏆 **Higher resolution** images (even with minor clouds!) - Flutter Earth has a "resolution-first" philosophy: it would rather have a slightly cloudy 10m image than a perfect 250m image! This means your mosaics will always prioritize detail over perfect cloud conditions! 🔍💎
 - 💎 **Quality scores** as tiebreakers
 - ✨ **Smart iteration** until coverage is complete
+- 🕐 **Temporal consistency** - When filling gaps, Flutter Earth looks for images within 10-30 days of already-selected images for better temporal coherence, creating natural-looking mosaics rather than collages of random dates! 📸✨
 
 ### 💖 User-Friendly Features
 
-- **Beautiful HTML dashboard** that auto-refreshes every 2 seconds 📊🦋
-- **Real-time progress tracking** with countdown timers ⏱️✨
+- **Real-time progress tracking** with detailed console output ⏱️✨
 - **Progress bars for EVERYTHING**:
   - Tile processing: `[Tile 1234/2009] ✅ SUCCESS`
   - Reprojection: `Reprojecting tiles: 500/2009`
@@ -186,6 +181,7 @@ When filling gaps in mosaics, Flutter Earth prioritizes:
   - If all images rejected by clouds → Uses **least cloudy** image (clouds > holes!) ☁️>🕳️
   - If all images rejected by quality → Uses **highest quality** image (bad > nothing!) 📉>❌
 - **Cloud masking** with multiple algorithms (Sentinel-2 QA60, Landsat QA_PIXEL, pixel-level cloud detection) ☁️🎭
+  - The average cloud weighs about 1.1 million pounds (500,000 kg) - that's why Flutter Earth works so hard to avoid them! ☁️⚖️💪
 - **Multi-sensor harmonization** (Sentinel-2 ↔ Landsat ↔ SPOT ↔ MSS ↔ AVHRR) 🔄🌈
 - **Band standardization** - All satellites normalized to same band structure (B2/B3/B4/B8/B11/B12) 🎨✨
 - **Feather blending** with soft-edge weight masks for seamless tile merging 🪶✨
@@ -197,9 +193,9 @@ When filling gaps in mosaics, Flutter Earth prioritizes:
 
 ### High Resolution (≤30m):
 
-- 🛰️ **Sentinel-2** (10m, 2015-present) - The sharp-eyed observer! 💙
+- 🛰️ **Sentinel-2** (10m, 2015-present) - Takes a picture of the entire Earth every 5 days! The sharp-eyed observer! 💙
 - 🌍 **Landsat 4 TM** (30m, 1982-1993) - The early pioneer! 💚
-- 🌍 **Landsat 5 TM** (30m, 1984-2013) - The record-holder (28+ years!) 🏆💚
+- 🌍 **Landsat 5 TM** (30m, 1984-2013) - Holds the Guinness World Record for the longest-operating Earth observation satellite (28 years, 10 months)! 🏆💚
 - 🌍 **Landsat 7 ETM+** (30m, 1999-present) - The striped survivor! 💚
 - 🌍 **Landsat 8 OLI/TIRS** (30m, 2013-present) - The modern workhorse! 💚
 - 🌍 **Landsat 9 OLI-2/TIRS-2** (30m, 2021-present) - The newest addition! 💚
@@ -242,6 +238,9 @@ When filling gaps in mosaics, Flutter Earth prioritizes:
 - **Default Start Date**: 1985-01-01 (both Landsat 4 and 5 operational for redundancy!) 📅✨
 - **Default End Date**: Current date 📅
 - **Target Resolution**: 10 meters per pixel (native Sentinel-2 - preserves best quality!) 🎯
+  - At 10m resolution, you can see individual parking spaces in a parking lot! 🚗🅿️
+  - At 30m resolution (Landsat), you can distinguish large buildings but not individual cars! 🏢
+  - At 250m resolution (MODIS), you can see entire neighborhoods but not much detail! 🏘️
 - **Tile Size**: Auto-calculated (validates against 40MB limit) 📏
 - **Workers**: Auto-detected CPU count (capped at 8, server mode uses all cores) 💻
 - **Dynamic Workers**: Enabled by default (auto-adjusts based on CPU/memory) ⚡
@@ -261,6 +260,7 @@ When enabled, Server Mode:
 - Increases **max workers** for I/O-bound tasks ⚡
 - Sets process priority to **HIGH** on Windows 🚀
 - Focuses **all resources** on processing 🎯
+- Processes **2x more images** per satellite and uses **up to 16 parallel metadata workers** - like switching from a bicycle to a rocket ship! 🚴➡️🚀
 
 Perfect for dedicated processing machines! 🖥️✨
 
@@ -276,7 +276,7 @@ output_folder/
 │   ├── mosaic_YYYY_MM_mask.tif     # Water mask
 │   ├── processing_YYYY_MM.log      # Detailed log
 │   ├── mosaic_report_YYYY_MM.pdf   # Comprehensive report
-│   └── progress.html                # Real-time dashboard
+│   └── satellite_histogram.html    # Satellite usage statistics
 └── manifest.csv                     # Processing manifest
 ```
 
@@ -291,7 +291,7 @@ Ready to dive into some amazing projects? We've created **50+ pre-configured bou
 <details>
 <summary><b>💧 Water Resources Projects</b> - Click to expand!</summary>
 
-- **Dead Sea Shrinking Analysis** (1985-2024) - Track the dramatic shrinking of the Dead Sea over decades. Monitor water area changes, shoreline retreat, and salt evaporation ponds. *File: `dead_sea_shrinking_analysis.geojson`*
+- **Dead Sea Shrinking Analysis** (1985-2024) - Track the dramatic shrinking of the Dead Sea over decades. The Dead Sea is the lowest point on Earth's surface and gets saltier every year - it's literally evaporating before our eyes! Monitor water area changes, shoreline retreat, and salt evaporation ponds. *File: `dead_sea_shrinking_analysis.geojson`*
 - **Mekong Delta Subsidence** (2000-2024) - Monitor land subsidence and sea level rise impacts in Vietnam. Track flood frequency and salinity intrusion. *File: `mekong_delta_subsidence.geojson`*
 - **Lake Chad Shrinking** (1985-2024) - Track dramatic lake shrinkage in Central Africa. One of the world's most visible climate change impacts! *File: `lake_chad_shrinking.geojson`*
 - **Aral Sea Disappearance** (1985-2024) - Document one of the world's worst environmental disasters. Watch a sea disappear before your eyes. *File: `aral_sea_disappearance.geojson`*
@@ -429,7 +429,7 @@ Ready to dive into some amazing projects? We've created **50+ pre-configured bou
 
 1. **Start small** - Test with a small date range first! 🧪
 2. **Use Server Mode** - For dedicated processing machines 🖥️💪
-3. **Check the dashboard** - Monitor progress in real-time! 📊✨
+3. **Monitor progress** - Watch console output and satellite usage statistics in real-time! 📊✨
 4. **Review PDF reports** - Get detailed statistics and insights! 📄💕
 5. **Be patient** - Quality takes time, but it's worth it! ⏰🌸
 
@@ -447,8 +447,6 @@ earthengine authenticate
 pip install reportlab
 ```
 
-### "Port already in use" (for dashboard)
-The HTML dashboard will automatically try the next available port! 💖
 
 ### Tiles too large?
 - Increase the `max_tiles` parameter
@@ -480,12 +478,14 @@ This section provides comprehensive technical documentation of all protocols, pr
 
 **Formula**: `quality_score = (cloud_score * 0.25) + (solar_zenith_score * 0.15) + (view_zenith_score * 0.10) + (valid_pixel_score * 0.15) + (temporal_score * 0.05) + (resolution_score * 0.30) + (band_completeness_score * 0.10)`
 
+**Key Insight**: Resolution accounts for **30% of the quality score** - the biggest single factor! Cloud fraction gets **25%** - second biggest! This means a 10m image with 5% clouds will almost always beat a 250m image with 0% clouds! 🏆✨
+
 **Component Details**:
 - **Cloud Score**: `max(0.0, 1.0 - cloud_fraction * 1.5)` - Heavy penalty for clouds!
 - **Solar Zenith**: Optimal <30° = 1.0, 30-60° = linear decay, >60° = 0.1
 - **View Zenith**: Optimal <10° = 1.0, 10-50° = linear decay, >50° = 0.1
 - **Valid Pixels**: `valid_fraction` directly, but minimum 30% required (below = heavy penalty)
-- **Temporal**: `max(0.5, 1.0 - (days_since_start / max_days) * 0.5)`
+- **Temporal**: Prefers images near the month midpoint for better temporal consistency - like picking the perfect photo from a photo album, not just the newest one! This creates temporally coherent mosaics that look natural, not like collages of random dates! 📸✨
 - **Resolution**: Tiered scoring (≤4m=1.0, ≤15m=0.95, ≤30m=0.85, ≤60m=0.60, ≤250m=0.40, ≤400m=0.25, >400m=0.15)
 - **Band Completeness**: `RGB_score * 0.2 + IR_score * 0.6 + index_score * 0.2`
 
@@ -546,6 +546,7 @@ This section provides comprehensive technical documentation of all protocols, pr
 ### 🚀 Performance Optimizations
 
 1. **Parallel Metadata Fetching**: Uses `ThreadPoolExecutor` with configurable workers (default 4, server mode 16)
+   - Earth Engine processes over 5,000 images per minute - Flutter Earth helps you find the perfect ones! 🚀✨
 2. **Band-by-Band Processing**: Processes mosaic bands individually to reduce memory usage
 3. **Cached Timestamps**: Stores timestamps in `detailed_stats` to avoid redundant `getInfo()` calls during gap-filling
 4. **Early Stopping**: Stops searching after finding 3 excellent images per satellite (efficiency!)
@@ -594,57 +595,6 @@ Having issues? Questions? Just want to say hi? 💬
 - Review the PDF reports for detailed information 📄
 
 Remember: Flutter Earth is here to help, gently and beautifully! ✨🦋💖
-
----
-
-## 🌟 Fun Facts & Easter Eggs! 🥚✨
-
-### Did You Know? 🤓
-
-**The Satellite Family Tree**:
-- **Landsat 5** holds the Guinness World Record for the longest-operating Earth observation satellite (28 years, 10 months)! 🏆 It's like the Energizer Bunny of space! 🔋
-- **Sentinel-2** takes a picture of the entire Earth every 5 days - that's like taking a selfie of the whole planet! 📸🌍
-- The **Dead Sea** (our default example region) is the lowest point on Earth's surface and gets **saltier every year** - it's literally evaporating before our eyes! 💧🔬
-
-**The Power of Resolution**:
-- At **10m resolution** (Sentinel-2), you can see individual **parking spaces** in a parking lot! 🚗🅿️
-- Flutter Earth uses **10m as the target resolution** - preserving Sentinel-2's native quality while upsampling other satellites to match! ✨
-- At **30m resolution** (Landsat), you can distinguish **large buildings** but not individual cars! 🏢
-- At **250m resolution** (MODIS), you can see **entire neighborhoods** but not much detail! 🏘️
-
-**Cloud Fun Facts**:
-- The average cloud weighs about **1.1 million pounds** (500,000 kg) - that's why Flutter Earth works so hard to avoid them! ☁️⚖️💪
-- Earth Engine processes **over 5,000 images per minute** - Flutter Earth helps you find the perfect ones! 🚀✨
-- A single Sentinel-2 image can be up to **100 GB uncompressed** - but Flutter Earth only downloads what you need! 📦💖
-
-### Hidden Easter Eggs 🐰
-
-**Easter Egg #1: The Temporal Consistency Secret** 🕐
-- Flutter Earth prefers images from the **middle of your date range** - it's like picking the perfect photo from a photo album, not just the newest one! 📸✨
-- This creates **temporally coherent mosaics** that look natural, not like a collage of random dates! 🎨
-
-**Easter Egg #2: The Resolution Hierarchy** 👑
-- Flutter Earth has a **"resolution-first" philosophy** - it would rather have a slightly cloudy 10m image than a perfect 250m image! 
-- This means your mosaics will **always prioritize detail** over perfect cloud conditions! 🔍💎
-
-**Easter Egg #3: The Gap-Filling Magic** ✨
-- When filling gaps, Flutter Earth looks for images **within 10-30 days** of already-selected images for better temporal consistency!
-- It's like making sure all the puzzle pieces are from the same puzzle box! 🧩💖
-
-**Easter Egg #4: Server Mode Overclocking** 🚀
-- In server mode, Flutter Earth processes **2x more images** per satellite and uses **up to 16 parallel metadata workers**!
-- It's like switching from a bicycle to a rocket ship! 🚴➡️🚀
-
-**Easter Egg #5: The Quality Score Formula** 🧮
-- Resolution accounts for **30% of the quality score** - the biggest single factor!
-- Cloud fraction gets **25%** - second biggest!
-- This means a 10m image with 5% clouds will almost always beat a 250m image with 0% clouds! 🏆✨
-
----
-
-**Made with 💖 and lots of ✨ by the Flutter Earth team**
-
-*"Because every pixel deserves to be perfect!"* 🌸
 
 ---
 
