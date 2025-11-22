@@ -3057,8 +3057,8 @@ def build_best_mosaic_for_tile(tile_bounds: Tuple[float, float, float, float],
                                     temporal_bonus = 0.15 * (1.0 - min_days_diff / 10.0)
                                 elif min_days_diff <= 30:
                                     temporal_bonus = 0.05 * (1.0 - (min_days_diff - 10) / 20.0)
-                        except Exception:
-                            pass
+                            except Exception:
+                                pass
                     
                     # Combined score: resolution (70%) + temporal (15%) + quality (15%)
                     return res_score * 0.7 + temporal_bonus + quality_score * 0.15
