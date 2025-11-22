@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Mekong Delta Subsidence",
+    "category": "Water Resources",
+    "description": "Monitor land subsidence and sea level rise impacts",
+    "dates": "2000-2024",
+    "bbox": "105.0,8.5,107.0,11.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          105.0,
+          8.5
+        ],
+        [
+          107.0,
+          8.5
+        ],
+        [
+          107.0,
+          11.0
+        ],
+        [
+          105.0,
+          11.0
+        ],
+        [
+          105.0,
+          8.5
+        ]
+      ]
+    ]
+  }
+}

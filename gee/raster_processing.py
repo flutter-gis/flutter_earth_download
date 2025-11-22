@@ -235,30 +235,59 @@ def reproject_to_target(src_path: str, target_meta: dict, out_path: str):
                 dst.write(data, band_idx)
 
 
-def feather_and_merge(tile_paths: List[str], out_path: str, feather_px: int = 50):
+def feather_and_merge(tile_paths: List[str], out_path: str, feather_px: int = 50, progress_callback=None):
     """
     Reproject tiles to common grid, create soft weight masks near edges, and blend overlapping pixels
     using normalized weighted sum. Uses memory-efficient band-by-band processing for large datasets.
+    
+    Args:
+        progress_callback: Optional callback function(current, total, message) to report progress
     """
     if not tile_paths:
         raise ValueError("No tiles")
+    
+    try:
+        from tqdm import tqdm
+        USE_TQDM = True
+    except ImportError:
+        USE_TQDM = False
+    
+    num_tiles = len(tile_paths)
     grid = compute_common_grid(tile_paths)
     tmpdir = tempfile.mkdtemp(prefix="deadsea_reproj_")
     reprojected = []
+    
     try:
         # Reproject all tiles to common grid
+        if USE_TQDM:
+            pbar_reproj = tqdm(total=num_tiles, desc="Reprojecting tiles", unit="tile", leave=False)
+        else:
+            pbar_reproj = None
+        
         for i, p in enumerate(tile_paths):
             outp = os.path.join(tmpdir, f"reproj_{i}.tif")
             reproject_to_target(p, grid, outp)
             reprojected.append(outp)
+            if pbar_reproj:
+                pbar_reproj.update(1)
+            if progress_callback:
+                progress_callback(i + 1, num_tiles, f"Reprojecting tiles: {i+1}/{num_tiles}")
+        
+        if pbar_reproj:
+            pbar_reproj.close()
         
         # Open all datasets to get metadata
+        if progress_callback:
+            progress_callback(num_tiles, num_tiles, "Opening reprojected tiles...")
+        logging.info("Opening reprojected tiles...")
         datasets = [rasterio.open(p) for p in reprojected]
         count = datasets[0].count
         out_h = grid["height"]
         out_w = grid["width"]
         nodata = datasets[0].nodata
         dtype = datasets[0].dtypes[0]
+        if progress_callback:
+            progress_callback(num_tiles, num_tiles, f"Processing {count} bands across {num_tiles} tiles...")
         
         # Create output metadata
         out_meta = datasets[0].meta.copy()
@@ -275,8 +304,17 @@ def feather_and_merge(tile_paths: List[str], out_path: str, feather_px: int = 50
         })
         
         # Process band by band for memory efficiency
+        if USE_TQDM:
+            pbar_bands = tqdm(total=count, desc="Processing bands", unit="band", leave=False)
+        else:
+            pbar_bands = None
+        
         mosaic_bands = []
         for band_idx in range(1, count + 1):
+            band_name = f"Band {band_idx}"
+            if progress_callback:
+                progress_callback(band_idx, count, f"Processing {band_name}: {band_idx}/{count}")
+            
             # Initialize accumulation arrays
             numerator = np.zeros((out_h, out_w), dtype=np.float64)
             denominator = np.zeros((out_h, out_w), dtype=np.float64)
@@ -327,6 +365,10 @@ def feather_and_merge(tile_paths: List[str], out_path: str, feather_px: int = 50
                 # Accumulate weighted values
                 numerator += (arr_band * final_weight).astype(np.float64)
                 denominator += final_weight.astype(np.float64)
+                
+                # Update progress for tiles within band
+                if progress_callback and (i + 1) % 100 == 0:  # Update every 100 tiles
+                    progress_callback(i + 1, num_tiles, f"Blending {band_name}: tile {i+1}/{num_tiles}")
             
             # Normalize by sum of weights (avoid division by zero)
             mask_valid = denominator > 0
@@ -390,8 +432,16 @@ def feather_and_merge(tile_paths: List[str], out_path: str, feather_px: int = 50
                 mosaic_band[~mask_valid] = 0
             
             mosaic_bands.append(mosaic_band)
+            if pbar_bands:
+                pbar_bands.update(1)
+        
+        if pbar_bands:
+            pbar_bands.close()
         
         # Stack bands and write
+        if progress_callback:
+            progress_callback(count, count, "Writing mosaic file...")
+        logging.info("Writing mosaic file...")
         mosaic = np.stack(mosaic_bands, axis=0)
         with rasterio.open(out_path, "w", **out_meta) as dst:
             dst.write(mosaic)
@@ -403,7 +453,7 @@ def feather_and_merge(tile_paths: List[str], out_path: str, feather_px: int = 50
     return out_path
 
 
-def add_indices_to_mosaic_local(mosaic_path: str) -> str:
+def add_indices_to_mosaic_local(mosaic_path: str, progress_callback=None) -> str:
     """
     Calculate vegetation and water indices locally from the stitched mosaic.
     This is much faster than calculating on Earth Engine server.
@@ -411,8 +461,18 @@ def add_indices_to_mosaic_local(mosaic_path: str) -> str:
     Expected band order: B4 (Red), B3 (Green), B2 (Blue), B8 (NIR), B11 (SWIR1), B12 (SWIR2)
     Adds indices: NDVI, NDWI, MNDWI, EVI, SAVI, FVI, AVI
     
+    Args:
+        progress_callback: Optional callback function(current, total, message) to report progress
+    
     Returns path to updated mosaic (creates new file with indices appended).
     """
+    try:
+        from tqdm import tqdm
+        USE_TQDM = True
+    except ImportError:
+        USE_TQDM = False
+        tqdm = None
+    
     try:
         # Create temporary output file
         tmp_path = mosaic_path + ".with_indices.tif"
@@ -438,45 +498,70 @@ def add_indices_to_mosaic_local(mosaic_path: str) -> str:
             b12 = src.read(6).astype(np.float32)  # SWIR2
             
             # Handle nodata values
+            if progress_callback:
+                progress_callback(1, 8, "Reading bands and calculating valid mask...")
+            logging.debug("Reading bands and calculating valid mask...")
+            
             nodata = src.nodata if src.nodata is not None else 0
             valid_mask = (b4 > 0) & (b3 > 0) & (b2 > 0) & (b8 > 0) & np.isfinite(b4) & np.isfinite(b3) & np.isfinite(b2) & np.isfinite(b8)
             
             indices = []
+            index_names = ["NDVI", "NDWI", "MNDWI", "EVI", "SAVI", "FVI", "AVI"]
+            idx_count = 0
             
             # NDVI: (NIR - Red) / (NIR + Red)
+            if progress_callback:
+                progress_callback(2, 8, "Calculating NDVI...")
+            logging.debug("Calculating NDVI...")
             ndvi = np.zeros_like(b4, dtype=np.float32)
             denominator = b8 + b4
             valid_ndvi = valid_mask & (denominator > 0)
             ndvi[valid_ndvi] = (b8[valid_ndvi] - b4[valid_ndvi]) / denominator[valid_ndvi]
             ndvi[~valid_ndvi] = nodata
             indices.append(("NDVI", ndvi))
+            idx_count += 1
             
             # NDWI: (Green - NIR) / (Green + NIR)
+            if progress_callback:
+                progress_callback(3, 8, "Calculating NDWI...")
+            logging.debug("Calculating NDWI...")
             ndwi = np.zeros_like(b3, dtype=np.float32)
             denominator = b3 + b8
             valid_ndwi = valid_mask & (denominator > 0)
             ndwi[valid_ndwi] = (b3[valid_ndwi] - b8[valid_ndwi]) / denominator[valid_ndwi]
             ndwi[~valid_ndwi] = nodata
             indices.append(("NDWI", ndwi))
+            idx_count += 1
             
             # MNDWI: (Green - SWIR1) / (Green + SWIR1)
             if np.any(b11 > 0):
+                if progress_callback:
+                    progress_callback(4, 8, "Calculating MNDWI...")
+                logging.debug("Calculating MNDWI...")
                 mndwi = np.zeros_like(b3, dtype=np.float32)
                 denominator = b3 + b11
                 valid_mndwi = valid_mask & (denominator > 0) & (b11 > 0)
                 mndwi[valid_mndwi] = (b3[valid_mndwi] - b11[valid_mndwi]) / denominator[valid_mndwi]
                 mndwi[~valid_mndwi] = nodata
                 indices.append(("MNDWI", mndwi))
+                idx_count += 1
             
             # EVI: 2.5 * ((NIR - Red) / (NIR + 6*Red - 7.5*Blue + 1))
+            if progress_callback:
+                progress_callback(5, 8, "Calculating EVI...")
+            logging.debug("Calculating EVI...")
             evi = np.zeros_like(b4, dtype=np.float32)
             denominator = b8 + 6 * b4 - 7.5 * b2 + 1
             valid_evi = valid_mask & (denominator > 0)
             evi[valid_evi] = 2.5 * (b8[valid_evi] - b4[valid_evi]) / denominator[valid_evi]
             evi[~valid_evi] = nodata
             indices.append(("EVI", evi))
+            idx_count += 1
             
             # SAVI: ((NIR - Red) / (NIR + Red + L)) * (1 + L), where L = 0.5
+            if progress_callback:
+                progress_callback(6, 8, "Calculating SAVI...")
+            logging.debug("Calculating SAVI...")
             savi = np.zeros_like(b4, dtype=np.float32)
             L = 0.5
             denominator = b8 + b4 + L
@@ -484,19 +569,27 @@ def add_indices_to_mosaic_local(mosaic_path: str) -> str:
             savi[valid_savi] = ((b8[valid_savi] - b4[valid_savi]) / denominator[valid_savi]) * (1 + L)
             savi[~valid_savi] = nodata
             indices.append(("SAVI", savi))
+            idx_count += 1
             
             # FVI: Floating Vegetation Index (NIR - SWIR1) / (NIR + SWIR1)
             if np.any(b11 > 0):
+                if progress_callback:
+                    progress_callback(7, 8, "Calculating FVI...")
+                logging.debug("Calculating FVI...")
                 fvi = np.zeros_like(b8, dtype=np.float32)
                 denominator = b8 + b11
                 valid_fvi = valid_mask & (denominator > 0) & (b11 > 0)
                 fvi[valid_fvi] = (b8[valid_fvi] - b11[valid_fvi]) / denominator[valid_fvi]
                 fvi[~valid_fvi] = nodata
                 indices.append(("FVI", fvi))
+                idx_count += 1
             
             # AVI: Aquatic Vegetation Index (requires NDVI and water index)
             # AVI = NDVI * (1 - |water_index|) for pixels with moderate water presence
             if len(indices) > 0:  # We have at least NDVI
+                if progress_callback:
+                    progress_callback(8, 9, "Calculating AVI...")
+                logging.debug("Calculating AVI...")
                 # Use MNDWI if available, otherwise NDWI
                 water_idx = None
                 for name, arr in indices:
@@ -516,8 +609,12 @@ def add_indices_to_mosaic_local(mosaic_path: str) -> str:
                     avi[valid_avi] = ndvi[valid_avi] * (1 - water_idx[valid_avi])
                     avi[~valid_avi] = nodata
                     indices.append(("AVI", avi))
+                    idx_count += 1
             
             # Create new file with original bands + indices
+            if progress_callback:
+                progress_callback(8, 9, "Writing indices to mosaic file...")
+            logging.info("Writing indices to mosaic file...")
             new_count = src.count + len(indices)
             out_profile = src.profile.copy()
             out_profile.update({
@@ -540,8 +637,13 @@ def add_indices_to_mosaic_local(mosaic_path: str) -> str:
                     dst.write(index_arr, next_band_idx)
                     logging.debug(f"Added {name} index to mosaic (band {next_band_idx})")
                     next_band_idx += 1
+                
+                if progress_callback:
+                    progress_callback(9, 9, "Replacing mosaic with indexed version...")
             
             logging.info(f"Added {len(indices)} indices to mosaic: {[name for name, _ in indices]}")
+            if progress_callback:
+                progress_callback(9, 9, "Replacing mosaic with indexed version...")
         
         # Replace original file with new file containing indices
         os.replace(tmp_path, mosaic_path)

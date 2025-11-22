@@ -61,7 +61,7 @@ def download_tile_from_url(url: str, out_tif: str, tile_idx: Optional[int] = Non
                 error_msg = ""
                 try:
                     error_msg = r.text[:200]  # First 200 chars
-                except:
+                except Exception:
                     pass
                 
                 if attempt < DOWNLOAD_RETRIES - 1:

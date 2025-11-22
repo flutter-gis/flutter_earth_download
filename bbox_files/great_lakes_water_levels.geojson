@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Great Lakes Water Levels",
+    "category": "Water Resources",
+    "description": "Monitor lake level changes",
+    "dates": "2000-2024",
+    "bbox": "-88.0,41.5,-87.0,42.5",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -88.0,
+          41.5
+        ],
+        [
+          -87.0,
+          41.5
+        ],
+        [
+          -87.0,
+          42.5
+        ],
+        [
+          -88.0,
+          42.5
+        ],
+        [
+          -88.0,
+          41.5
+        ]
+      ]
+    ]
+  }
+}

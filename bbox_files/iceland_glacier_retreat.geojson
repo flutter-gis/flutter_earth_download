@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Iceland Glacier Retreat",
+    "category": "Climate Change",
+    "description": "Document rapid glacier melting",
+    "dates": "1985-2024",
+    "bbox": "-25.0,63.5,-13.0,66.5",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -25.0,
+          63.5
+        ],
+        [
+          -13.0,
+          63.5
+        ],
+        [
+          -13.0,
+          66.5
+        ],
+        [
+          -25.0,
+          66.5
+        ],
+        [
+          -25.0,
+          63.5
+        ]
+      ]
+    ]
+  }
+}

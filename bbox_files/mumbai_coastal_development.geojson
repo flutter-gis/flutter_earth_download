@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Mumbai Coastal Development",
+    "category": "Urban Development",
+    "description": "Monitor coastal reclamation projects",
+    "dates": "1990-2024",
+    "bbox": "72.5,18.8,73.2,19.3",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          72.5,
+          18.8
+        ],
+        [
+          73.2,
+          18.8
+        ],
+        [
+          73.2,
+          19.3
+        ],
+        [
+          72.5,
+          19.3
+        ],
+        [
+          72.5,
+          18.8
+        ]
+      ]
+    ]
+  }
+}

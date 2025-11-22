@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Everglades Restoration",
+    "category": "Conservation",
+    "description": "Track restoration project effectiveness",
+    "dates": "2000-2024",
+    "bbox": "-81.5,25.0,-80.0,26.5",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -81.5,
+          25.0
+        ],
+        [
+          -80.0,
+          25.0
+        ],
+        [
+          -80.0,
+          26.5
+        ],
+        [
+          -81.5,
+          26.5
+        ],
+        [
+          -81.5,
+          25.0
+        ]
+      ]
+    ]
+  }
+}

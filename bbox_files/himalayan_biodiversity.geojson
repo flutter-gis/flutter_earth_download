@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Himalayan Biodiversity",
+    "category": "Conservation",
+    "description": "Monitor ecosystem health",
+    "dates": "2000-2024",
+    "bbox": "85.0,27.0,88.0,29.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          85.0,
+          27.0
+        ],
+        [
+          88.0,
+          27.0
+        ],
+        [
+          88.0,
+          29.0
+        ],
+        [
+          85.0,
+          29.0
+        ],
+        [
+          85.0,
+          27.0
+        ]
+      ]
+    ]
+  }
+}

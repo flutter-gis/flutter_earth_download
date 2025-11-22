@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Mongolian Desertification",
+    "category": "Climate Change",
+    "description": "Track desert expansion",
+    "dates": "1985-2024",
+    "bbox": "105.0,44.0,110.0,47.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          105.0,
+          44.0
+        ],
+        [
+          110.0,
+          44.0
+        ],
+        [
+          110.0,
+          47.0
+        ],
+        [
+          105.0,
+          47.0
+        ],
+        [
+          105.0,
+          44.0
+        ]
+      ]
+    ]
+  }
+}

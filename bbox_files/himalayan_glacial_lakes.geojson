@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Himalayan Glacial Lakes",
+    "category": "Climate Change",
+    "description": "Track dangerous glacial lake growth",
+    "dates": "2000-2024",
+    "bbox": "86.0,27.5,88.0,28.5",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          86.0,
+          27.5
+        ],
+        [
+          88.0,
+          27.5
+        ],
+        [
+          88.0,
+          28.5
+        ],
+        [
+          86.0,
+          28.5
+        ],
+        [
+          86.0,
+          27.5
+        ]
+      ]
+    ]
+  }
+}

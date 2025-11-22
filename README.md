@@ -929,6 +929,195 @@ The HTML dashboard will automatically try the next available port! 💖
 
 ---
 
+## 🚀 Project Ideas: What Can You Build?
+
+Ready to dive into some amazing projects? We've created **50+ pre-configured bounding boxes** for exciting research projects! Each project includes a ready-to-use GeoJSON file in the `bbox_files/` folder that you can import directly. Just click "Import" in the map selector and choose your project!
+
+### 💧 Water Resources & Hydrology
+
+<details>
+<summary><b style="color: #0066cc;">💧 Water Resources Projects</b> - Click to expand!</summary>
+
+- **<span style="color: #0066cc;">Dead Sea Shrinking Analysis</span>** (1985-2024) - Track the dramatic shrinking of the Dead Sea over decades. Monitor water area changes, shoreline retreat, and salt evaporation ponds. *File: `dead_sea_shrinking_analysis.geojson`*
+
+- **<span style="color: #0066cc;">Mekong Delta Subsidence</span>** (2000-2024) - Monitor land subsidence and sea level rise impacts in Vietnam. Track flood frequency and salinity intrusion. *File: `mekong_delta_subsidence.geojson`*
+
+- **<span style="color: #0066cc;">Lake Chad Shrinking</span>** (1985-2024) - Track dramatic lake shrinkage in Central Africa. One of the world's most visible climate change impacts! *File: `lake_chad_shrinking.geojson`*
+
+- **<span style="color: #0066cc;">Aral Sea Disappearance</span>** (1985-2024) - Document one of the world's worst environmental disasters. Watch a sea disappear before your eyes. *File: `aral_sea_disappearance.geojson`*
+
+- **<span style="color: #0066cc;">Three Gorges Dam Impact</span>** (2000-2024) - Study reservoir filling and downstream impacts of the world's largest dam. *File: `three_gorges_dam_impact.geojson`*
+
+- **<span style="color: #0066cc;">Okavango Delta Flooding</span>** (2000-2024) - Track seasonal flooding patterns in Africa's incredible inland delta. *File: `okavango_delta_flooding.geojson`*
+
+- **<span style="color: #0066cc;">Colorado River Basin</span>** (2000-2024) - Monitor drought and water usage in the American Southwest. *File: `colorado_river_basin.geojson`*
+
+- **<span style="color: #0066cc;">Great Salt Lake Shrinking</span>** (1985-2024) - Monitor lake level decline and dust storm impacts. *File: `great_salt_lake_shrinking.geojson`*
+
+- **<span style="color: #0066cc;">Great Lakes Water Levels</span>** (2000-2024) - Monitor lake level changes and shoreline dynamics. *File: `great_lakes_water_levels.geojson`*
+
+- **<span style="color: #0066cc;">Las Vegas Water Usage</span>** (1985-2024) - Monitor water consumption and urban heat island effects in the desert. *File: `las_vegas_water_usage.geojson`*
+
+</details>
+
+### 🌡️ Climate Change & Cryosphere
+
+<details>
+<summary><b style="color: #00cc99;">🌡️ Climate Change Projects</b> - Click to expand!</summary>
+
+- **<span style="color: #00cc99;">Arctic Sea Ice Monitoring</span>** (2000-2024) - Track sea ice extent and thickness changes in the Arctic. Critical for climate research! *File: `arctic_sea_ice_monitoring.geojson`*
+
+- **<span style="color: #00cc99;">Greenland Ice Sheet Melting</span>** (2000-2024) - Track ice sheet mass loss and glacier retreat. Watch the ice disappear in real-time! *File: `greenland_ice_sheet_melting.geojson`*
+
+- **<span style="color: #00cc99;">Himalayan Glacier Monitoring</span>** (2000-2024) - Track glacier retreat in the "Third Pole". Monitor glacial lakes and snow cover. *File: `himalayan_glacier_monitoring.geojson`*
+
+- **<span style="color: #00cc99;">Iceland Glacier Retreat</span>** (1985-2024) - Document rapid glacier melting in one of the world's most visible locations. *File: `iceland_glacier_retreat.geojson`*
+
+- **<span style="color: #00cc99;">Patagonian Ice Fields</span>** (1985-2024) - Track ice field retreat in South America's stunning Patagonia region. *File: `patagonian_ice_fields.geojson`*
+
+- **<span style="color: #00cc99;">Antarctic Ice Shelf Collapse</span>** (2000-2024) - Monitor ice shelf stability and calving events. *File: `antarctic_ice_shelf_collapse.geojson`*
+
+- **<span style="color: #00cc99;">Antarctic Peninsula Warming</span>** (2000-2024) - Monitor rapid warming impacts on one of the fastest-warming regions on Earth. *File: `antarctic_peninsula_warming.geojson`*
+
+- **<span style="color: #00cc99;">Siberian Permafrost Thaw</span>** (2000-2024) - Monitor permafrost degradation and methane release. Critical for climate feedback loops! *File: `siberian_permafrost_thaw.geojson`*
+
+- **<span style="color: #00cc99;">Alaska Permafrost Thaw</span>** (2000-2024) - Track permafrost degradation in North America. *File: `alaska_permafrost_thaw.geojson`*
+
+- **<span style="color: #00cc99;">Sahara Desert Expansion</span>** (1985-2024) - Track desertification and Sahel boundary shifts. *File: `sahara_desert_expansion.geojson`*
+
+- **<span style="color: #00cc99;">Mongolian Desertification</span>** (1985-2024) - Track desert expansion in Central Asia. *File: `mongolian_desertification.geojson`*
+
+- **<span style="color: #00cc99;">Maldives Sea Level Rise</span>** (2000-2024) - Monitor impacts of rising sea levels on low-lying islands. *File: `maldives_sea_level_rise.geojson`*
+
+- **<span style="color: #00cc99;">Himalayan Glacial Lakes</span>** (2000-2024) - Track dangerous glacial lake growth and flood risk. *File: `himalayan_glacial_lakes.geojson`*
+
+- **<span style="color: #00cc99;">Himalayan Snow Cover</span>** (2000-2024) - Monitor snow cover trends and water availability. *File: `himalayan_snow_cover.geojson`*
+
+- **<span style="color: #00cc99;">Arctic Tundra Changes</span>** (2000-2024) - Track tundra ecosystem shifts and vegetation change. *File: `arctic_tundra_changes.geojson`*
+
+</details>
+
+### 🌳 Conservation & Deforestation
+
+<details>
+<summary><b style="color: #00aa00;">🌳 Conservation Projects</b> - Click to expand!</summary>
+
+- **<span style="color: #00aa00;">Amazon Rainforest Deforestation</span>** (1985-2024) - Monitor deforestation rates in the Brazilian Amazon. Track forest loss, NDVI trends, and fire detection. *File: `amazon_rainforest_deforestation.geojson`*
+
+- **<span style="color: #00aa00;">Congo Basin Deforestation</span>** (2000-2024) - Track forest loss in Central Africa's second-largest rainforest. *File: `congo_basin_deforestation.geojson`*
+
+- **<span style="color: #00aa00;">Borneo Palm Oil Plantations</span>** (2000-2024) - Track deforestation for palm oil production. Monitor plantation expansion and biodiversity impacts. *File: `borneo_palm_oil_plantations.geojson`*
+
+- **<span style="color: #00aa00;">Amazon Gold Mining</span>** (2010-2024) - Monitor illegal mining impacts in the Amazon. Track mining extent, deforestation, and water pollution. *File: `amazon_gold_mining.geojson`*
+
+- **<span style="color: #00aa00;">Yellowstone National Park</span>** (1985-2024) - Track ecosystem health and wildfire impacts in America's first national park. *File: `yellowstone_national_park.geojson`*
+
+- **<span style="color: #00aa00;">Everglades Restoration</span>** (2000-2024) - Track restoration project effectiveness in Florida's unique ecosystem. *File: `everglades_restoration.geojson`*
+
+- **<span style="color: #00aa00;">Sahara Green Wall</span>** (2010-2024) - Track reforestation project across the Sahel. Monitor tree planting and vegetation growth. *File: `sahara_green_wall.geojson`*
+
+- **<span style="color: #00aa00;">Himalayan Biodiversity</span>** (2000-2024) - Monitor ecosystem health in one of the world's biodiversity hotspots. *File: `himalayan_biodiversity.geojson`*
+
+</details>
+
+### 🏙️ Urban Development & Infrastructure
+
+<details>
+<summary><b style="color: #cc6600;">🏙️ Urban Development Projects</b> - Click to expand!</summary>
+
+- **<span style="color: #cc6600;">Dubai Urban Expansion</span>** (1990-2024) - Document rapid urban growth and artificial islands. Watch a city grow from desert! *File: `dubai_urban_expansion.geojson`*
+
+- **<span style="color: #cc6600;">Sao Paulo Urban Growth</span>** (1985-2024) - Document megacity expansion in South America's largest city. *File: `sao_paulo_urban_growth.geojson`*
+
+- **<span style="color: #cc6600;">Mumbai Coastal Development</span>** (1990-2024) - Monitor coastal reclamation projects and urban growth. *File: `mumbai_coastal_development.geojson`*
+
+- **<span style="color: #cc6600;">Suez Canal Expansion</span>** (2014-2016) - Document the canal widening project. Short but intense monitoring period! *File: `suez_canal_expansion.geojson`*
+
+- **<span style="color: #cc6600;">Mekong River Dams</span>** (2010-2024) - Study dam impacts on the Mekong River system. *File: `mekong_river_dams.geojson`*
+
+</details>
+
+### 🔥 Disaster Monitoring & Recovery
+
+<details>
+<summary><b style="color: #ff3300;">🔥 Disaster Monitoring Projects</b> - Click to expand!</summary>
+
+- **<span style="color: #ff3300;">California Wildfire Recovery</span>** (2018-2024) - Track vegetation recovery after major wildfires. Monitor NDVI recovery and burn scar evolution. *File: `california_wildfire_recovery.geojson`*
+
+- **<span style="color: #ff3300;">Australian Bushfire Recovery</span>** (2019-2024) - Monitor ecosystem recovery after the devastating 2019-2020 fires. *File: `australian_bushfire_recovery.geojson`*
+
+- **<span style="color: #ff3300;">Bangladesh Flooding</span>** (2000-2024) - Track monsoon flooding patterns and impacts. Monitor flood extent, frequency, and crop damage. *File: `bangladesh_flooding.geojson`*
+
+- **<span style="color: #ff3300;">Yangtze River Flooding</span>** (2020-2024) - Monitor recent flood patterns in China's longest river. *File: `yangtze_river_flooding.geojson`*
+
+- **<span style="color: #ff3300;">Himalayan Landslide Monitoring</span>** (2015-2024) - Track landslide-prone areas and recovery. *File: `himalayan_landslide_monitoring.geojson`*
+
+- **<span style="color: #ff3300;">Florida Everglades Fires</span>** (2017-2024) - Track wildfire patterns in the Everglades. *File: `florida_everglades_fires.geojson`*
+
+</details>
+
+### 🌊 Marine & Coastal Conservation
+
+<details>
+<summary><b style="color: #0066ff;">🌊 Marine Conservation Projects</b> - Click to expand!</summary>
+
+- **<span style="color: #0066ff;">Great Barrier Reef Health</span>** (2015-2024) - Monitor coral bleaching and reef health. Track coral coverage, water clarity, and bleaching events. *File: `great_barrier_reef_health.geojson`*
+
+- **<span style="color: #0066ff;">Mississippi River Delta</span>** (1985-2024) - Monitor land loss and delta subsidence. Track wetland health and sediment deposition. *File: `mississippi_river_delta.geojson`*
+
+- **<span style="color: #0066ff;">Venice Lagoon Changes</span>** (2000-2024) - Monitor sea level impacts on Venice. Track flood frequency and lagoon health. *File: `venice_lagoon_changes.geojson`*
+
+</details>
+
+### 🌾 Agriculture & Food Security
+
+<details>
+<summary><b style="color: #ff9900;">🌾 Agriculture Projects</b> - Click to expand!</summary>
+
+- **<span style="color: #ff9900;">Nile Delta Agriculture</span>** (1985-2024) - Monitor agricultural productivity and irrigation in Egypt's breadbasket. *File: `nile_delta_agriculture.geojson`*
+
+- **<span style="color: #ff9900;">Indus River Agriculture</span>** (1985-2024) - Monitor irrigation and crop patterns in Pakistan's agricultural heartland. *File: `indus_river_agriculture.geojson`*
+
+</details>
+
+### ⚡ Renewable Energy & Infrastructure
+
+<details>
+<summary><b style="color: #ffcc00;">⚡ Renewable Energy Projects</b> - Click to expand!</summary>
+
+- **<span style="color: #ffcc00;">North Sea Wind Farms</span>** (2010-2024) - Monitor offshore wind farm development. Track farm expansion and marine impacts. *File: `north_sea_wind_farms.geojson`*
+
+- **<span style="color: #ffcc00;">Sahara Solar Farms</span>** (2015-2024) - Track solar farm development in the world's largest desert. *File: `sahara_solar_farms.geojson`*
+
+</details>
+
+### 🔬 Environmental Monitoring & Research
+
+<details>
+<summary><b style="color: #9900cc;">🔬 Environmental Research Projects</b> - Click to expand!</summary>
+
+- **<span style="color: #9900cc;">Chernobyl Exclusion Zone</span>** (1986-2024) - Study ecosystem recovery after nuclear disaster. Monitor forest regrowth and wildlife habitat. *File: `chernobyl_exclusion_zone.geojson`*
+
+- **<span style="color: #9900cc;">Ganges River Pollution</span>** (2000-2024) - Monitor water quality and sediment in one of the world's most polluted rivers. *File: `ganges_river_pollution.geojson`*
+
+- **<span style="color: #9900cc;">Niger Delta Oil Spills</span>** (2000-2024) - Track oil spill impacts and ecosystem damage. *File: `niger_delta_oil_spills.geojson`*
+
+- **<span style="color: #9900cc;">California Drought Impact</span>** (2012-2024) - Track drought severity and recovery in California. *File: `california_drought_impact.geojson`*
+
+</details>
+
+### 📊 How to Use Project Bounding Boxes
+
+1. **Start Flutter Earth** and click the map selector button
+2. **Click "Import"** in the map interface
+3. **Navigate to `bbox_files/`** folder
+4. **Select any `.geojson` file** from the project list above
+5. **The bounding box will load automatically!** Just adjust dates and start processing!
+
+**Pro Tip:** Each project file includes metadata about the project, recommended date ranges, and key metrics to monitor. Check the GeoJSON properties for details!
+
+---
+
 ## 🎯 Best Practices
 
 1. **Start small** - Test with a small date range first! 🧪

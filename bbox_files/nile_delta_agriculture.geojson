@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Nile Delta Agriculture",
+    "category": "Agriculture",
+    "description": "Monitor agricultural productivity and irrigation",
+    "dates": "1985-2024",
+    "bbox": "30.5,30.0,32.0,31.5",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          30.5,
+          30.0
+        ],
+        [
+          32.0,
+          30.0
+        ],
+        [
+          32.0,
+          31.5
+        ],
+        [
+          30.5,
+          31.5
+        ],
+        [
+          30.5,
+          30.0
+        ]
+      ]
+    ]
+  }
+}

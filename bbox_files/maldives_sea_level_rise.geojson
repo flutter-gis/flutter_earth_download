@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Maldives Sea Level Rise",
+    "category": "Climate Change",
+    "description": "Monitor impacts of rising sea levels",
+    "dates": "2000-2024",
+    "bbox": "72.5,3.0,74.0,5.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          72.5,
+          3.0
+        ],
+        [
+          74.0,
+          3.0
+        ],
+        [
+          74.0,
+          5.0
+        ],
+        [
+          72.5,
+          5.0
+        ],
+        [
+          72.5,
+          3.0
+        ]
+      ]
+    ]
+  }
+}

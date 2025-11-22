@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Aral Sea Disappearance",
+    "category": "Water Resources",
+    "description": "Document one of the world's worst environmental disasters",
+    "dates": "1985-2024",
+    "bbox": "58.0,44.0,62.0,47.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          58.0,
+          44.0
+        ],
+        [
+          62.0,
+          44.0
+        ],
+        [
+          62.0,
+          47.0
+        ],
+        [
+          58.0,
+          47.0
+        ],
+        [
+          58.0,
+          44.0
+        ]
+      ]
+    ]
+  }
+}

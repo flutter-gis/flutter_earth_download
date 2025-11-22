@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Yangtze River Flooding",
+    "category": "Disaster Monitoring",
+    "description": "Monitor flood patterns",
+    "dates": "2020-2024",
+    "bbox": "114.0,29.0,116.0,31.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          114.0,
+          29.0
+        ],
+        [
+          116.0,
+          29.0
+        ],
+        [
+          116.0,
+          31.0
+        ],
+        [
+          114.0,
+          31.0
+        ],
+        [
+          114.0,
+          29.0
+        ]
+      ]
+    ]
+  }
+}

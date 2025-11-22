@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Siberian Permafrost Thaw",
+    "category": "Climate Change",
+    "description": "Monitor permafrost degradation and methane release",
+    "dates": "2000-2024",
+    "bbox": "100.0,60.0,120.0,70.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          100.0,
+          60.0
+        ],
+        [
+          120.0,
+          60.0
+        ],
+        [
+          120.0,
+          70.0
+        ],
+        [
+          100.0,
+          70.0
+        ],
+        [
+          100.0,
+          60.0
+        ]
+      ]
+    ]
+  }
+}

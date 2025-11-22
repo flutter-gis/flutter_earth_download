@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Antarctic Ice Shelf Collapse",
+    "category": "Climate Change",
+    "description": "Monitor ice shelf stability",
+    "dates": "2000-2024",
+    "bbox": "-75.0,-75.0,-60.0,-70.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -75.0,
+          -75.0
+        ],
+        [
+          -60.0,
+          -75.0
+        ],
+        [
+          -60.0,
+          -70.0
+        ],
+        [
+          -75.0,
+          -70.0
+        ],
+        [
+          -75.0,
+          -75.0
+        ]
+      ]
+    ]
+  }
+}

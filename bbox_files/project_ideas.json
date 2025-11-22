@@ -1,0 +1,445 @@
+{
+  "projects": [
+    {
+      "name": "Dead Sea Shrinking Analysis",
+      "category": "Water Resources",
+      "description": "Track the dramatic shrinking of the Dead Sea over decades",
+      "bbox": [35.3, 31.2, 35.6, 31.8],
+      "dates": "1985-2024",
+      "key_metrics": ["Water area change", "Shoreline retreat", "Salt evaporation ponds"]
+    },
+    {
+      "name": "Amazon Rainforest Deforestation",
+      "category": "Conservation",
+      "description": "Monitor deforestation rates in the Brazilian Amazon",
+      "bbox": [-65.0, -10.0, -50.0, 5.0],
+      "dates": "1985-2024",
+      "key_metrics": ["Forest loss", "NDVI trends", "Fire detection"]
+    },
+    {
+      "name": "Arctic Sea Ice Monitoring",
+      "category": "Climate Change",
+      "description": "Track sea ice extent and thickness changes",
+      "bbox": [-180.0, 70.0, -100.0, 85.0],
+      "dates": "2000-2024",
+      "key_metrics": ["Ice extent", "Melt season length", "Ice thickness"]
+    },
+    {
+      "name": "Dubai Urban Expansion",
+      "category": "Urban Development",
+      "description": "Document rapid urban growth and artificial islands",
+      "bbox": [54.8, 24.8, 55.4, 25.3],
+      "dates": "1990-2024",
+      "key_metrics": ["Urban sprawl", "Land reclamation", "Infrastructure growth"]
+    },
+    {
+      "name": "California Wildfire Recovery",
+      "category": "Disaster Monitoring",
+      "description": "Track vegetation recovery after major wildfires",
+      "bbox": [-122.5, 37.0, -120.0, 39.0],
+      "dates": "2018-2024",
+      "key_metrics": ["NDVI recovery", "Burn scar evolution", "Erosion patterns"]
+    },
+    {
+      "name": "Great Barrier Reef Health",
+      "category": "Marine Conservation",
+      "description": "Monitor coral bleaching and reef health",
+      "bbox": [145.0, -20.0, 150.0, -15.0],
+      "dates": "2015-2024",
+      "key_metrics": ["Coral coverage", "Water clarity", "Bleaching events"]
+    },
+    {
+      "name": "Sahara Desert Expansion",
+      "category": "Climate Change",
+      "description": "Track desertification and Sahel boundary shifts",
+      "bbox": [-10.0, 15.0, 20.0, 30.0],
+      "dates": "1985-2024",
+      "key_metrics": ["Desert boundary", "Vegetation index", "Dust storms"]
+    },
+    {
+      "name": "Mekong Delta Subsidence",
+      "category": "Water Resources",
+      "description": "Monitor land subsidence and sea level rise impacts",
+      "bbox": [105.0, 8.5, 107.0, 11.0],
+      "dates": "2000-2024",
+      "key_metrics": ["Land elevation", "Flood frequency", "Salinity intrusion"]
+    },
+    {
+      "name": "Greenland Ice Sheet Melting",
+      "category": "Climate Change",
+      "description": "Track ice sheet mass loss and glacier retreat",
+      "bbox": [-50.0, 60.0, -20.0, 75.0],
+      "dates": "2000-2024",
+      "key_metrics": ["Ice extent", "Melt ponds", "Glacier velocity"]
+    },
+    {
+      "name": "Las Vegas Water Usage",
+      "category": "Urban Development",
+      "description": "Monitor water consumption and urban heat island",
+      "bbox": [-115.5, 36.0, -114.5, 36.5],
+      "dates": "1985-2024",
+      "key_metrics": ["Urban growth", "Lake Mead levels", "Temperature trends"]
+    },
+    {
+      "name": "Chernobyl Exclusion Zone",
+      "category": "Environmental Monitoring",
+      "description": "Study ecosystem recovery after nuclear disaster",
+      "bbox": [29.5, 51.2, 30.8, 51.6],
+      "dates": "1986-2024",
+      "key_metrics": ["Forest regrowth", "Wildlife habitat", "Radiation mapping"]
+    },
+    {
+      "name": "Nile Delta Agriculture",
+      "category": "Agriculture",
+      "description": "Monitor agricultural productivity and irrigation",
+      "bbox": [30.5, 30.0, 32.0, 31.5],
+      "dates": "1985-2024",
+      "key_metrics": ["Crop health", "Irrigation extent", "NDVI patterns"]
+    },
+    {
+      "name": "Yellowstone National Park",
+      "category": "Conservation",
+      "description": "Track ecosystem health and wildfire impacts",
+      "bbox": [-111.0, 44.0, -109.5, 45.0],
+      "dates": "1985-2024",
+      "key_metrics": ["Vegetation health", "Fire scars", "Wildlife habitat"]
+    },
+    {
+      "name": "Three Gorges Dam Impact",
+      "category": "Water Resources",
+      "description": "Study reservoir filling and downstream impacts",
+      "bbox": [110.0, 30.0, 112.0, 31.5],
+      "dates": "2000-2024",
+      "key_metrics": ["Reservoir area", "Sediment transport", "Downstream changes"]
+    },
+    {
+      "name": "Siberian Permafrost Thaw",
+      "category": "Climate Change",
+      "description": "Monitor permafrost degradation and methane release",
+      "bbox": [100.0, 60.0, 120.0, 70.0],
+      "dates": "2000-2024",
+      "key_metrics": ["Thaw lakes", "Vegetation change", "Surface deformation"]
+    },
+    {
+      "name": "Bangladesh Flooding",
+      "category": "Disaster Monitoring",
+      "description": "Track monsoon flooding patterns and impacts",
+      "bbox": [88.0, 23.5, 92.0, 26.5],
+      "dates": "2000-2024",
+      "key_metrics": ["Flood extent", "Frequency", "Crop damage"]
+    },
+    {
+      "name": "Iceland Glacier Retreat",
+      "category": "Climate Change",
+      "description": "Document rapid glacier melting",
+      "bbox": [-25.0, 63.5, -13.0, 66.5],
+      "dates": "1985-2024",
+      "key_metrics": ["Glacier extent", "Terminus position", "Ice velocity"]
+    },
+    {
+      "name": "Lake Chad Shrinking",
+      "category": "Water Resources",
+      "description": "Track dramatic lake shrinkage in Central Africa",
+      "bbox": [13.0, 12.0, 15.0, 14.0],
+      "dates": "1985-2024",
+      "key_metrics": ["Lake area", "Water level", "Surrounding vegetation"]
+    },
+    {
+      "name": "Australian Bushfire Recovery",
+      "category": "Disaster Monitoring",
+      "description": "Monitor ecosystem recovery after 2019-2020 fires",
+      "bbox": [148.0, -37.0, 152.0, -34.0],
+      "dates": "2019-2024",
+      "key_metrics": ["Burn severity", "Recovery rate", "Species habitat"]
+    },
+    {
+      "name": "Everglades Restoration",
+      "category": "Conservation",
+      "description": "Track restoration project effectiveness",
+      "bbox": [-81.5, 25.0, -80.0, 26.5],
+      "dates": "2000-2024",
+      "key_metrics": ["Water flow", "Vegetation health", "Wildlife habitat"]
+    },
+    {
+      "name": "Aral Sea Disappearance",
+      "category": "Water Resources",
+      "description": "Document one of the world's worst environmental disasters",
+      "bbox": [58.0, 44.0, 62.0, 47.0],
+      "dates": "1985-2024",
+      "key_metrics": ["Lake area", "Desertification", "Dust storms"]
+    },
+    {
+      "name": "Himalayan Glacier Monitoring",
+      "category": "Climate Change",
+      "description": "Track glacier retreat in the Himalayas",
+      "bbox": [80.0, 28.0, 85.0, 30.5],
+      "dates": "2000-2024",
+      "key_metrics": ["Glacier extent", "Glacial lakes", "Snow cover"]
+    },
+    {
+      "name": "Mississippi River Delta",
+      "category": "Coastal Change",
+      "description": "Monitor land loss and delta subsidence",
+      "bbox": [-90.5, 29.0, -89.0, 30.0],
+      "dates": "1985-2024",
+      "key_metrics": ["Land loss", "Wetland health", "Sediment deposition"]
+    },
+    {
+      "name": "Sao Paulo Urban Growth",
+      "category": "Urban Development",
+      "description": "Document megacity expansion",
+      "bbox": [-47.0, -24.0, -46.0, -23.0],
+      "dates": "1985-2024",
+      "key_metrics": ["Urban sprawl", "Green space loss", "Heat island"]
+    },
+    {
+      "name": "Maldives Sea Level Rise",
+      "category": "Climate Change",
+      "description": "Monitor impacts of rising sea levels",
+      "bbox": [72.5, 3.0, 74.0, 5.0],
+      "dates": "2000-2024",
+      "key_metrics": ["Shoreline change", "Coral health", "Island stability"]
+    },
+    {
+      "name": "Okavango Delta Flooding",
+      "category": "Water Resources",
+      "description": "Track seasonal flooding patterns",
+      "bbox": [22.0, -19.5, 23.5, -18.5],
+      "dates": "2000-2024",
+      "key_metrics": ["Flood extent", "Seasonal patterns", "Wildlife migration"]
+    },
+    {
+      "name": "Antarctic Ice Shelf Collapse",
+      "category": "Climate Change",
+      "description": "Monitor ice shelf stability",
+      "bbox": [-75.0, -75.0, -60.0, -70.0],
+      "dates": "2000-2024",
+      "key_metrics": ["Ice extent", "Cracks", "Calving events"]
+    },
+    {
+      "name": "Ganges River Pollution",
+      "category": "Water Quality",
+      "description": "Monitor water quality and sediment",
+      "bbox": [88.0, 22.5, 90.0, 24.5],
+      "dates": "2000-2024",
+      "key_metrics": ["Turbidity", "Sediment load", "Water clarity"]
+    },
+    {
+      "name": "Patagonian Ice Fields",
+      "category": "Climate Change",
+      "description": "Track ice field retreat",
+      "bbox": [-74.0, -51.0, -72.0, -49.0],
+      "dates": "1985-2024",
+      "key_metrics": ["Ice extent", "Glacier retreat", "Lakes formation"]
+    },
+    {
+      "name": "Mumbai Coastal Development",
+      "category": "Urban Development",
+      "description": "Monitor coastal reclamation projects",
+      "bbox": [72.5, 18.8, 73.2, 19.3],
+      "dates": "1990-2024",
+      "key_metrics": ["Land reclamation", "Coastal erosion", "Urban growth"]
+    },
+    {
+      "name": "Congo Basin Deforestation",
+      "category": "Conservation",
+      "description": "Track forest loss in Central Africa",
+      "bbox": [20.0, -5.0, 25.0, 0.0],
+      "dates": "2000-2024",
+      "key_metrics": ["Forest loss", "Mining impacts", "Road expansion"]
+    },
+    {
+      "name": "Venice Lagoon Changes",
+      "category": "Coastal Change",
+      "description": "Monitor sea level impacts on Venice",
+      "bbox": [12.0, 45.2, 12.6, 45.6],
+      "dates": "2000-2024",
+      "key_metrics": ["Flood frequency", "Lagoon health", "Coastal erosion"]
+    },
+    {
+      "name": "Alaska Permafrost Thaw",
+      "category": "Climate Change",
+      "description": "Track permafrost degradation",
+      "bbox": [-150.0, 64.0, -145.0, 66.0],
+      "dates": "2000-2024",
+      "key_metrics": ["Thaw lakes", "Ground subsidence", "Vegetation change"]
+    },
+    {
+      "name": "Indus River Agriculture",
+      "category": "Agriculture",
+      "description": "Monitor irrigation and crop patterns",
+      "bbox": [70.0, 29.0, 74.0, 32.0],
+      "dates": "1985-2024",
+      "key_metrics": ["Crop health", "Irrigation extent", "Water stress"]
+    },
+    {
+      "name": "Borneo Palm Oil Plantations",
+      "category": "Conservation",
+      "description": "Track deforestation for palm oil",
+      "bbox": [110.0, -2.0, 115.0, 2.0],
+      "dates": "2000-2024",
+      "key_metrics": ["Forest loss", "Plantation expansion", "Biodiversity impact"]
+    },
+    {
+      "name": "Colorado River Basin",
+      "category": "Water Resources",
+      "description": "Monitor drought and water usage",
+      "bbox": [-112.0, 36.0, -110.0, 38.0],
+      "dates": "2000-2024",
+      "key_metrics": ["Reservoir levels", "Vegetation stress", "Water availability"]
+    },
+    {
+      "name": "Suez Canal Expansion",
+      "category": "Infrastructure",
+      "description": "Document canal widening project",
+      "bbox": [32.0, 30.5, 32.6, 31.0],
+      "dates": "2014-2016",
+      "key_metrics": ["Canal width", "Traffic patterns", "Environmental impact"]
+    },
+    {
+      "name": "Himalayan Landslide Monitoring",
+      "category": "Disaster Monitoring",
+      "description": "Track landslide-prone areas",
+      "bbox": [83.0, 28.0, 85.0, 30.0],
+      "dates": "2015-2024",
+      "key_metrics": ["Landslide scars", "Vegetation loss", "Recovery"]
+    },
+    {
+      "name": "North Sea Wind Farms",
+      "category": "Renewable Energy",
+      "description": "Monitor offshore wind farm development",
+      "bbox": [1.0, 53.0, 4.0, 55.0],
+      "dates": "2010-2024",
+      "key_metrics": ["Farm expansion", "Marine impact", "Energy production"]
+    },
+    {
+      "name": "Mongolian Desertification",
+      "category": "Climate Change",
+      "description": "Track desert expansion",
+      "bbox": [105.0, 44.0, 110.0, 47.0],
+      "dates": "1985-2024",
+      "key_metrics": ["Desert boundary", "Vegetation loss", "Dust storms"]
+    },
+    {
+      "name": "Florida Everglades Fires",
+      "category": "Disaster Monitoring",
+      "description": "Track wildfire patterns",
+      "bbox": [-81.5, 25.5, -80.5, 26.5],
+      "dates": "2017-2024",
+      "key_metrics": ["Burn severity", "Recovery", "Habitat impact"]
+    },
+    {
+      "name": "Yangtze River Flooding",
+      "category": "Disaster Monitoring",
+      "description": "Monitor flood patterns",
+      "bbox": [114.0, 29.0, 116.0, 31.0],
+      "dates": "2020-2024",
+      "key_metrics": ["Flood extent", "Frequency", "Impact"]
+    },
+    {
+      "name": "Sahara Solar Farms",
+      "category": "Renewable Energy",
+      "description": "Track solar farm development",
+      "bbox": [-7.0, 30.0, -5.0, 32.0],
+      "dates": "2015-2024",
+      "key_metrics": ["Farm expansion", "Land use change", "Energy output"]
+    },
+    {
+      "name": "Great Lakes Water Levels",
+      "category": "Water Resources",
+      "description": "Monitor lake level changes",
+      "bbox": [-88.0, 41.5, -87.0, 42.5],
+      "dates": "2000-2024",
+      "key_metrics": ["Water level", "Shoreline change", "Ecosystem health"]
+    },
+    {
+      "name": "Himalayan Glacial Lakes",
+      "category": "Climate Change",
+      "description": "Track dangerous glacial lake growth",
+      "bbox": [86.0, 27.5, 88.0, 28.5],
+      "dates": "2000-2024",
+      "key_metrics": ["Lake size", "Glacier retreat", "Flood risk"]
+    },
+    {
+      "name": "Amazon Gold Mining",
+      "category": "Conservation",
+      "description": "Monitor illegal mining impacts",
+      "bbox": [-65.0, -12.0, -63.0, -10.0],
+      "dates": "2010-2024",
+      "key_metrics": ["Mining extent", "Deforestation", "Water pollution"]
+    },
+    {
+      "name": "California Drought Impact",
+      "category": "Water Resources",
+      "description": "Track drought severity and recovery",
+      "bbox": [-121.0, 36.0, -119.0, 38.0],
+      "dates": "2012-2024",
+      "key_metrics": ["Vegetation stress", "Water availability", "Fire risk"]
+    },
+    {
+      "name": "Antarctic Peninsula Warming",
+      "category": "Climate Change",
+      "description": "Monitor rapid warming impacts",
+      "bbox": [-65.0, -65.0, -60.0, -63.0],
+      "dates": "2000-2024",
+      "key_metrics": ["Ice loss", "Glacier retreat", "Temperature trends"]
+    },
+    {
+      "name": "Niger Delta Oil Spills",
+      "category": "Environmental Monitoring",
+      "description": "Track oil spill impacts",
+      "bbox": [6.0, 4.5, 7.5, 5.5],
+      "dates": "2000-2024",
+      "key_metrics": ["Spill extent", "Ecosystem damage", "Recovery"]
+    },
+    {
+      "name": "Himalayan Snow Cover",
+      "category": "Climate Change",
+      "description": "Monitor snow cover trends",
+      "bbox": [76.0, 30.0, 80.0, 33.0],
+      "dates": "2000-2024",
+      "key_metrics": ["Snow extent", "Duration", "Water availability"]
+    },
+    {
+      "name": "Mekong River Dams",
+      "category": "Infrastructure",
+      "description": "Study dam impacts",
+      "bbox": [102.0, 19.0, 105.0, 22.0],
+      "dates": "2010-2024",
+      "key_metrics": ["Reservoir area", "Downstream impacts", "Sediment"]
+    },
+    {
+      "name": "Sahara Green Wall",
+      "category": "Conservation",
+      "description": "Track reforestation project",
+      "bbox": [-5.0, 15.0, 5.0, 20.0],
+      "dates": "2010-2024",
+      "key_metrics": ["Tree planting", "Vegetation growth", "Desert boundary"]
+    },
+    {
+      "name": "Great Salt Lake Shrinking",
+      "category": "Water Resources",
+      "description": "Monitor lake level decline",
+      "bbox": [-113.0, 40.5, -111.5, 41.5],
+      "dates": "1985-2024",
+      "key_metrics": ["Lake area", "Water level", "Dust storms"]
+    },
+    {
+      "name": "Himalayan Biodiversity",
+      "category": "Conservation",
+      "description": "Monitor ecosystem health",
+      "bbox": [85.0, 27.0, 88.0, 29.0],
+      "dates": "2000-2024",
+      "key_metrics": ["Forest health", "Habitat quality", "Species range"]
+    },
+    {
+      "name": "Arctic Tundra Changes",
+      "category": "Climate Change",
+      "description": "Track tundra ecosystem shifts",
+      "bbox": [-150.0, 68.0, -140.0, 70.0],
+      "dates": "2000-2024",
+      "key_metrics": ["Vegetation change", "Permafrost", "Wildlife habitat"]
+    }
+  ]
+}
+

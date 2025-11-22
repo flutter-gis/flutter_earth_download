@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "California Wildfire Recovery",
+    "category": "Disaster Monitoring",
+    "description": "Track vegetation recovery after major wildfires",
+    "dates": "2018-2024",
+    "bbox": "-122.5,37.0,-120.0,39.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -122.5,
+          37.0
+        ],
+        [
+          -120.0,
+          37.0
+        ],
+        [
+          -120.0,
+          39.0
+        ],
+        [
+          -122.5,
+          39.0
+        ],
+        [
+          -122.5,
+          37.0
+        ]
+      ]
+    ]
+  }
+}

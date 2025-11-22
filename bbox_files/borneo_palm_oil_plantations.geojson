@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Borneo Palm Oil Plantations",
+    "category": "Conservation",
+    "description": "Track deforestation for palm oil",
+    "dates": "2000-2024",
+    "bbox": "110.0,-2.0,115.0,2.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          110.0,
+          -2.0
+        ],
+        [
+          115.0,
+          -2.0
+        ],
+        [
+          115.0,
+          2.0
+        ],
+        [
+          110.0,
+          2.0
+        ],
+        [
+          110.0,
+          -2.0
+        ]
+      ]
+    ]
+  }
+}

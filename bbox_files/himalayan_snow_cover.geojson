@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Himalayan Snow Cover",
+    "category": "Climate Change",
+    "description": "Monitor snow cover trends",
+    "dates": "2000-2024",
+    "bbox": "76.0,30.0,80.0,33.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          76.0,
+          30.0
+        ],
+        [
+          80.0,
+          30.0
+        ],
+        [
+          80.0,
+          33.0
+        ],
+        [
+          76.0,
+          33.0
+        ],
+        [
+          76.0,
+          30.0
+        ]
+      ]
+    ]
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Sahara Desert Expansion",
+    "category": "Climate Change",
+    "description": "Track desertification and Sahel boundary shifts",
+    "dates": "1985-2024",
+    "bbox": "-10.0,15.0,20.0,30.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -10.0,
+          15.0
+        ],
+        [
+          20.0,
+          15.0
+        ],
+        [
+          20.0,
+          30.0
+        ],
+        [
+          -10.0,
+          30.0
+        ],
+        [
+          -10.0,
+          15.0
+        ]
+      ]
+    ]
+  }
+}

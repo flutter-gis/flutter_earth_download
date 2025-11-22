@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Sao Paulo Urban Growth",
+    "category": "Urban Development",
+    "description": "Document megacity expansion",
+    "dates": "1985-2024",
+    "bbox": "-47.0,-24.0,-46.0,-23.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -47.0,
+          -24.0
+        ],
+        [
+          -46.0,
+          -24.0
+        ],
+        [
+          -46.0,
+          -23.0
+        ],
+        [
+          -47.0,
+          -23.0
+        ],
+        [
+          -47.0,
+          -24.0
+        ]
+      ]
+    ]
+  }
+}

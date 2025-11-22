@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Antarctic Peninsula Warming",
+    "category": "Climate Change",
+    "description": "Monitor rapid warming impacts",
+    "dates": "2000-2024",
+    "bbox": "-65.0,-65.0,-60.0,-63.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -65.0,
+          -65.0
+        ],
+        [
+          -60.0,
+          -65.0
+        ],
+        [
+          -60.0,
+          -63.0
+        ],
+        [
+          -65.0,
+          -63.0
+        ],
+        [
+          -65.0,
+          -65.0
+        ]
+      ]
+    ]
+  }
+}

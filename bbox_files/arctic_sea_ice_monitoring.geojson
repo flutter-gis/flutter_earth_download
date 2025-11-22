@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Arctic Sea Ice Monitoring",
+    "category": "Climate Change",
+    "description": "Track sea ice extent and thickness changes",
+    "dates": "2000-2024",
+    "bbox": "-180.0,70.0,-100.0,85.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -180.0,
+          70.0
+        ],
+        [
+          -100.0,
+          70.0
+        ],
+        [
+          -100.0,
+          85.0
+        ],
+        [
+          -180.0,
+          85.0
+        ],
+        [
+          -180.0,
+          70.0
+        ]
+      ]
+    ]
+  }
+}

@@ -187,43 +187,76 @@ def landsat_prepare_image(img):
     try:
         # Check if this is Landsat 8/9 (has SR_B bands) or older Landsat (has B bands or SR_B but no SR_B6)
         has_sr_bands = any("SR_B" in b for b in band_names)
+        has_sr_b1 = "SR_B1" in band_names  # Landsat 4/5 have SR_B1, Landsat 8/9 don't
         has_sr_b6 = "SR_B6" in band_names
         has_sr_b5 = "SR_B5" in band_names
         has_sr_b7 = "SR_B7" in band_names
         
         if has_sr_bands:
-            # Landsat 8/9 or Landsat 5/7 Collection 2 (has SR_B bands)
-            # Add NDWI: (Green - NIR) / (Green + NIR)
-            if "SR_B3" in band_names and "SR_B5" in band_names:
-                ndwi = img.normalizedDifference(["SR_B3","SR_B5"]).rename("NDWI")
-                img = img.addBands(ndwi)
-            
-            # MNDWI: (Green - SWIR1) / (Green + SWIR1) - only if SWIR1 exists
-            if "SR_B3" in band_names and has_sr_b6:
+            if has_sr_b1:
+                # Landsat 4/5 Collection 2: SR_B1=Blue, SR_B2=Green, SR_B3=Red, SR_B4=NIR, SR_B5=SWIR1, SR_B7=SWIR2
+                # Add NDWI: (Green - NIR) / (Green + NIR)
+                if "SR_B2" in band_names and "SR_B4" in band_names:
+                    ndwi = img.normalizedDifference(["SR_B2","SR_B4"]).rename("NDWI")
+                    img = img.addBands(ndwi)
+                
+                # MNDWI: (Green - SWIR1) / (Green + SWIR1)
+                if "SR_B2" in band_names and "SR_B5" in band_names:
+                    try:
+                        mndwi = img.normalizedDifference(["SR_B2","SR_B5"]).rename("MNDWI")
+                        img = img.addBands(mndwi)
+                    except Exception:
+                        pass
+                
+                # Rename and add IR bands to unified naming: B8 (NIR), B11 (SWIR1), B12 (SWIR2)
                 try:
-                    mndwi = img.normalizedDifference(["SR_B3","SR_B6"]).rename("MNDWI")
-                    img = img.addBands(mndwi)
-                except Exception:
-                    pass  # SWIR1 might not be available (Landsat 5)
-            
-            # Rename and add IR bands to unified naming: B8 (NIR), B11 (SWIR1), B12 (SWIR2)
-            try:
-                # Landsat 8/9: SR_B5 = NIR, SR_B6 = SWIR1, SR_B7 = SWIR2
-                # Landsat 5/7 Collection 2: SR_B5 = NIR, SR_B7 = SWIR2 (no SR_B6)
-                if has_sr_b5:
-                    nir = img.select("SR_B5").rename("B8")
-                    img = img.addBands(nir)
+                    if "SR_B4" in band_names:  # NIR
+                        nir = img.select("SR_B4").rename("B8")
+                        img = img.addBands(nir)
+                    
+                    if "SR_B5" in band_names:  # SWIR1
+                        swir1 = img.select("SR_B5").rename("B11")
+                        img = img.addBands(swir1)
+                    
+                    if "SR_B7" in band_names:  # SWIR2
+                        swir2 = img.select("SR_B7").rename("B12")
+                        img = img.addBands(swir2)
+                except Exception as e:
+                    logging.debug(f"Error adding IR bands for Landsat 4/5: {e}")
+                    pass
+            else:
+                # Landsat 8/9 or Landsat 7 Collection 2 (has SR_B bands but no SR_B1)
+                # Add NDWI: (Green - NIR) / (Green + NIR)
+                if "SR_B3" in band_names and "SR_B5" in band_names:
+                    ndwi = img.normalizedDifference(["SR_B3","SR_B5"]).rename("NDWI")
+                    img = img.addBands(ndwi)
                 
-                if has_sr_b6:
-                    swir1 = img.select("SR_B6").rename("B11")
-                    img = img.addBands(swir1)
+                # MNDWI: (Green - SWIR1) / (Green + SWIR1) - only if SWIR1 exists
+                if "SR_B3" in band_names and has_sr_b6:
+                    try:
+                        mndwi = img.normalizedDifference(["SR_B3","SR_B6"]).rename("MNDWI")
+                        img = img.addBands(mndwi)
+                    except Exception:
+                        pass  # SWIR1 might not be available (Landsat 5)
                 
-                if has_sr_b7:
-                    swir2 = img.select("SR_B7").rename("B12")
-                    img = img.addBands(swir2)
-            except Exception as e:
-                logging.debug(f"Error adding IR bands in landsat_prepare_image: {e}")
-                pass
+                # Rename and add IR bands to unified naming: B8 (NIR), B11 (SWIR1), B12 (SWIR2)
+                try:
+                    # Landsat 8/9: SR_B5 = NIR, SR_B6 = SWIR1, SR_B7 = SWIR2
+                    # Landsat 7 Collection 2: SR_B5 = NIR, SR_B7 = SWIR2 (no SR_B6)
+                    if has_sr_b5:
+                        nir = img.select("SR_B5").rename("B8")
+                        img = img.addBands(nir)
+                    
+                    if has_sr_b6:
+                        swir1 = img.select("SR_B6").rename("B11")
+                        img = img.addBands(swir1)
+                    
+                    if has_sr_b7:
+                        swir2 = img.select("SR_B7").rename("B12")
+                        img = img.addBands(swir2)
+                except Exception as e:
+                    logging.debug(f"Error adding IR bands in landsat_prepare_image: {e}")
+                    pass
         else:
             # Older Landsat (L5/L7) with original band names (B1, B2, B3, etc.)
             # Add NDWI: (Green - NIR) / (Green + NIR)
@@ -252,12 +285,26 @@ def landsat_prepare_image(img):
     # Rename RGB bands to unified names if needed
     try:
         band_names = img.bandNames().getInfo()
-        if "SR_B4" in band_names and "B4" not in band_names:
-            # Rename Landsat 8/9 bands to unified names
-            red = img.select("SR_B4").rename("B4")
-            green = img.select("SR_B3").rename("B3")
-            blue = img.select("SR_B2").rename("B2")
-            img = img.addBands([red, green, blue])
+        has_sr_b1 = "SR_B1" in band_names
+        
+        if has_sr_b1:
+            # Landsat 4/5 Collection 2: SR_B1=Blue, SR_B2=Green, SR_B3=Red
+            if "SR_B1" in band_names and "B2" not in band_names:
+                blue = img.select("SR_B1").rename("B2")
+                img = img.addBands(blue)
+            if "SR_B2" in band_names and "B3" not in band_names:
+                green = img.select("SR_B2").rename("B3")
+                img = img.addBands(green)
+            if "SR_B3" in band_names and "B4" not in band_names:
+                red = img.select("SR_B3").rename("B4")
+                img = img.addBands(red)
+        else:
+            # Landsat 8/9 Collection 2: SR_B2=Blue, SR_B3=Green, SR_B4=Red
+            if "SR_B4" in band_names and "B4" not in band_names:
+                red = img.select("SR_B4").rename("B4")
+                green = img.select("SR_B3").rename("B3")
+                blue = img.select("SR_B2").rename("B2")
+                img = img.addBands([red, green, blue])
     except Exception:
         pass
     
@@ -344,7 +391,7 @@ def prepare_aster_image(img):
         # ASTER bands: VNIR_Band3N (Red/NIR), VNIR_Band2 (Green), VNIR_Band1 (Blue)
         required_vnir = ["VNIR_Band1", "VNIR_Band2", "VNIR_Band3N"]
         if not all(b in band_names for b in required_vnir):
-            logging.warning(f"ASTER image missing required VNIR bands. Available: {band_names}")
+            logging.debug(f"ASTER image missing required VNIR bands. Available: {band_names}")
             return img
         
         green = img.select("VNIR_Band2")
@@ -389,6 +436,282 @@ def prepare_aster_image(img):
     except Exception as e:
         logging.warning(f"Error preparing ASTER image: {e}")
     return img
+
+
+def prepare_spot_image(img):
+    """
+    Prepare SPOT image: standardize bands, add NDWI/MNDWI, and apply cloud masking.
+    SPOT bands: XS1 (Green), XS2 (Red), XS3 (NIR) for SPOT 1-3
+                B1 (Green), B2 (Red), B3 (NIR), MIR (SWIR) for SPOT 4
+    Maps to standard: B3 (Green), B4 (Red), B8 (NIR), B11 (SWIR if available)
+    """
+    try:
+        band_names = img.bandNames().getInfo()
+    except Exception:
+        band_names = []
+    
+    # SPOT 1-3 use XS bands, SPOT 4 uses B bands and has MIR (SWIR)
+    has_xs = any("XS" in b for b in band_names)
+    has_spot4_bands = any(b in ["B1", "B2", "B3", "MIR"] for b in band_names)
+    
+    # Map bands to standard names
+    standardized_bands = []
+    
+    if has_xs:
+        # SPOT 1-3: XS1=Green, XS2=Red, XS3=NIR (all 20m)
+        if "XS1" in band_names:
+            standardized_bands.append(img.select("XS1").rename("B3"))  # Green
+        if "XS2" in band_names:
+            standardized_bands.append(img.select("XS2").rename("B4"))  # Red
+        if "XS3" in band_names:
+            standardized_bands.append(img.select("XS3").rename("B8"))  # NIR
+        
+        # SPOT doesn't have blue band - create placeholder or use green approximation
+        if "XS1" in band_names:
+            standardized_bands.append(img.select("XS1").multiply(0.9).rename("B2"))  # Blue approximation from Green
+    elif has_spot4_bands:
+        # SPOT 4: B1=Green, B2=Red, B3=NIR, MIR=SWIR (all 20m)
+        if "B1" in band_names:
+            standardized_bands.append(img.select("B1").rename("B3"))  # Green
+        if "B2" in band_names:
+            standardized_bands.append(img.select("B2").rename("B4"))  # Red
+        if "B3" in band_names:
+            standardized_bands.append(img.select("B3").rename("B8"))  # NIR
+        if "MIR" in band_names:
+            standardized_bands.append(img.select("MIR").rename("B11"))  # SWIR1
+        
+        # Blue band approximation
+        if "B1" in band_names:
+            standardized_bands.append(img.select("B1").multiply(0.9).rename("B2"))  # Blue approximation
+    
+    # If no SPOT bands found, return original (shouldn't happen)
+    if not standardized_bands:
+        return img
+    
+    # Combine standardized bands
+    img2 = ee.Image.cat(standardized_bands)
+    
+    # Add missing bands as masked placeholders (for compatibility)
+    current_bands = img2.bandNames().getInfo()
+    if "B12" not in current_bands:
+        # SPOT doesn't have SWIR2 - add masked placeholder
+        img2 = img2.addBands(ee.Image.constant(0).rename("B12").updateMask(ee.Image(0)))
+    
+    # Add NDWI: (Green - NIR) / (Green + NIR)
+    try:
+        if "B3" in current_bands and "B8" in current_bands:
+            ndwi = img2.normalizedDifference(["B3", "B8"]).rename("NDWI")
+            img2 = img2.addBands(ndwi)
+    except Exception:
+        pass
+    
+    # Add MNDWI: (Green - SWIR) / (Green + SWIR) - only if SWIR available
+    try:
+        current_bands = img2.bandNames().getInfo()
+        if "B3" in current_bands and "B11" in current_bands:
+            mndwi = img2.normalizedDifference(["B3", "B11"]).rename("MNDWI")
+            img2 = img2.addBands(mndwi)
+    except Exception:
+        pass
+    
+    # SPOT doesn't have built-in cloud masks like Landsat/Sentinel
+    # Use simple threshold on visible bands as basic cloud detection
+    try:
+        # Simple cloud mask: high reflectance in visible bands
+        if "B4" in current_bands and "B3" in current_bands:
+            cloud_score = img2.select("B4").add(img2.select("B3")).divide(2)
+            cloud_mask = cloud_score.lt(0.6)  # Threshold - adjust as needed
+            img2 = img2.updateMask(cloud_mask)
+    except Exception:
+        pass
+    
+    # Add vegetation indices
+    img2 = add_vegetation_indices(img2)
+    
+    return img2
+
+
+def prepare_landsat_mss_image(img):
+    """
+    Prepare Landsat MSS image: standardize bands, add NDWI/MNDWI, and apply basic cloud masking.
+    Landsat MSS bands: Band 4 (Green), Band 5 (Red), Band 6 (NIR), Band 7 (NIR2/SWIR approximation)
+    Maps to standard: B3 (Green), B4 (Red), B8 (NIR), B11 (SWIR approximation from Band 7)
+    Note: MSS has 60m resolution, lower than TM/ETM+ (30m)
+    """
+    try:
+        band_names = img.bandNames().getInfo()
+    except Exception:
+        band_names = []
+    
+    # Landsat MSS Collection 1: B4=Green, B5=Red, B6=NIR, B7=NIR2
+    # Map to standard names
+    standardized_bands = []
+    
+    # Check if this is MSS Collection 1 or 2 (band naming may differ)
+    # Collection 1 uses: B1, B2, B3, B4 (but MSS uses different numbering)
+    # Collection 2 MSS uses: SR_B1, SR_B2, SR_B3, SR_B4
+    has_sr = any("SR_B" in b for b in band_names)
+    
+    if has_sr:
+        # MSS Collection 2: SR_B1=Green, SR_B2=Red, SR_B3=NIR, SR_B4=NIR2
+        if "SR_B1" in band_names:
+            standardized_bands.append(img.select("SR_B1").rename("B3"))  # Green
+        if "SR_B2" in band_names:
+            standardized_bands.append(img.select("SR_B2").rename("B4"))  # Red
+        if "SR_B3" in band_names:
+            standardized_bands.append(img.select("SR_B3").rename("B8"))  # NIR
+        if "SR_B4" in band_names:
+            standardized_bands.append(img.select("SR_B4").rename("B11"))  # Use NIR2 as SWIR approximation
+        
+        # MSS doesn't have blue band - use green approximation
+        if "SR_B1" in band_names:
+            standardized_bands.append(img.select("SR_B1").multiply(0.85).rename("B2"))  # Blue approximation
+    else:
+        # MSS Collection 1 or raw: Try standard MSS band names (B1-B4 or different)
+        # MSS uses: Band 4, 5, 6, 7 in sensor, but may be named differently in collection
+        if "B1" in band_names:
+            standardized_bands.append(img.select("B1").rename("B3"))  # Assume B1=Green
+        if "B2" in band_names:
+            standardized_bands.append(img.select("B2").rename("B4"))  # Assume B2=Red
+        if "B3" in band_names:
+            standardized_bands.append(img.select("B3").rename("B8"))  # Assume B3=NIR
+        if "B4" in band_names:
+            standardized_bands.append(img.select("B4").rename("B11"))  # Assume B4=NIR2/SWIR
+        
+        # Blue approximation
+        if "B1" in band_names:
+            standardized_bands.append(img.select("B1").multiply(0.85).rename("B2"))
+    
+    # If no MSS bands found, return original
+    if not standardized_bands:
+        return img
+    
+    # Combine standardized bands
+    img2 = ee.Image.cat(standardized_bands)
+    
+    # Add missing bands as masked placeholders
+    current_bands = img2.bandNames().getInfo()
+    if "B12" not in current_bands:
+        # MSS doesn't have SWIR2 - add masked placeholder
+        img2 = img2.addBands(ee.Image.constant(0).rename("B12").updateMask(ee.Image(0)))
+    
+    # Add NDWI: (Green - NIR) / (Green + NIR)
+    try:
+        if "B3" in current_bands and "B8" in current_bands:
+            ndwi = img2.normalizedDifference(["B3", "B8"]).rename("NDWI")
+            img2 = img2.addBands(ndwi)
+    except Exception:
+        pass
+    
+    # Add MNDWI: (Green - SWIR) / (Green + SWIR) - using Band 7 as SWIR approximation
+    try:
+        current_bands = img2.bandNames().getInfo()
+        if "B3" in current_bands and "B11" in current_bands:
+            mndwi = img2.normalizedDifference(["B3", "B11"]).rename("MNDWI")
+            img2 = img2.addBands(mndwi)
+    except Exception:
+        pass
+    
+    # Basic cloud masking for MSS (similar to SPOT - simple threshold)
+    try:
+        if "B4" in current_bands and "B3" in current_bands:
+            cloud_score = img2.select("B4").add(img2.select("B3")).divide(2)
+            cloud_mask = cloud_score.lt(0.6)  # Threshold
+            img2 = img2.updateMask(cloud_mask)
+    except Exception:
+        pass
+    
+    # Add vegetation indices
+    img2 = add_vegetation_indices(img2)
+    
+    return img2
+
+
+def prepare_noaa_avhrr_image(img):
+    """
+    Prepare NOAA AVHRR image: standardize bands, add NDWI, and basic processing.
+    AVHRR has very coarse resolution (1km) and limited bands.
+    AVHRR bands: Channel 1 (Red), Channel 2 (NIR), Channel 3 (Thermal), Channel 4 (Thermal), Channel 5 (Thermal)
+    Maps to standard: B4 (Red), B8 (NIR), B11/B12 (approximations from thermal if needed)
+    Note: AVHRR is ABSOLUTE LAST RESORT due to very low resolution.
+    """
+    try:
+        band_names = img.bandNames().getInfo()
+    except Exception:
+        band_names = []
+    
+    # AVHRR NDVI product typically has: NDVI, brightness, greenness, wetness, or raw channels
+    # Check for common AVHRR band names
+    standardized_bands = []
+    
+    # AVHRR NDVI product may have NDVI directly, or we need to compute from channels
+    # Try to find Red and NIR channels
+    has_ndvi = "NDVI" in band_names
+    has_ch1 = "ch1" in band_names or "Channel_1" in band_names or "B1" in band_names
+    has_ch2 = "ch2" in band_names or "Channel_2" in band_names or "B2" in band_names
+    
+    if has_ndvi:
+        # If NDVI is available, we can approximate Red and NIR
+        # This is a rough approximation - AVHRR is last resort anyway
+        ndvi = img.select("NDVI")
+        # Very rough approximation: assume moderate NDVI and derive bands
+        # This is not ideal but AVHRR is only used when nothing else is available
+        standardized_bands.append(ndvi.multiply(0.5).add(0.3).rename("B4"))  # Red approximation
+        standardized_bands.append(ndvi.multiply(0.5).add(0.4).rename("B3"))  # Green approximation
+        standardized_bands.append(ndvi.multiply(0.4).add(0.3).rename("B2"))  # Blue approximation
+        standardized_bands.append(ndvi.multiply(0.6).add(0.5).rename("B8"))  # NIR approximation
+    elif has_ch1 and has_ch2:
+        # AVHRR Channel 1 (Red) and Channel 2 (NIR)
+        ch1 = img.select([b for b in band_names if "ch1" in b.lower() or "channel_1" in b.lower() or b == "B1"][0])
+        ch2 = img.select([b for b in band_names if "ch2" in b.lower() or "channel_2" in b.lower() or b == "B2"][0])
+        standardized_bands.append(ch1.rename("B4"))  # Red
+        standardized_bands.append(ch1.multiply(0.9).rename("B3"))  # Green approximation
+        standardized_bands.append(ch1.multiply(0.8).rename("B2"))  # Blue approximation
+        standardized_bands.append(ch2.rename("B8"))  # NIR
+    else:
+        # Fallback: use first available band as proxy
+        if band_names:
+            proxy = img.select(band_names[0])
+            standardized_bands.append(proxy.rename("B4"))  # Red
+            standardized_bands.append(proxy.multiply(0.9).rename("B3"))  # Green
+            standardized_bands.append(proxy.multiply(0.8).rename("B2"))  # Blue
+            standardized_bands.append(proxy.multiply(1.1).rename("B8"))  # NIR
+    
+    # AVHRR doesn't have SWIR bands - add masked placeholders
+    if not standardized_bands:
+        # If we couldn't map any bands, return original (shouldn't happen)
+        return img
+    
+    img2 = ee.Image.cat(standardized_bands)
+    
+    # Add missing SWIR bands as masked placeholders
+    current_bands = img2.bandNames().getInfo()
+    if "B11" not in current_bands:
+        img2 = img2.addBands(ee.Image.constant(0).rename("B11").updateMask(ee.Image(0)))
+    if "B12" not in current_bands:
+        img2 = img2.addBands(ee.Image.constant(0).rename("B12").updateMask(ee.Image(0)))
+    
+    # Add NDWI: (Green - NIR) / (Green + NIR)
+    try:
+        if "B3" in current_bands and "B8" in current_bands:
+            ndwi = img2.normalizedDifference(["B3", "B8"]).rename("NDWI")
+            img2 = img2.addBands(ndwi)
+    except Exception:
+        pass
+    
+    # Basic cloud masking for AVHRR (simple threshold)
+    try:
+        if "B4" in current_bands and "B3" in current_bands:
+            cloud_score = img2.select("B4").add(img2.select("B3")).divide(2)
+            cloud_mask = cloud_score.lt(0.7)  # More lenient threshold for AVHRR
+            img2 = img2.updateMask(cloud_mask)
+    except Exception:
+        pass
+    
+    # Add basic vegetation indices
+    img2 = add_vegetation_indices(img2)
+    
+    return img2
 
 
 def prepare_viirs_image(img):

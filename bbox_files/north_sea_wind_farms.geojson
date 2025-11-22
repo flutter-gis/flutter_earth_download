@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "North Sea Wind Farms",
+    "category": "Renewable Energy",
+    "description": "Monitor offshore wind farm development",
+    "dates": "2010-2024",
+    "bbox": "1.0,53.0,4.0,55.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          1.0,
+          53.0
+        ],
+        [
+          4.0,
+          53.0
+        ],
+        [
+          4.0,
+          55.0
+        ],
+        [
+          1.0,
+          55.0
+        ],
+        [
+          1.0,
+          53.0
+        ]
+      ]
+    ]
+  }
+}

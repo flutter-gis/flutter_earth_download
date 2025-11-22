@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Niger Delta Oil Spills",
+    "category": "Environmental Monitoring",
+    "description": "Track oil spill impacts",
+    "dates": "2000-2024",
+    "bbox": "6.0,4.5,7.5,5.5",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          6.0,
+          4.5
+        ],
+        [
+          7.5,
+          4.5
+        ],
+        [
+          7.5,
+          5.5
+        ],
+        [
+          6.0,
+          5.5
+        ],
+        [
+          6.0,
+          4.5
+        ]
+      ]
+    ]
+  }
+}

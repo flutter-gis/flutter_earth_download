@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Amazon Rainforest Deforestation",
+    "category": "Conservation",
+    "description": "Monitor deforestation rates in the Brazilian Amazon",
+    "dates": "1985-2024",
+    "bbox": "-65.0,-10.0,-50.0,5.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -65.0,
+          -10.0
+        ],
+        [
+          -50.0,
+          -10.0
+        ],
+        [
+          -50.0,
+          5.0
+        ],
+        [
+          -65.0,
+          5.0
+        ],
+        [
+          -65.0,
+          -10.0
+        ]
+      ]
+    ]
+  }
+}

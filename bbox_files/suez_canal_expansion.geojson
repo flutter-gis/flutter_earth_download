@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Suez Canal Expansion",
+    "category": "Infrastructure",
+    "description": "Document canal widening project",
+    "dates": "2014-2016",
+    "bbox": "32.0,30.5,32.6,31.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          32.0,
+          30.5
+        ],
+        [
+          32.6,
+          30.5
+        ],
+        [
+          32.6,
+          31.0
+        ],
+        [
+          32.0,
+          31.0
+        ],
+        [
+          32.0,
+          30.5
+        ]
+      ]
+    ]
+  }
+}

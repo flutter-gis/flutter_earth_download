@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Las Vegas Water Usage",
+    "category": "Urban Development",
+    "description": "Monitor water consumption and urban heat island",
+    "dates": "1985-2024",
+    "bbox": "-115.5,36.0,-114.5,36.5",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -115.5,
+          36.0
+        ],
+        [
+          -114.5,
+          36.0
+        ],
+        [
+          -114.5,
+          36.5
+        ],
+        [
+          -115.5,
+          36.5
+        ],
+        [
+          -115.5,
+          36.0
+        ]
+      ]
+    ]
+  }
+}

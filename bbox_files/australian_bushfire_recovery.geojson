@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Australian Bushfire Recovery",
+    "category": "Disaster Monitoring",
+    "description": "Monitor ecosystem recovery after 2019-2020 fires",
+    "dates": "2019-2024",
+    "bbox": "148.0,-37.0,152.0,-34.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          148.0,
+          -37.0
+        ],
+        [
+          152.0,
+          -37.0
+        ],
+        [
+          152.0,
+          -34.0
+        ],
+        [
+          148.0,
+          -34.0
+        ],
+        [
+          148.0,
+          -37.0
+        ]
+      ]
+    ]
+  }
+}

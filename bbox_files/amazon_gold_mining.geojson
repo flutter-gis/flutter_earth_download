@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Amazon Gold Mining",
+    "category": "Conservation",
+    "description": "Monitor illegal mining impacts",
+    "dates": "2010-2024",
+    "bbox": "-65.0,-12.0,-63.0,-10.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -65.0,
+          -12.0
+        ],
+        [
+          -63.0,
+          -12.0
+        ],
+        [
+          -63.0,
+          -10.0
+        ],
+        [
+          -65.0,
+          -10.0
+        ],
+        [
+          -65.0,
+          -12.0
+        ]
+      ]
+    ]
+  }
+}

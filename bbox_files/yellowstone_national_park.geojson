@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Yellowstone National Park",
+    "category": "Conservation",
+    "description": "Track ecosystem health and wildfire impacts",
+    "dates": "1985-2024",
+    "bbox": "-111.0,44.0,-109.5,45.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -111.0,
+          44.0
+        ],
+        [
+          -109.5,
+          44.0
+        ],
+        [
+          -109.5,
+          45.0
+        ],
+        [
+          -111.0,
+          45.0
+        ],
+        [
+          -111.0,
+          44.0
+        ]
+      ]
+    ]
+  }
+}

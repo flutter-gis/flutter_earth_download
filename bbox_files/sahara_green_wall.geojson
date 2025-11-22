@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Sahara Green Wall",
+    "category": "Conservation",
+    "description": "Track reforestation project",
+    "dates": "2010-2024",
+    "bbox": "-5.0,15.0,5.0,20.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -5.0,
+          15.0
+        ],
+        [
+          5.0,
+          15.0
+        ],
+        [
+          5.0,
+          20.0
+        ],
+        [
+          -5.0,
+          20.0
+        ],
+        [
+          -5.0,
+          15.0
+        ]
+      ]
+    ]
+  }
+}

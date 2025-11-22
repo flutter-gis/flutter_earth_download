@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Great Barrier Reef Health",
+    "category": "Marine Conservation",
+    "description": "Monitor coral bleaching and reef health",
+    "dates": "2015-2024",
+    "bbox": "145.0,-20.0,150.0,-15.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          145.0,
+          -20.0
+        ],
+        [
+          150.0,
+          -20.0
+        ],
+        [
+          150.0,
+          -15.0
+        ],
+        [
+          145.0,
+          -15.0
+        ],
+        [
+          145.0,
+          -20.0
+        ]
+      ]
+    ]
+  }
+}

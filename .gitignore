@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# Service account keys (IMPORTANT - keep these private!)
+gee_service_account.json
+gee-service-account.json
+service_account_key.json
+keys/gee_service_account.json
+keys/*service*.json
+keys/*account*.json
+
+# Logs
+logs/
+*.log
+
+# Output directories
+*_outputs/
+*_manifest.csv
+deadsea_manifest.csv
+deadsea_outputs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+

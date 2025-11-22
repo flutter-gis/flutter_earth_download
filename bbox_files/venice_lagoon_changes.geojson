@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Venice Lagoon Changes",
+    "category": "Coastal Change",
+    "description": "Monitor sea level impacts on Venice",
+    "dates": "2000-2024",
+    "bbox": "12.0,45.2,12.6,45.6",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          12.0,
+          45.2
+        ],
+        [
+          12.6,
+          45.2
+        ],
+        [
+          12.6,
+          45.6
+        ],
+        [
+          12.0,
+          45.6
+        ],
+        [
+          12.0,
+          45.2
+        ]
+      ]
+    ]
+  }
+}

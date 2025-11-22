@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Colorado River Basin",
+    "category": "Water Resources",
+    "description": "Monitor drought and water usage",
+    "dates": "2000-2024",
+    "bbox": "-112.0,36.0,-110.0,38.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -112.0,
+          36.0
+        ],
+        [
+          -110.0,
+          36.0
+        ],
+        [
+          -110.0,
+          38.0
+        ],
+        [
+          -112.0,
+          38.0
+        ],
+        [
+          -112.0,
+          36.0
+        ]
+      ]
+    ]
+  }
+}

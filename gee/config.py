@@ -3,15 +3,28 @@ Configuration constants and default values.
 """
 import multiprocessing
 import logging
+import os
+
+# Earth Engine authentication
+# Service account key file path (if using service account authentication)
+# Set to None to use user authentication, or provide a path to a service account JSON key file
+# Common locations checked (in order):
+# 1. GEE_SERVICE_ACCOUNT_KEY environment variable
+# 2. "gee_service_account.json" in project root
+# 3. "keys/gee_service_account.json" in project root
+# 4. Custom path set here
+GEE_SERVICE_ACCOUNT_KEY = None  # Set to path like "/path/to/service-account-key.json" if using service account
+GEE_PROJECT = None  # Set to your Google Cloud project ID if needed (extracted from key file if not set)
 
 # Default bounding box (Dead Sea approximate)
-DEFAULT_BBOX = (34.9, 31.0, 35.8, 32.0)
-DEFAULT_START = "2000-11-01"
+# Set to None to start with empty bbox, or provide default coordinates
+DEFAULT_BBOX = None  # None = empty, user must enter or select from map
+DEFAULT_START = "1985-01-01"  # Both Landsat 4 and 5 operational - better coverage and redundancy
 DEFAULT_END = "2025-11-30"
 
 # Tile configuration
 DEFAULT_TILE_PIX = 2048  # Reduced from 4096 to avoid 50MB download limit
-TARGET_RES = 5.0  # meters (5m resolution)
+TARGET_RES = 10.0  # meters (10m resolution - native Sentinel-2, preserves best quality)
 DEFAULT_TILE_SIDE_M = DEFAULT_TILE_PIX * TARGET_RES
 
 # Download limits
@@ -55,6 +68,7 @@ QUALITY_WEIGHTS = {
 # Satellite operational date ranges
 SATELLITE_DATE_RANGES = {
     # Landsat satellites
+    "LANDSAT_4": ("1982-07-16", "1993-12-14"),  # Landsat 4 TM (30m resolution) - fills gap before L5
     "LANDSAT_5": ("1984-03-01", "2013-05-30"),  # Ended May 2013
     "LANDSAT_7": ("1999-04-15", None),  # Still operational, but SLC failure on 2003-05-31 causes data gaps
     "LANDSAT_7_SLC_FAILURE": ("2003-05-31", None),  # SLC failure date - images have black stripes after this
@@ -73,13 +87,37 @@ SATELLITE_DATE_RANGES = {
     
     # VIIRS
     "VIIRS": ("2011-10-28", None),  # VIIRS on Suomi NPP, launched October 2011
+    
+    # SPOT satellites (10m pan, 20m multispectral)
+    "SPOT_1": ("1986-02-22", "2003-05-31"),  # SPOT 1 operational period
+    "SPOT_2": ("1990-01-22", "2009-07-31"),  # SPOT 2 operational period
+    "SPOT_3": ("1993-09-26", "1997-11-14"),  # SPOT 3 operational period (failed 1996)
+    "SPOT_4": ("1998-03-24", "2013-07-31"),  # SPOT 4 operational period
+    
+    # Landsat MSS (Multispectral Scanner) - earlier Landsat missions
+    "LANDSAT_1_MSS": ("1972-07-23", "1978-01-06"),  # Landsat 1 MSS
+    "LANDSAT_2_MSS": ("1975-01-22", "1982-02-25"),  # Landsat 2 MSS
+    "LANDSAT_3_MSS": ("1978-03-05", "1983-03-31"),  # Landsat 3 MSS
+    
+    # NOAA AVHRR - ABSOLUTE LAST RESORT (1km resolution, very coarse)
+    # Only use when ALL other satellites fail to provide usable imagery
+    "NOAA_AVHRR": ("1978-06-01", None),  # AVHRR operational since 1978, very low resolution (1km)
 }
 
 # Sensor harmonization coefficients
 HARMONIZATION_COEFFS = {
     # sentinel to landsat-ish mapping example: out = a * sentinel + b
     "S2_to_LS": {"a": 0.98, "b": 0.01},
-    "LS_to_S2": {"a": 1.02, "b": -0.01}
+    "LS_to_S2": {"a": 1.02, "b": -0.01},
+    # SPOT to Landsat harmonization (SPOT has similar spectral bands but needs slight adjustment)
+    "SPOT_to_LS": {"a": 1.00, "b": 0.00},  # SPOT bands are reasonably compatible, minimal adjustment needed
+    "LS_to_SPOT": {"a": 1.00, "b": 0.00},
+    # Landsat MSS to TM harmonization (MSS has different bands, requires scaling)
+    "MSS_to_LS": {"a": 0.95, "b": 0.02},  # MSS bands need slight adjustment for compatibility
+    "LS_to_MSS": {"a": 1.05, "b": -0.02},
+    # NOAA AVHRR harmonization (very coarse resolution, minimal adjustment)
+    "AVHRR_to_LS": {"a": 0.98, "b": 0.01},  # AVHRR bands are reasonably compatible
+    "LS_to_AVHRR": {"a": 1.02, "b": -0.01},
 }
 
 

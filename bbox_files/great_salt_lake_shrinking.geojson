@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Great Salt Lake Shrinking",
+    "category": "Water Resources",
+    "description": "Monitor lake level decline",
+    "dates": "1985-2024",
+    "bbox": "-113.0,40.5,-111.5,41.5",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -113.0,
+          40.5
+        ],
+        [
+          -111.5,
+          40.5
+        ],
+        [
+          -111.5,
+          41.5
+        ],
+        [
+          -113.0,
+          41.5
+        ],
+        [
+          -113.0,
+          40.5
+        ]
+      ]
+    ]
+  }
+}

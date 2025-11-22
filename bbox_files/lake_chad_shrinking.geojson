@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Lake Chad Shrinking",
+    "category": "Water Resources",
+    "description": "Track dramatic lake shrinkage in Central Africa",
+    "dates": "1985-2024",
+    "bbox": "13.0,12.0,15.0,14.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          13.0,
+          12.0
+        ],
+        [
+          15.0,
+          12.0
+        ],
+        [
+          15.0,
+          14.0
+        ],
+        [
+          13.0,
+          14.0
+        ],
+        [
+          13.0,
+          12.0
+        ]
+      ]
+    ]
+  }
+}

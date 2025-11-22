@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Patagonian Ice Fields",
+    "category": "Climate Change",
+    "description": "Track ice field retreat",
+    "dates": "1985-2024",
+    "bbox": "-74.0,-51.0,-72.0,-49.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          -74.0,
+          -51.0
+        ],
+        [
+          -72.0,
+          -51.0
+        ],
+        [
+          -72.0,
+          -49.0
+        ],
+        [
+          -74.0,
+          -49.0
+        ],
+        [
+          -74.0,
+          -51.0
+        ]
+      ]
+    ]
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Okavango Delta Flooding",
+    "category": "Water Resources",
+    "description": "Track seasonal flooding patterns",
+    "dates": "2000-2024",
+    "bbox": "22.0,-19.5,23.5,-18.5",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          22.0,
+          -19.5
+        ],
+        [
+          23.5,
+          -19.5
+        ],
+        [
+          23.5,
+          -18.5
+        ],
+        [
+          22.0,
+          -18.5
+        ],
+        [
+          22.0,
+          -19.5
+        ]
+      ]
+    ]
+  }
+}

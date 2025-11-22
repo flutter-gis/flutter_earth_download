@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Chernobyl Exclusion Zone",
+    "category": "Environmental Monitoring",
+    "description": "Study ecosystem recovery after nuclear disaster",
+    "dates": "1986-2024",
+    "bbox": "29.5,51.2,30.8,51.6",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          29.5,
+          51.2
+        ],
+        [
+          30.8,
+          51.2
+        ],
+        [
+          30.8,
+          51.6
+        ],
+        [
+          29.5,
+          51.6
+        ],
+        [
+          29.5,
+          51.2
+        ]
+      ]
+    ]
+  }
+}

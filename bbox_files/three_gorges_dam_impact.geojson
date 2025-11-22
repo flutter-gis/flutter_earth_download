@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Three Gorges Dam Impact",
+    "category": "Water Resources",
+    "description": "Study reservoir filling and downstream impacts",
+    "dates": "2000-2024",
+    "bbox": "110.0,30.0,112.0,31.5",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          110.0,
+          30.0
+        ],
+        [
+          112.0,
+          30.0
+        ],
+        [
+          112.0,
+          31.5
+        ],
+        [
+          110.0,
+          31.5
+        ],
+        [
+          110.0,
+          30.0
+        ]
+      ]
+    ]
+  }
+}

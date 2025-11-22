@@ -1,0 +1,38 @@
+{
+  "type": "Feature",
+  "properties": {
+    "name": "Mekong River Dams",
+    "category": "Infrastructure",
+    "description": "Study dam impacts",
+    "dates": "2010-2024",
+    "bbox": "102.0,19.0,105.0,22.0",
+    "created": "2025-11-22T00:00:00.000Z"
+  },
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [
+          102.0,
+          19.0
+        ],
+        [
+          105.0,
+          19.0
+        ],
+        [
+          105.0,
+          22.0
+        ],
+        [
+          102.0,
+          22.0
+        ],
+        [
+          102.0,
+          19.0
+        ]
+      ]
+    ]
+  }
+}
