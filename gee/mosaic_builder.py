@@ -3039,10 +3039,10 @@ def build_best_mosaic_for_tile(tile_bounds: Tuple[float, float, float, float],
                         
                         # Fallback: get from image metadata (API call - may hit quota)
                         if img_timestamp is None:
-                        try:
-                            img_date = img.get("system:time_start")
-                            if img_date:
-                                img_timestamp = int(img_date.getInfo()) / 1000
+                            try:
+                                img_date = img.get("system:time_start")
+                                if img_date:
+                                    img_timestamp = int(img_date.getInfo()) / 1000
                             except Exception as e:
                                 # Skip temporal bonus if we can't get timestamp (quota errors, etc.)
                                 # This is okay - resolution and quality are more important anyway
