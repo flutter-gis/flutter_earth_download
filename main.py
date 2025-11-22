@@ -27,7 +27,6 @@ def check_and_install_dependencies():
         ('psutil', 'psutil', '>=5.0.0'),
         ('reportlab', 'reportlab', '>=3.0.0'),
         ('matplotlib', 'matplotlib', '>=3.0.0'),
-        ('s2cloudless', 's2cloudless', '>=1.0.0'),
         ('folium', 'folium', '>=0.14.0'),  # Required for map selector feature
         ('webview', 'pywebview', '>=4.0.0'),  # Import as 'webview', install as 'pywebview'
         ('fiona', 'fiona', '>=1.9.0'),  # GDAL-based geospatial library

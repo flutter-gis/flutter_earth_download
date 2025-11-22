@@ -19,7 +19,7 @@ def s2_scl_mask(img):
 
 
 def s2_cloudprob_mask_local(arr, threshold=40):
-    """If using s2cloudless locally, arr is ndarray of cloudprob values 0-100 -> return mask."""
+    """If using cloudprob locally, arr is ndarray of cloudprob values 0-100 -> return mask."""
     return arr < threshold
 
 

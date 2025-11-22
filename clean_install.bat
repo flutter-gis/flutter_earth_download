@@ -9,7 +9,7 @@ echo.
 echo WARNING: This will remove the following packages:
 echo   - earthengine-api, rasterio, numpy, shapely, pyproj
 echo   - tqdm, requests, scikit-image, psutil
-echo   - reportlab, matplotlib, s2cloudless, folium
+echo   - reportlab, matplotlib, folium
 echo   - and their related dependencies
 echo.
 set /p confirm="Are you sure you want to continue? (Y/N): "
@@ -39,7 +39,6 @@ python -m pip uninstall -y scikit-image 2>nul
 python -m pip uninstall -y psutil 2>nul
 python -m pip uninstall -y reportlab 2>nul
 python -m pip uninstall -y matplotlib 2>nul
-python -m pip uninstall -y s2cloudless 2>nul
 python -m pip uninstall -y folium 2>nul
 
 REM Also uninstall common dependencies that might be left behind

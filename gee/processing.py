@@ -40,16 +40,11 @@ from .visualization import SatelliteHistogram
 from .report_generator import MosaicReportGenerator
 
 # Optional ML support
-try:
-    from s2cloudless import S2PixelCloudDetector
-    S2CLOUDLESS_AVAILABLE = True
-except Exception:
-    S2CLOUDLESS_AVAILABLE = False
 
 
 def process_tile(tile_idx: int, tile_bounds: Tuple[float, float, float, float], 
                  month_start: str, month_end: str, local_temp: str, 
-                 include_l7: bool, enable_ml: bool, enable_harmonize: bool, 
+                 include_l7: bool, enable_harmonize: bool, 
                  include_modis: bool = True, include_aster: bool = True, 
                  include_viirs: bool = True, target_resolution: float = TARGET_RES, 
                  progress_callback=None, server_mode: bool = False,
@@ -280,16 +275,6 @@ def process_tile(tile_idx: int, tile_bounds: Tuple[float, float, float, float],
         report("VALIDATED", "GeoTIFF validation passed")
         
         # Optional local ML post-process (cloud cleaning) - only if enabled & lib available
-        if enable_ml and S2CLOUDLESS_AVAILABLE:
-            try:
-                # very conservative local cloud cleaning for S2 (only if S2-like bands present)
-                # NOTE: this is an expensive local op and optional.
-                provenance["ml"] = "applied_s2cloudless"
-                # Implemented as placeholder: actual implementation requires reading bands -> compute 'cloud_prob' -> mask
-                # To keep the script complete, skip heavy per-pixel ML here unless user has installed and enabled
-            except Exception as e:
-                provenance["ml_error"] = str(e)
-        
         # Compute NDWI mask
         report("MASKING", "Computing NDWI water mask...")
         mask, meta = compute_ndwi_mask_local(out_tif)
@@ -308,7 +293,7 @@ def process_tile(tile_idx: int, tile_bounds: Tuple[float, float, float, float],
 
 
 def _process_tiles_with_dynamic_workers(tiles, month_start, month_end, temp_root, include_l7, 
-                                        enable_ml, enable_harmonize, include_modis, include_aster,
+                                        enable_harmonize, include_modis, include_aster,
                                         include_viirs, effective_res, initial_workers, progress_callback,
                                         histogram, provenance, tile_files, pbar, counters, report_generator, progress_window=None, server_mode=False):
     """
@@ -345,7 +330,7 @@ def _process_tiles_with_dynamic_workers(tiles, month_start, month_end, temp_root
                     tile_geometry = None
                 
                 future = ex.submit(process_tile, idx, tile_bounds, month_start, month_end, temp_root,
-                                 include_l7, enable_ml, enable_harmonize, include_modis,
+                                 include_l7, enable_harmonize, include_modis,
                                  include_aster, include_viirs, effective_res, progress_callback,
                                  server_mode=server_mode, tile_geometry=tile_geometry)
                 futures[future] = idx
@@ -386,7 +371,7 @@ def _process_tiles_with_dynamic_workers(tiles, month_start, month_end, temp_root
                 
                 try:
                     out, prov = process_tile(idx, tile_bounds, month_start, month_end, temp_root,
-                                            include_l7, enable_ml, enable_harmonize, include_modis,
+                                            include_l7, enable_harmonize, include_modis,
                                             include_aster, include_viirs, effective_res, progress_callback,
                                             server_mode=server_mode, tile_geometry=tile_geometry)
                     processing_time = time.time() - start_time
@@ -760,7 +745,7 @@ def _process_futures(futures, provenance, tile_files, histogram, pbar, success_c
 
 def process_month(geometry: Union[Tuple[float, float, float, float], 'Polygon', Dict], 
                  year: int, month: int, 
-                 out_folder: str, workers: int = 3, enable_ml: bool = False, 
+                 out_folder: str, workers: int = 3, 
                  enable_harmonize: bool = True, include_modis: bool = True, 
                  include_aster: bool = True, include_viirs: bool = True, 
                  target_resolution: float = TARGET_RES, max_tiles: Optional[int] = None,
@@ -1050,7 +1035,7 @@ def process_month(geometry: Union[Tuple[float, float, float, float], 'Polygon', 
         # Use adaptive worker pool with dynamic scaling
         # OPTIMIZATION #9: Use priority-ordered tiles (high-variance first)
         _process_tiles_with_dynamic_workers(
-            priority_tiles, month_start, month_end, temp_root, include_l7, enable_ml,
+            priority_tiles, month_start, month_end, temp_root, include_l7,
             enable_harmonize, include_modis, include_aster, include_viirs,
             effective_res, effective_workers, progress_callback, histogram,
             provenance, tile_files, pbar, counters, report_generator, progress_window, server_mode
@@ -1072,7 +1057,7 @@ def process_month(geometry: Union[Tuple[float, float, float, float], 'Polygon', 
                     tile_geometry = None
                 
                 future = ex.submit(process_tile, idx, tile_bounds, month_start, month_end, temp_root, 
-                                 include_l7, enable_ml, enable_harmonize, include_modis, 
+                                 include_l7, enable_harmonize, include_modis, 
                                  include_aster, include_viirs, effective_res, progress_callback,
                                  server_mode, tile_geometry=tile_geometry)
                 futures[future] = idx

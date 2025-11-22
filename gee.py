@@ -4,7 +4,7 @@ deadsea_all_upgrades.py
 
 Single-file, production-grade downloader with the following upgrades:
  - adaptive tiling
- - Sentinel SCL + cloud-prob + optional s2cloudless
+ - Sentinel SCL + cloud-prob
  - Landsat C2 QA_PIXEL + heuristic cloud-shadow handling
  - per-image score & per-pixel best selection (qualityMosaic)
  - optional weighted-median local compositing (post-download)
@@ -63,12 +63,6 @@ except ImportError:
 
 # GCS removed - using direct download only
 
-# Optional ML - s2cloudless (only used if installed and user opts in)
-try:
-    from s2cloudless import S2PixelCloudDetector
-    S2CLOUDLESS_AVAILABLE = True
-except Exception:
-    S2CLOUDLESS_AVAILABLE = False
 
 # Logging
 # Set to DEBUG to see detailed cloud fraction calculations
@@ -366,7 +360,7 @@ def s2_scl_mask(img):
         return img
 
 def s2_cloudprob_mask_local(arr, threshold=40):
-    """If using s2cloudless locally, arr is ndarray of cloudprob values 0-100 -> return mask."""
+    """If using cloudprob locally, arr is ndarray of cloudprob values 0-100 -> return mask."""
     return arr < threshold
 
 def s2_cloud_mask_advanced(img):
@@ -2360,7 +2354,7 @@ class SatelliteHistogram:
         self.update()
 
 # ---------- Per-tile worker ----------
-def process_tile(tile_idx: int, tile_bounds: Tuple[float,float,float,float], month_start: str, month_end: str, local_temp: str, include_l7: bool, enable_ml: bool, enable_harmonize: bool, include_modis: bool = True, include_aster: bool = True, include_viirs: bool = True, target_resolution: float = TARGET_RES, progress_callback=None):
+def process_tile(tile_idx: int, tile_bounds: Tuple[float,float,float,float], month_start: str, month_end: str, local_temp: str, include_l7: bool, enable_harmonize: bool, include_modis: bool = True, include_aster: bool = True, include_viirs: bool = True, target_resolution: float = TARGET_RES, progress_callback=None):
     """
     Process a single tile with detailed progress reporting.
     
@@ -2739,16 +2733,6 @@ def process_tile(tile_idx: int, tile_bounds: Tuple[float,float,float,float], mon
             report("FAILED", f"Validation failed: {reason}")
             return None, provenance
         report("VALIDATED", "GeoTIFF validation passed")
-        # optional local ML post-process (cloud cleaning) - only if enabled & lib available
-        if enable_ml and S2CLOUDLESS_AVAILABLE:
-            try:
-                # very conservative local cloud cleaning for S2 (only if S2-like bands present)
-                # NOTE: this is an expensive local op and optional.
-                provenance["ml"] = "applied_s2cloudless"
-                # Implemented as placeholder: actual implementation requires reading bands -> compute 'cloud_prob' -> mask
-                # To keep the script complete, skip heavy per-pixel ML here unless user has installed and enabled
-            except Exception as e:
-                provenance["ml_error"] = str(e)
         # compute NDWI mask
         report("MASKING", "Computing NDWI water mask...")
         mask, meta = compute_ndwi_mask_local(out_tif)
@@ -2766,7 +2750,7 @@ def process_tile(tile_idx: int, tile_bounds: Tuple[float,float,float,float], mon
         return None, provenance
 
 # ---------- Orchestrate month ----------
-def process_month(bbox: Tuple[float,float,float,float], year: int, month: int, out_folder: str, workers: int = 3, enable_ml: bool = False, enable_harmonize: bool = True, include_modis: bool = True, include_aster: bool = True, include_viirs: bool = True, target_resolution: float = TARGET_RES):
+def process_month(bbox: Tuple[float,float,float,float], year: int, month: int, out_folder: str, workers: int = 3, enable_harmonize: bool = True, include_modis: bool = True, include_aster: bool = True, include_viirs: bool = True, target_resolution: float = TARGET_RES):
     month_start = f"{year}-{month:02d}-01"
     if month == 12:
         month_end = f"{year+1}-01-01"
@@ -2888,7 +2872,7 @@ def process_month(bbox: Tuple[float,float,float,float], year: int, month: int, o
         print(f"\r[Tile {tile_idx:04d}] {status_symbol} {status}: {message[:60]}", end="", flush=True)
     
     with concurrent.futures.ThreadPoolExecutor(max_workers=effective_workers) as ex:
-        futures = {ex.submit(process_tile, idx, tile, month_start, month_end, temp_root, include_l7, enable_ml, enable_harmonize, include_modis, include_aster, include_viirs, effective_res, progress_callback): idx for idx, tile in enumerate(tiles)}
+        futures = {ex.submit(process_tile, idx, tile, month_start, month_end, temp_root, include_l7, enable_harmonize, include_modis, include_aster, include_viirs, effective_res, progress_callback): idx for idx, tile in enumerate(tiles)}
         
         # Use tqdm for overall progress, but also print detailed tile status
         pbar = tqdm(total=len(futures), desc=f"Month {year}-{month:02d}", unit="tile", ncols=100)
@@ -3054,7 +3038,6 @@ def gui_and_run():
         start_var = tk.StringVar(value=DEFAULT_START)
         end_var = tk.StringVar(value=DEFAULT_END)
         out_var = tk.StringVar(value=OUTDIR_DEFAULT)
-        ml_var = tk.BooleanVar(value=False)
         harm_var = tk.BooleanVar(value=True)
         modis_var = tk.BooleanVar(value=True)
         aster_var = tk.BooleanVar(value=True)
@@ -3097,24 +3080,23 @@ def gui_and_run():
         ttk.Entry(folder_frame, textvariable=out_var, width=30).pack(side=tk.LEFT, fill=tk.X, expand=True)
         ttk.Button(folder_frame, text="Browse", command=browse_folder).pack(side=tk.LEFT, padx=5)
         
-        ttk.Checkbutton(frame, text="Enable ML cloud cleanup (optional)", variable=ml_var).grid(row=4, column=0, columnspan=2, sticky=tk.W, pady=5)
-        ttk.Checkbutton(frame, text="Enable harmonization (S2 <-> LS)", variable=harm_var).grid(row=5, column=0, columnspan=2, sticky=tk.W, pady=5)
+        ttk.Checkbutton(frame, text="Enable harmonization (S2 <-> LS)", variable=harm_var).grid(row=4, column=0, columnspan=2, sticky=tk.W, pady=5)
         
-        ttk.Checkbutton(frame, text="Include MODIS", variable=modis_var).grid(row=6, column=0, columnspan=2, sticky=tk.W, pady=5)
-        ttk.Checkbutton(frame, text="Include ASTER", variable=aster_var).grid(row=7, column=0, columnspan=2, sticky=tk.W, pady=5)
-        ttk.Checkbutton(frame, text="Include VIIRS", variable=viirs_var).grid(row=8, column=0, columnspan=2, sticky=tk.W, pady=5)
+        ttk.Checkbutton(frame, text="Include MODIS", variable=modis_var).grid(row=5, column=0, columnspan=2, sticky=tk.W, pady=5)
+        ttk.Checkbutton(frame, text="Include ASTER", variable=aster_var).grid(row=6, column=0, columnspan=2, sticky=tk.W, pady=5)
+        ttk.Checkbutton(frame, text="Include VIIRS", variable=viirs_var).grid(row=7, column=0, columnspan=2, sticky=tk.W, pady=5)
         
-        ttk.Label(frame, text="Resolution (meters, forced to 5m):").grid(row=9, column=0, sticky=tk.W, pady=5)
+        ttk.Label(frame, text="Resolution (meters, forced to 5m):").grid(row=8, column=0, sticky=tk.W, pady=5)
         resolution_var = tk.StringVar(value="5.0")
-        ttk.Entry(frame, textvariable=resolution_var, width=40).grid(row=9, column=1, pady=5)
-        ttk.Label(frame, text="Workers:").grid(row=10, column=0, sticky=tk.W, pady=5)
-        ttk.Entry(frame, textvariable=workers_var, width=40).grid(row=10, column=1, pady=5)
+        ttk.Entry(frame, textvariable=resolution_var, width=40).grid(row=8, column=1, pady=5)
+        ttk.Label(frame, text="Workers:").grid(row=9, column=0, sticky=tk.W, pady=5)
+        ttk.Entry(frame, textvariable=workers_var, width=40).grid(row=9, column=1, pady=5)
         
-        ttk.Label(frame, text="(All satellites forced to 5m resolution)", font=("Arial", 8)).grid(row=11, column=1, sticky=tk.W, pady=2)
-        ttk.Label(frame, text="(Tiles forced to 256 pixels minimum for maximum tile count)", font=("Arial", 8), foreground="green").grid(row=12, column=1, sticky=tk.W, pady=2)
+        ttk.Label(frame, text="(All satellites forced to 5m resolution)", font=("Arial", 8)).grid(row=10, column=1, sticky=tk.W, pady=2)
+        ttk.Label(frame, text="(Tiles forced to 256 pixels minimum for maximum tile count)", font=("Arial", 8), foreground="green").grid(row=11, column=1, sticky=tk.W, pady=2)
         
         button_frame = ttk.Frame(frame)
-        button_frame.grid(row=13, column=0, columnspan=2, pady=20)
+        button_frame.grid(row=12, column=0, columnspan=2, pady=20)
         ttk.Button(button_frame, text="Submit", command=submit).pack(side=tk.LEFT, padx=5)
         ttk.Button(button_frame, text="Cancel", command=cancel).pack(side=tk.LEFT, padx=5)
         
@@ -3129,7 +3111,6 @@ def gui_and_run():
         start = start_var.get()
         end = end_var.get()
         out = out_var.get()
-        enable_ml = ml_var.get()
         enable_harmonize = harm_var.get()
         include_modis = modis_var.get()
         include_aster = aster_var.get()
@@ -3151,8 +3132,6 @@ def gui_and_run():
         start = input(f"Start date (YYYY-MM-DD) [{DEFAULT_START}]: ").strip() or DEFAULT_START
         end = input(f"End date (YYYY-MM-DD) [{DEFAULT_END}]: ").strip() or DEFAULT_END
         out = input(f"Output folder [{OUTDIR_DEFAULT}]: ").strip() or OUTDIR_DEFAULT
-        ml_str = input("Enable ML cloud cleanup? (y/n) [n]: ").strip().lower()
-        enable_ml = ml_str == 'y'
         harm_str = input("Enable harmonization? (y/n) [y]: ").strip().lower()
         enable_harmonize = harm_str != 'n'
         workers_str = input(f"Workers (default {DEFAULT_WORKERS}, CPU count: {multiprocessing.cpu_count()}): ").strip()
@@ -3174,7 +3153,7 @@ def gui_and_run():
     months = list(month_ranges(start, end))
     for ms, me in months:
         dt = datetime.fromisoformat(ms)
-        process_month(bbox, dt.year, dt.month, out, workers, enable_ml, enable_harmonize, include_modis, include_aster, include_viirs, target_resolution=target_resolution)
+        process_month(bbox, dt.year, dt.month, out, workers, enable_harmonize, include_modis, include_aster, include_viirs, target_resolution=target_resolution)
 
 if __name__ == "__main__":
     try:

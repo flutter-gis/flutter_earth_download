@@ -262,7 +262,6 @@ def gui_and_run():
         out_var = tk.StringVar(value=settings.get('output_folder', OUTDIR_DEFAULT))
         service_account_key_var = tk.StringVar(value=settings.get('service_account_key', ''))
         project_id_var = tk.StringVar(value=settings.get('project_id', ''))
-        ml_var = tk.BooleanVar(value=False)
         harm_var = tk.BooleanVar(value=True)
         modis_var = tk.BooleanVar(value=True)
         aster_var = tk.BooleanVar(value=True)
@@ -844,12 +843,11 @@ def gui_and_run():
         
         ttk.Separator(frame, orient=tk.HORIZONTAL).grid(row=9, column=0, columnspan=2, sticky=tk.W+tk.E, pady=10)
         
-        ttk.Checkbutton(frame, text="Enable ML cloud cleanup (optional)", variable=ml_var).grid(row=10, column=0, columnspan=2, sticky=tk.W, pady=5)
-        ttk.Checkbutton(frame, text="Enable harmonization (S2 <-> LS)", variable=harm_var).grid(row=11, column=0, columnspan=2, sticky=tk.W, pady=5)
+        ttk.Checkbutton(frame, text="Enable harmonization (S2 <-> LS)", variable=harm_var).grid(row=10, column=0, columnspan=2, sticky=tk.W, pady=5)
         
-        ttk.Checkbutton(frame, text="Include MODIS", variable=modis_var).grid(row=12, column=0, columnspan=2, sticky=tk.W, pady=5)
-        ttk.Checkbutton(frame, text="Include ASTER", variable=aster_var).grid(row=13, column=0, columnspan=2, sticky=tk.W, pady=5)
-        ttk.Checkbutton(frame, text="Include VIIRS", variable=viirs_var).grid(row=14, column=0, columnspan=2, sticky=tk.W, pady=5)
+        ttk.Checkbutton(frame, text="Include MODIS", variable=modis_var).grid(row=11, column=0, columnspan=2, sticky=tk.W, pady=5)
+        ttk.Checkbutton(frame, text="Include ASTER", variable=aster_var).grid(row=12, column=0, columnspan=2, sticky=tk.W, pady=5)
+        ttk.Checkbutton(frame, text="Include VIIRS", variable=viirs_var).grid(row=13, column=0, columnspan=2, sticky=tk.W, pady=5)
         ttk.Checkbutton(frame, text="Enable dynamic worker scaling (auto-adjust based on system performance)", 
                        variable=dynamic_workers_var).grid(row=15, column=0, columnspan=2, sticky=tk.W, pady=5)
         # Fix: ttk.Checkbutton doesn't support foreground/font directly - use Style instead
@@ -1058,7 +1056,6 @@ def gui_and_run():
         start = start_var.get()
         end = end_var.get()
         out = out_var.get()
-        enable_ml = ml_var.get()
         enable_harmonize = harm_var.get()
         include_modis = modis_var.get()
         include_aster = aster_var.get()
@@ -1155,8 +1152,6 @@ def gui_and_run():
         start = input(f"Start date (YYYY-MM-DD) [{DEFAULT_START}]: ").strip() or DEFAULT_START
         end = input(f"End date (YYYY-MM-DD) [{DEFAULT_END}]: ").strip() or DEFAULT_END
         out = input(f"Output folder [{OUTDIR_DEFAULT}]: ").strip() or OUTDIR_DEFAULT
-        ml_str = input("Enable ML cloud cleanup? (y/n) [n]: ").strip().lower()
-        enable_ml = ml_str == 'y'
         harm_str = input("Enable harmonization? (y/n) [y]: ").strip().lower()
         enable_harmonize = harm_str != 'n'
         workers_str = input(f"Workers (default {DEFAULT_WORKERS}, CPU count: {multiprocessing.cpu_count()}): ").strip()
@@ -1280,7 +1275,7 @@ def gui_and_run():
                 except Exception as e:
                     logging.debug(f"Error updating progress display: {e}")
             
-            process_month(geometry, dt.year, dt.month, out, workers, enable_ml, enable_harmonize, 
+            process_month(geometry, dt.year, dt.month, out, workers, enable_harmonize, 
                          include_modis, include_aster, include_viirs, 
                          target_resolution=target_resolution, max_tiles=max_tiles,
                          progress_window=progress_window, server_mode=server_mode)
